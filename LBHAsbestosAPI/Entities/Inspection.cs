@@ -73,7 +73,7 @@ namespace LBHAsbestosAPI.Entities
 		public int? ExposedGroup3Score { get; set; }
         public int Uprn { get; set; }
         public string OverAllAnalysisResult { get; set; }
-        public int OverAllAnalysisResultScore { get; set; }
+        public string OverAllAnalysisResultScore { get; set; }
         public string RecommendationAction1 { get; set; }
         public string RecommendationPriority1 { get; set; }
         public string RecommendedBy1 { get; set; }

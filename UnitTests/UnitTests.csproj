@@ -17,6 +17,6 @@
     <ProjectReference Include="..\LBHAsbestosAPI\LBHAsbestosAPI.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MoqClasses\" />
+    <Compile Remove="MoqClasses\MoqPSIApi.cs" />
   </ItemGroup>
 </Project>

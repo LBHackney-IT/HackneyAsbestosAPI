@@ -1,7 +1,7 @@
 ﻿using System;
 namespace LBHAsbestosAPI.Entities
 {
-    public class RoomDetails
+    public class Room
     {
 		public int Id { get; set; }
         public int FloorId { get; set; }

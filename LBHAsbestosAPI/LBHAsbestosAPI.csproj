@@ -7,9 +7,13 @@
   <ItemGroup>
     <Folder Include="wwwroot\" />
     <Folder Include="Dtos\" />
-    <Folder Include="Services\" />
-    <Folder Include="Repository\" />
     <Folder Include="Entities\" />
+    <Folder Include="Actions\" />
+    <Folder Include="Services\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="DtoBuilders\" />
+    <Folder Include="Extension\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,4 +24,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Repository\PSIApi.cs" />
+    <Compile Remove="Interfaces\IPsi2000Api.cs" />
+  </ItemGroup>
 </Project>

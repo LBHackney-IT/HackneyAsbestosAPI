@@ -1,50 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using LBHAsbestosAPI.Dtos;
 using LBHAsbestosAPI.Entities;
-using LBHAsbestosAPI.Repository;
+using LBHAsbestosAPI.Interfaces;
+using LBHAsbestosAPI.Repositories;
 
 namespace LBHAsbestosAPI.Services
 {
 	public class AsbestosService : IAsbestosService
     {
-		private PSIApi _PSIApi;
+		Psi2000Api api;
+		
+        public AsbestosService()
+        {
+			api = new Psi2000Api();
+        }
 
-		public AsbestosService(PSIApi PSIApi)
+		public Task<IEnumerable<Element>> GetElements(int elementId)
 		{
-			_PSIApi = PSIApi;
+			throw new NotImplementedException();
 		}
 
-		public async virtual Task<IQueryable<InspectionDto>> GetInspections(string uh_reference)
+		public async Task<IEnumerable<Floor>> GetFloor(int floorId)
 		{
-			IQueryable<Inspection> inspections = await _PSIApi.GetInspections(uh_reference);
-			var inspectionDtos = buildResponse(inspections);
-            
-			return inspectionDtos;
+			return api.GetFloor(floorId);
 		}
 
-		   
-		public string GetPlans(string uh_reference)
+		public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
 		{
-			return $"A URL for the plans of {uh_reference}";
+			InspectionResponse response = await api.GetInspections(propertyId);
+			List<Inspection> r = response.Data;
+			return r;
 		}
 
-		public IQueryable<InspectionDto> buildResponse(IQueryable<Inspection> inspections)
+		public Task<IEnumerable<Room>> GetRoom(int roomId)
 		{
-			List<InspectionDto> inspectionDtos = new List<InspectionDto>();
-			foreach (Inspection inspection in inspections)
-			{
-				InspectionDto inspectionDto = new InspectionDto()
-				{
-					address = inspection.Comment,
-					inspector = inspection.CreatedBy
-				};
-				inspectionDtos.Add(inspectionDto);
-                
-			}
-			return inspectionDtos.AsQueryable();
+			throw new NotImplementedException();
 		}
 	}
 }
