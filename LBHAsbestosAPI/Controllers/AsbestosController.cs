@@ -14,7 +14,6 @@ namespace LBHAsbestosAPI.Controllers
         {
 			_asbestosService = asbestosService;
         }
-		//00073772-ARC
 		[HttpGet("inspection/{id}")]
 		public async Task<IActionResult> GetInspection(string propertyId)    
 		{

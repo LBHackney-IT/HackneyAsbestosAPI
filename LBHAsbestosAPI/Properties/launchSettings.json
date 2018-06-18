@@ -1,29 +1,30 @@
 ﻿{
-  iisSettings: {
-    windowsAuthentication: false,
-    anonymousAuthentication: true,
-    iisExpress: {
-      applicationUrl: http://localhost:57351/,
-      sslPort: 0
+  "iisSettings": {
+    "windowsAuthentication": "false",
+    "anonymousAuthentication": "true",
+    "iisExpress": {
+      "applicationUrl":
+      "http": "//localhost:57351/",
+      "sslPort": "0"
     }
   },
-  profiles: {
-    IIS Express: {
-      commandName: IISExpress,
-      launchBrowser: true,
-      launchUrl: api/values,
-      environmentVariables: {
-        ASPNETCORE_ENVIRONMENT: Development
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": "true",
+      "launchUrl": "api/values", 
+      "environmentVariables": { 
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    LBHAsbestosAPI: {
-      commandName: Project,
-      launchBrowser: true,
-      launchUrl: api/values,
-      environmentVariables: {
-        ASPNETCORE_ENVIRONMENT: Development
+    "LBHAsbestosAPI": {
+      "commandName": "Project",
+      "launchBrowser": "true",
+      "launchUrl": "api/values",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      applicationUrl: http://localhost:57350/
+      "applicationUrl": "http://localhost:57350/"
     }
   }
 }

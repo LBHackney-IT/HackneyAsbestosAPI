@@ -40,7 +40,6 @@ namespace LBHAsbestosAPI.Repositories
 						cookieValue = values.First();
 					}
 
-
 					var headerValues = cookieValue.Split(";");
 					cookieValue = headerValues[0].Split("=")[1];
 					string cookieKey = headerValues[0].Split("=")[0];
@@ -99,11 +98,8 @@ namespace LBHAsbestosAPI.Repositories
 				var responseData =   responseMessage.Content.ReadAsStringAsync().Result ;
  
 				response = JsonConvert.DeserializeObject<InspectionResponse>(responseData); 
-
             }
-            
 			return response;
-
         }
 
 		public IEnumerable<Room> GetRoom(int roomId)
