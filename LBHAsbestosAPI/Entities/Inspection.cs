@@ -12,52 +12,52 @@ namespace LBHAsbestosAPI.Entities
         public int RoomId { get; set; }
         public int ElementId { get; set; }
         public string Material { get; set; }
-        public int? MaterialScore { get; set; }
+        public string MaterialScore { get; set; }
         public string MaterialType { get; set; }
-		public int? MaterialTypeScore { get; set; }
+        public string MaterialTypeScore { get; set; }
         public string Measurement { get; set; }
         public string Position { get; set; }
-		public int? PositionScore { get; set; }
+        public string PositionScore { get; set; }
         public string Friability { get; set; }
-		public int? FriabilityScore { get; set; }
+        public string FriabilityScore { get; set; }
         public string Access { get; set; }
-		public int? AccessScore { get; set; }
+        public string AccessScore { get; set; }
         public string PhotoId { get; set; }
         public string DrawingId { get; set; }
         public string Condition { get; set; }
-		public int? ConditionScore { get; set; }
-		public int? InspectionNumber { get; set; }
+        public string ConditionScore { get; set; }
+        public int? InspectionNumber { get; set; }
         public string InspectionType { get; set; }
-		public int? InspectionTypeScore { get; set; }
+        public int? InspectionTypeScore { get; set; }
         public string Protection { get; set; }
-		public int? ProtectionScore { get; set; }
+        public string ProtectionScore { get; set; }
         public string InspectionResult { get; set; }
-		public int? InspectionResultScore { get; set; }
-		public int? InspectionScore { get; set; }
-		public int? MaterialAssessmentScore { get; set; }
+        public int? InspectionResultScore { get; set; }
+        public int? InspectionScore { get; set; }
+        public int? MaterialAssessmentScore { get; set; }
         public string InspectionScoreCategory { get; set; }
         public string QuantityLeft { get; set; }
         public DateTime DateOfInspection { get; set; }
         public string InspectedBy { get; set; }
         public int PropertyId { get; set; }
         public string Field1 { get; set; }
-		public int? Field1Score { get; set; }
+        public string Field1Score { get; set; }
         public string Field2 { get; set; }
-		public int? Field2Score { get; set; }
+        public string Field2Score { get; set; }
         public string Field3 { get; set; }
-		public int? Field3Score { get; set; }
+        public string Field3Score { get; set; }
         public string Field4 { get; set; }
-		public int? Field4Score { get; set; }
+        public string Field4Score { get; set; }
         public string Field5 { get; set; }
-		public int? Field5Score { get; set; }
+        public string Field5Score { get; set; }
         public string Field6 { get; set; }
-		public int? Field6Score { get; set; }
+        public string Field6Score { get; set; }
         public string Field7 { get; set; }
-		public int? Field7Score { get; set; }
+        public string Field7Score { get; set; }
         public string Field8 { get; set; }
-        public int? Field8Score { get; set; }
+        public string Field8Score { get; set; }
         public string Field9 { get; set; }
-		public int? Field9Score { get; set; }
+        public string Field9Score { get; set; }
         public string Text1 { get; set; }
         public string DtmDate1 { get; set; }
         public string Comment { get; set; }
@@ -68,9 +68,9 @@ namespace LBHAsbestosAPI.Entities
         public string ExposedGroup1 { get; set; }
         public int? ExposedGroup1Score { get; set; }
         public string ExposedGroup2 { get; set; }
-		public int? ExposedGroup2Score { get; set; }
+        public int? ExposedGroup2Score { get; set; }
         public string ExposedGroup3 { get; set; }
-		public int? ExposedGroup3Score { get; set; }
+        public int? ExposedGroup3Score { get; set; }
         public int Uprn { get; set; }
         public string OverAllAnalysisResult { get; set; }
         public string OverAllAnalysisResultScore { get; set; }

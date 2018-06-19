@@ -14,7 +14,7 @@ namespace LBHAsbestosAPI.Controllers
         {
 			_asbestosService = asbestosService;
         }
-		[HttpGet("inspection/{id}")]
+		[HttpGet("inspection/{propertyId}")]
 		public async Task<IActionResult> GetInspection(string propertyId)    
 		{
 			var _asbestosActions = new AsbestosActions(_asbestosService);
