@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace LBHAsbestosAPI
 {
@@ -25,6 +26,16 @@ namespace LBHAsbestosAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "LBH Abestos API",
+                    TermsOfService = "None"
+                });
+            });
+
 			services.AddCustomServices();
         }
 
@@ -36,6 +47,11 @@ namespace LBHAsbestosAPI
                 app.UseDeveloperExceptionPage();
             }
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI( cw =>
+            {
+                cw.SwaggerEndpoint("/swagger/v1/swagger.json", "LBH Abestos API v1");
+            });
         }
     }
 }
