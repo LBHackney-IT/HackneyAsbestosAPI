@@ -1,7 +1,7 @@
 ﻿using System;
 namespace LBHAsbestosAPI.Entities
 {
-    public class Drawing
+    public class Document
     {
 		public int Id { get; set; }
         public string Reference { get; set; }

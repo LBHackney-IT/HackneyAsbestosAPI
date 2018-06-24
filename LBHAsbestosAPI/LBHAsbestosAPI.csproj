@@ -26,8 +26,5 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Repository\PSIApi.cs" />
-    <Compile Remove="Interfaces\IPsi2000Api.cs" />
-  </ItemGroup>
+  
 </Project>
