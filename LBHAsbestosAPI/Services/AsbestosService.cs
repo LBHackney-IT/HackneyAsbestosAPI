@@ -7,14 +7,14 @@ using LBHAsbestosAPI.Repositories;
 
 namespace LBHAsbestosAPI.Services
 {
-	public class AsbestosService : IAsbestosService
+    public class AsbestosService : IAsbestosService
     {
-		Psi2000Api api;
-		
         public AsbestosService()
         {
-			api = new Psi2000Api();
+            Api = new Psi2000Api();
         }
+
+        public IPsi2000Api Api {get; set;}
 
 		public Task<IEnumerable<Element>> GetElements(int elementId)
 		{
@@ -23,13 +23,13 @@ namespace LBHAsbestosAPI.Services
 
 		public async Task<IEnumerable<Floor>> GetFloor(int floorId)
 		{
-			return api.GetFloor(floorId);
+			return Api.GetFloor(floorId);
 		}
 
 		public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
 		{
-			InspectionResponse response = await api.GetInspections(propertyId);
-			List<Inspection> r = response.Data;
+			InspectionResponse response = await Api.GetInspections(propertyId);
+            List<Inspection> r = response.Data;
 			return r;
 		}
 

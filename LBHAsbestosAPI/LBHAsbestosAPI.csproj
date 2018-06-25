@@ -28,6 +28,5 @@
 
   <ItemGroup>
     <Compile Remove="Repository\PSIApi.cs" />
-    <Compile Remove="Interfaces\IPsi2000Api.cs" />
   </ItemGroup>
 </Project>

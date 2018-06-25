@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
 
-namespace LBHAsbestosAPI.Repositories
+namespace LBHAsbestosAPI.Interfaces
 {
     public interface IPsi2000Api
     {

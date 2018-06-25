@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace LBHAsbestosAPI.Repositories
 {
-	public class Psi2000Api
+	public class Psi2000Api : IPsi2000Api
     {
 		static Cookie cookie;
 		static string baseUri = Environment.GetEnvironmentVariable("PSI_TEST_BASE_URI");

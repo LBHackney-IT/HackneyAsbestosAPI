@@ -26,8 +26,6 @@ namespace UnitTests
         public void return_boolean_if_InspectionId_is_valid(string inspectionId, bool expected)
         {
             var validationResult = validatorId.Validate(inspectionId);
-            Console.WriteLine("This is a test");
-            Console.WriteLine($"attempt of extracting the env var: {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}");
             Assert.Equal(expected, validationResult.Success);
         }
 
