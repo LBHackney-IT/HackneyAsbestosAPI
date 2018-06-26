@@ -18,10 +18,6 @@ namespace UnitTests
         {
             var fakeRepository = new Mock<IPsi2000Api>();
 
-            //fakeRepository
-                //.Setup(m => m.Login())
-                //.Returns(Task.FromResult(true));
-            
             var fakeInspection = new InspectionResponse()
             {
                 Data = new List<Inspection>()
