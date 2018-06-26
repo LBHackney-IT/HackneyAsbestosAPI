@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
+using LBHAsbestosAPI.Interfaces;
 using LBHAsbestosAPI.Repositories;
 using LBHAsbestosAPI.Services;
 using Moq;
@@ -17,9 +18,9 @@ namespace UnitTests
         {
             var fakeRepository = new Mock<IPsi2000Api>();
 
-            fakeRepository
-                .Setup(m => m.Login())
-                .Returns(Task.FromResult(true));
+            //fakeRepository
+                //.Setup(m => m.Login())
+                //.Returns(Task.FromResult(true));
             
             var fakeInspection = new InspectionResponse()
             {

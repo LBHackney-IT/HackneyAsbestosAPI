@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
+using LBHAsbestosAPI.Interfaces;
 using Newtonsoft.Json;
 
 namespace LBHAsbestosAPI.Repositories

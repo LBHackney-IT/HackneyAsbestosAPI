@@ -18,6 +18,8 @@ namespace UnitTests
         [Theory]
         [InlineData("123456678", true)]
         [InlineData(null, false)]
+        [InlineData("", false)]
+        [InlineData("   ", false)]
         [InlineData("1", false)]
         [InlineData("123456789", false)]
         [InlineData("ABC", false)]
