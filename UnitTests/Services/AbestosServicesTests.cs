@@ -17,7 +17,6 @@ namespace UnitTests
         public async Task can_access_inspection_data_from_inspectionrequest()
         {
             var fakeRepository = new Mock<IPsi2000Api>();
-
             var fakeInspection = new InspectionResponse()
             {
                 Data = new List<Inspection>()

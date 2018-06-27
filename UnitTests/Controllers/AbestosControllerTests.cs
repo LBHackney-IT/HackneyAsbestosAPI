@@ -99,7 +99,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task data_is_not_null_if_inspectionid_is_valid(string inspectionId)
+        public async Task data_is_not_null_if_inspectionid_is_valid()
         {
             var fakeResponse = new List<Inspection>();
             fakeResponse.Add(new Inspection()
@@ -113,8 +113,9 @@ namespace UnitTests
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
+            var validInspectionId = "12345678";
             AsbestosController controller = new AsbestosController(fakeAsbestosService.Object);
-            ObjectResult response = (ObjectResult)await controller.GetInspection(inspectionId);
+            ObjectResult response = (ObjectResult)await controller.GetInspection(validInspectionId);
 
             Assert.NotNull(response.Value);
         }
