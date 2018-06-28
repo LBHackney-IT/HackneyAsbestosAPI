@@ -20,11 +20,12 @@ namespace UnitTests
         [InlineData("?1234567", false)]
         public void return_boolean_if_InspectionId_is_valid(string inspectionId, bool expected)
         {
-            var validatorId = new InspectionValidator();
+            var validatorId = new InspectionIdValidator();
             var validationResult = validatorId.Validate(inspectionId);
-            Assert.Equal(expected, validationResult.Success);
+            Assert.Equal(expected, validationResult.Valid);
         }
 
+        // TODO modify messages - developerMessage / userMessage
         [Theory]
         [InlineData("123456678", null)]
         [InlineData(null, "The id cannot be empty")]
@@ -37,9 +38,19 @@ namespace UnitTests
         [InlineData("?1234567", "The id must contain only numbers")]
         public void return_error_message_if_inspectionid_is_not_valid(string id, string expectedMessage)
         {
-            var validatorId = new InspectionValidator();
+            var validatorId = new InspectionIdValidator();
             var validationResult = validatorId.Validate(id);
-            Assert.Equal(expectedMessage, validationResult.ErrorMesage);
+            Assert.Equal(true, validationResult.ErrorMessages.Contains(expectedMessage));
+        }
+
+        [Theory]
+        [InlineData("12345678")]
+        [InlineData("invalidId")]
+        public void validation_object_contains_inspectionid(string inspectionId)
+        {
+            var validatorId = new InspectionIdValidator();
+            var validationResult = validatorId.Validate(inspectionId);
+            Assert.Equal(inspectionId, validationResult.InspectionId);
         }
     }
 }

@@ -15,6 +15,7 @@
     <Folder Include="DtoBuilders\" />
     <Folder Include="Extension\" />
     <Folder Include="Validators\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>

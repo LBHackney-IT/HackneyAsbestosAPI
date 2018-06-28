@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
+using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +17,20 @@ namespace LBHAsbestosAPI.Controllers
 			_asbestosService = asbestosService;
         }
 		[HttpGet("inspection/{propertyId}")]
-		public async Task<IActionResult> GetInspection(string propertyId)    
+        public async Task<JsonResult> GetInspection(string propertyId)    
 		{
-			var _asbestosActions = new AsbestosActions(_asbestosService);
-			var response = await _asbestosActions.GetInspection(propertyId);
-			return Ok(new JsonResult(response));
+            var _asbestosActions = new AsbestosActions(_asbestosService);
+            var response = await _asbestosActions.GetInspection(propertyId);
+
+            IDictionary<string, IEnumerable<Inspection>> resultsOutput = new Dictionary<string, IEnumerable<Inspection>>
+            {
+                { "results", response }
+            };
+
+            return new JsonResult(resultsOutput)
+            {
+                StatusCode = 200
+            };
 		}
 	}
 }

@@ -1,9 +1,10 @@
 ﻿using LBHAsbestosAPI.Entities;
+using LBHAsbestosAPI.Models;
 
 namespace LBHAsbestosAPI.Interfaces
 {
     public interface IRequestValidator
     {
-        InspectionResponse Validate(string requestID);
+        ValidationResult Validate(string requestID);
     }
 }
