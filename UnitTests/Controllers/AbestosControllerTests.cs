@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Controllers;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
+using LBHAsbestosAPI.Models;
 using LBHAsbestosAPI.Services;
+using LBHAsbestosAPI.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace UnitTests
@@ -74,7 +78,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task response_has_the_valid_format_if_request_successful()
+        public async Task response_has_valid_content_if_request_successful()
         {
             var fakeResponse = new List<Inspection>();
             fakeResponse.Add(new Inspection()
@@ -89,26 +93,38 @@ namespace UnitTests
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
             AsbestosController controller = new AsbestosController(fakeAsbestosService.Object);
-            var response = await controller.GetInspection("12345678");
+            var response = JObject.FromObject((await controller.GetInspection("12345678")).Value);
 
-            var expectedInspection = new Inspection()
-            {
-                Id = 433,
-                LocationDescription = "Under the bridge"
-            };
-            var expectedInspectionList = new List<Inspection>
-            {
-                expectedInspection
-            };
-            IDictionary<string, IEnumerable<Inspection>> expectedResponse = new Dictionary<string, IEnumerable<Inspection>>
-            {
-                { "results", expectedInspectionList }
-            };
+            var responseId = response["results"][0]["Id"];
+            var responseLocationDescription = response["results"][0]["LocationDescription"];
 
-            var expectedJsonResponse = JsonConvert.SerializeObject(expectedResponse);
-            var responseJson = JsonConvert.SerializeObject(response.Value);
+            Assert.Equal(433, responseId);
+            Assert.Equal("Under the bridge", responseLocationDescription);
+        }
 
-            Assert.Equal(expectedJsonResponse, responseJson);
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("   ")]
+        [InlineData("1")]
+        [InlineData("123456789")]
+        [InlineData("ABC")]
+        [InlineData("A1234567")]
+        [InlineData("?1234567")]
+        public async Task return_error_message_if_inspectionid_is_not_valid(string inspectionId)
+        {
+            var fakeAsbestosService = new Mock<IAsbestosService>();
+            var controller = new AsbestosController(fakeAsbestosService.Object);
+
+            var response = JObject.FromObject((await controller.GetInspection(inspectionId)).Value);
+            var userMessage = response["errors"]["userMessage"];
+            var developerMessage = response["errors"]["developerMessage"];
+
+            var expectedUserMessage = "Please provide a valid inspection number";
+            var expectedDeveloperMessage = "Invalid parameter - inspectionId";
+
+            Assert.Equal(expectedUserMessage, userMessage);
+            Assert.Equal(expectedDeveloperMessage, developerMessage);
         }
 
         [Theory]
@@ -123,14 +139,10 @@ namespace UnitTests
         public async Task response_has_the_valid_format_if_request_unsuccessful(string inspectionId)
         {
             var fakeAsbestosService = new Mock<IAsbestosService>();
+            var controller = new AsbestosController(fakeAsbestosService.Object);
+            var response = JObject.FromObject((await controller.GetInspection(inspectionId)).Value);
 
-            AsbestosController controller = new AsbestosController(fakeAsbestosService.Object);
-            var response = await controller.GetInspection(inspectionId);
-
-            // TODO - refine the content of response.Value - "errors" string should match 
-            // and the type of the content of "errors" should be List<string>
-            Assert.Equal("errors", response.Value);
-            Assert.IsType(typeof(List<string>), response.Value);
+            Assert.NotNull(response["errors"]);
         }
     }
 }

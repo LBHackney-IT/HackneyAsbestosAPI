@@ -20,37 +20,8 @@ namespace UnitTests
         [InlineData("?1234567", false)]
         public void return_boolean_if_InspectionId_is_valid(string inspectionId, bool expected)
         {
-            var validatorId = new InspectionIdValidator();
-            var validationResult = validatorId.Validate(inspectionId);
-            Assert.Equal(expected, validationResult.Valid);
-        }
-
-        // TODO modify messages - developerMessage / userMessage
-        [Theory]
-        [InlineData("123456678", null)]
-        [InlineData(null, "The id cannot be empty")]
-        [InlineData("",  "The id cannot be empty")]
-        [InlineData("   ", "The id cannot be empty")]
-        [InlineData("1", "The id does not meet the required lenght")]
-        [InlineData("123456789", "The id exceeds the required length")]
-        [InlineData("ABC", "The id must contain only numbers")]
-        [InlineData("A1234567", "The id must contain only numbers")]
-        [InlineData("?1234567", "The id must contain only numbers")]
-        public void return_error_message_if_inspectionid_is_not_valid(string id, string expectedMessage)
-        {
-            var validatorId = new InspectionIdValidator();
-            var validationResult = validatorId.Validate(id);
-            Assert.Equal(true, validationResult.ErrorMessages.Contains(expectedMessage));
-        }
-
-        [Theory]
-        [InlineData("12345678")]
-        [InlineData("invalidId")]
-        public void validation_object_contains_inspectionid(string inspectionId)
-        {
-            var validatorId = new InspectionIdValidator();
-            var validationResult = validatorId.Validate(inspectionId);
-            Assert.Equal(inspectionId, validationResult.InspectionId);
+            var validationResult = InspectionIdValidator.Validate(inspectionId);
+            Assert.Equal(expected, validationResult);
         }
     }
 }

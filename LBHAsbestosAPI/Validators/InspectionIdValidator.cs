@@ -5,24 +5,13 @@ using LBHAsbestosAPI.Models;
 
 namespace LBHAsbestosAPI.Validators
 {
-    public class InspectionIdValidator
+    public static class InspectionIdValidator
     {
-        public InspectionValidationResult Validate(string requestId)
+        public static bool Validate(string inspectionId)
         {
             // TODO Inspection Id validation logic here
-            var validateId = new InspectionValidationResult(requestId);
-            validateId.Valid = true;
-            validateId.ErrorMessages.Add("No error message yet");
-            return validateId;
+            var validationResult = true;
+            return validationResult;
         }
-    }
-
-    public class InspectionValidationResult : ValidationResult
-    {
-        public InspectionValidationResult(string requestId) : base()
-        {
-            InspectionId = requestId;
-        }
-        public string InspectionId { get; set; }
     }
 }

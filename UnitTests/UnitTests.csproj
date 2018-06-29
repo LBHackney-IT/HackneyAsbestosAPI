@@ -20,5 +20,6 @@
     <Folder Include="Actions\" />
     <Folder Include="Validation\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Integration\" />
   </ItemGroup>
 </Project>

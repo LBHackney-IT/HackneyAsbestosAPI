@@ -29,5 +29,6 @@
 
   <ItemGroup>
     <Compile Remove="Repository\PSIApi.cs" />
+    <Compile Remove="Models\ValidationResult.cs" />
   </ItemGroup>
 </Project>

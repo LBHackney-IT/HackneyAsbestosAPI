@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
+using LBHAsbestosAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LBHAsbestosAPI.Controllers
@@ -16,15 +18,26 @@ namespace LBHAsbestosAPI.Controllers
         {
 			_asbestosService = asbestosService;
         }
-		[HttpGet("inspection/{propertyId}")]
+		
+        [HttpGet("inspection/{propertyId}")]
         public async Task<JsonResult> GetInspection(string propertyId)    
 		{
             var _asbestosActions = new AsbestosActions(_asbestosService);
             var response = await _asbestosActions.GetInspection(propertyId);
 
-            IDictionary<string, IEnumerable<Inspection>> resultsOutput = new Dictionary<string, IEnumerable<Inspection>>
+            // TODO example for returning an unsuccessful response
+            //var resultsOutput = new Dictionary<string, ApiErrorMessage>()
+            //{
+            //    { "errors", new ApiErrorMessage()
+            //        {
+            //            userMessage = "XXX",
+            //            developerMessage = "XXX"
+            //        }}
+            //};
+
+            var resultsOutput = new Dictionary<string, IEnumerable<Inspection>>()
             {
-                { "results", response }
+                {"results", response}
             };
 
             return new JsonResult(resultsOutput)
