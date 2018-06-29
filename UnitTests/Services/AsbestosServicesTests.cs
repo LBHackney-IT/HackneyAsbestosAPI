@@ -11,7 +11,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class AbestosServicesTests
+    public class AsbestosServicesTests
     {
         [Fact]
         public async Task can_access_inspection_data_from_inspectionrequest()

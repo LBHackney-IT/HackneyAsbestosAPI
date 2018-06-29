@@ -30,7 +30,7 @@ namespace UnitTests
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
-            AsbestosController controller = new AsbestosController(fakeAsbestosService.Object);
+            var controller = new AsbestosController(fakeAsbestosService.Object);
 
             var response = await controller.GetInspection("12345678");
             Assert.Equal(200, response.StatusCode);
@@ -49,43 +49,43 @@ namespace UnitTests
         public async Task return_400_for_invalid_request(string id)
         {
             var fakeResponse = new List<Inspection>();
-
             var fakeAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
-            AsbestosController controller = new AsbestosController(fakeAsbestosService.Object);
-
+            var controller = new AsbestosController(fakeAsbestosService.Object);
             var response = await controller.GetInspection(id);
+
             Assert.Equal(400, response.StatusCode);
         }
 
-        // Candidate for moving this to the integration tests - reference 00000000 returns
-        // no results from PSI.
         [Fact]
         public async Task return_404_if_request_is_successful_but_no_results()
         {
-            // TODO
-            Assert.True(false);    
-        }
+            var fakeResponse = new List<Inspection>();
+            var fakeAsbestosService = new Mock<IAsbestosService>();
+            fakeAsbestosService
+                .Setup(m => m.GetInspection(It.IsAny<string>()))
+                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
-        [Fact]
-        public async Task return_500_when_internal_server_error()
-        {
-            // TODO
-            Assert.True(false);
+            var controller = new AsbestosController(fakeAsbestosService.Object);
+            var response = await controller.GetInspection("00000000");
+
+            Assert.Equal(404, response.StatusCode);
         }
 
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
-            var fakeResponse = new List<Inspection>();
-            fakeResponse.Add(new Inspection()
+            var fakeResponse = new List<Inspection>
             {
-                Id = 433,
-                LocationDescription = "Under the bridge"
-            });
+                new Inspection()
+                {
+                    Id = 433,
+                    LocationDescription = "Under the bridge"
+                }
+            };
 
             var fakeAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService

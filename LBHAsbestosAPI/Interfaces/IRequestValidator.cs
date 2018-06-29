@@ -5,6 +5,6 @@ namespace LBHAsbestosAPI.Interfaces
 {
     public interface IRequestValidator
     {
-        ValidationResult Validate(string requestID);
+       bool Validate(string requestID);
     }
 }

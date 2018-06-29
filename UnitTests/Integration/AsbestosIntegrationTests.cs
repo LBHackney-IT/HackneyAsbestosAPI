@@ -13,6 +13,7 @@ namespace UnitTests.Integration
             Assert.True(false);
         }
 
+        // Reference 00000000 returns no results
         [Fact]
         public async Task return_400_if_request_is_successful_but_no_results()
         {
