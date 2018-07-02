@@ -1,7 +1,5 @@
 ﻿using System;
 using Xunit;
-using LBHAsbestosAPI.Repositories;
-using System.Net;
 using LBHAsbestosAPI.Validators;
 
 namespace UnitTests

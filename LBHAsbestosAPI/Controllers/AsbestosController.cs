@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
-using LBHAsbestosAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LBHAsbestosAPI.Controllers
