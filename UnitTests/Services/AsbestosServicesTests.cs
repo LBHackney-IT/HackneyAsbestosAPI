@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
+using LBHAsbestosAPI.Repositories;
 using LBHAsbestosAPI.Services;
 using Moq;
 using Xunit;
@@ -31,7 +32,7 @@ namespace UnitTests
                 .Setup(m => m.GetInspections(It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeInspection));
 
-            var asbestosService = new AsbestosService();
+            var asbestosService = new AsbestosService(new Psi2000Api());
             asbestosService.Api = fakeRepository.Object;
             var responseData = await asbestosService.GetInspection("random string");
 

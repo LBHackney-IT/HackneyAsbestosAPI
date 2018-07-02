@@ -12,6 +12,7 @@ namespace UnitTests
 {
     public class AbestosControllerTests
     {
+        
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
