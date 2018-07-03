@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
+using LBHAsbestosAPI.Factories;
 using LBHAsbestosAPI.Interfaces;
-using LBHAsbestosAPI.Repositories;
 
 namespace LBHAsbestosAPI.Services
 {
@@ -13,11 +13,16 @@ namespace LBHAsbestosAPI.Services
 
         public AsbestosService(IPsi2000Api api)
         {
-            //Api = new Psi2000Api();
-            _api = api;
+            // TODO temporary workaround
+            if (TestStatus.IsRunningTests)
+            {
+                _api = AsbestosRepositoryFactory.Build();
+            }
+            else
+            {
+                _api = api;
+            }
         }
-
-        //public IPsi2000Api Api {get; set;}
 
 		public Task<IEnumerable<Element>> GetElements(int elementId)
 		{

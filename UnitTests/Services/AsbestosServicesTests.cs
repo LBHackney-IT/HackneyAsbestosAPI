@@ -32,8 +32,7 @@ namespace UnitTests
                 .Setup(m => m.GetInspections(It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeInspection));
 
-            var asbestosService = new AsbestosService(new Psi2000Api());
-            asbestosService.Api = fakeRepository.Object;
+            var asbestosService = new AsbestosService(fakeRepository.Object);
             var responseData = await asbestosService.GetInspection("random string");
 
             Assert.Equal(433, responseData.ElementAt(0).Id);

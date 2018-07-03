@@ -11,8 +11,9 @@ namespace LBHAsbestosAPI.Controllers
 	[Route("api/v1/")]
 	public class AsbestosController : Controller
     {
-		IAsbestosService _asbestosService; 
-		public AsbestosController(IAsbestosService asbestosService)
+		private IAsbestosService _asbestosService;
+
+        public AsbestosController(IAsbestosService asbestosService)
         {
 			_asbestosService = asbestosService;
         }
