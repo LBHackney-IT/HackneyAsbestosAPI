@@ -28,8 +28,5 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Repository\PSIApi.cs" />
-    <Compile Remove="Models\ValidationResult.cs" />
-  </ItemGroup>
+
 </Project>
