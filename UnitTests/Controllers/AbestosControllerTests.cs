@@ -29,15 +29,12 @@ namespace UnitTests
         }
 
         [Theory]
-        [InlineData("123456678")]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("   ")]
-        [InlineData("1")]
-        [InlineData("123456789")]
-        [InlineData("ABC")]
-        [InlineData("A1234567")]
-        [InlineData("?1234567")]
+        [InlineData("12345678", true)]
+        [InlineData("1", false)]
+        [InlineData("123456789", false)]
+        [InlineData("abc", false)]
+        [InlineData("A1234567", false)]
+        [InlineData("1!234567", false)]
         public async Task return_400_for_invalid_request(string id)
         {
             var fakeResponse = new List<Inspection>();
@@ -95,14 +92,12 @@ namespace UnitTests
         }
 
         [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("   ")]
-        [InlineData("1")]
-        [InlineData("123456789")]
-        [InlineData("ABC")]
-        [InlineData("A1234567")]
-        [InlineData("?1234567")]
+        [InlineData("12345678", true)]
+        [InlineData("1", false)]
+        [InlineData("123456789", false)]
+        [InlineData("abc", false)]
+        [InlineData("A1234567", false)]
+        [InlineData("1!234567", false)]
         public async Task return_error_message_if_inspectionid_is_not_valid(string inspectionId)
         {
             var fakeAsbestosService = new Mock<IAsbestosService>();
@@ -120,14 +115,12 @@ namespace UnitTests
         }
 
         [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("   ")]
-        [InlineData("1")]
-        [InlineData("123456789")]
-        [InlineData("ABC")]
-        [InlineData("A1234567")]
-        [InlineData("?1234567")]
+        [InlineData("12345678", true)]
+        [InlineData("1", false)]
+        [InlineData("123456789", false)]
+        [InlineData("abc", false)]
+        [InlineData("A1234567", false)]
+        [InlineData("1!234567", false)]
         public async Task response_has_the_valid_format_if_request_unsuccessful(string inspectionId)
         {
             var fakeAsbestosService = new Mock<IAsbestosService>();

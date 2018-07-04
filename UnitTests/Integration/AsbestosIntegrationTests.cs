@@ -36,15 +36,12 @@ namespace UnitTests.Integration
         }
   
         [Theory]
-        [InlineData("123456678")]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("   ")]
-        [InlineData("1")]
-        [InlineData("123456789")]
-        [InlineData("ABC")]
-        [InlineData("A1234567")]
-        [InlineData("?1234567")]
+        [InlineData("12345678", true)]
+        [InlineData("1", false)]
+        [InlineData("123456789", false)]
+        [InlineData("abc", false)]
+        [InlineData("A1234567", false)]
+        [InlineData("1!234567", false)]
         public async Task return_400_for_invalid_request(string id)
         {
             var result = await _client.GetAsync(_baseUri + id);
@@ -97,15 +94,12 @@ namespace UnitTests.Integration
         }
 
         [Theory]
-        [InlineData("123456678")]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("   ")]
-        [InlineData("1")]
-        [InlineData("123456789")]
-        [InlineData("ABC")]
-        [InlineData("A1234567")]
-        [InlineData("?1234567")]
+        [InlineData("12345678", true)]
+        [InlineData("1", false)]
+        [InlineData("123456789", false)]
+        [InlineData("abc", false)]
+        [InlineData("A1234567", false)]
+        [InlineData("1!234567", false)]
         public async Task return_valid_json_for_invalid_requests(string inspectionId)
         {
             var json = new StringBuilder();

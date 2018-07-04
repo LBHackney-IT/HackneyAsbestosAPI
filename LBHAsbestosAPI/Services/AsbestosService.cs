@@ -13,7 +13,6 @@ namespace LBHAsbestosAPI.Services
 
         public AsbestosService(IPsi2000Api api)
         {
-            // TODO temporary workaround
             if (TestStatus.IsRunningTests)
             {
                 _api = AsbestosRepositoryFactory.Build();
