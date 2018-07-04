@@ -20,6 +20,10 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<InspectionResponse> GetInspections(string propertyId)
         {
+            if (propertyId == "31415926")
+            {
+                throw new Exception();
+            }
 
             var fakeInspectionResponse = new InspectionResponse()
             {

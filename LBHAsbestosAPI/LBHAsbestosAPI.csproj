@@ -17,6 +17,7 @@
     <Folder Include="Validators\" />
     <Folder Include="Models\" />
     <Folder Include="Factories\" />
+    <Folder Include="Builders\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,4 +30,7 @@
   </ItemGroup>
 
 
+  <ItemGroup>
+    <Compile Remove="TempStuff\IResponseMessageBuilder.cs" />
+  </ItemGroup>
 </Project>

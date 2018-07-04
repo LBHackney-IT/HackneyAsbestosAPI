@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace LBHAsbestosAPI.Validators
 {
@@ -6,9 +7,17 @@ namespace LBHAsbestosAPI.Validators
     {
         public static bool Validate(string inspectionId)
         {
-            // TODO Inspection Id validation logic here
-            var validationResult = true;
-            return validationResult;
+            var validIdLength = 8;
+
+            if (inspectionId.Length != validIdLength)
+            {
+                return false;
+            }
+            if (inspectionId.Any(c => !char.IsDigit(c)))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

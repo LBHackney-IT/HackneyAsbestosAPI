@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
+<<<<<<< Updated upstream
+=======
+using LBHAsbestosAPI.TempStuff;
+using LBHAsbestosAPI.Validators;
+>>>>>>> Stashed changes
 using Microsoft.AspNetCore.Mvc;
 
 namespace LBHAsbestosAPI.Controllers
@@ -19,6 +25,7 @@ namespace LBHAsbestosAPI.Controllers
         }
 		
         [HttpGet("inspection/{propertyId}")]
+<<<<<<< Updated upstream
         public async Task<JsonResult> GetInspection(string propertyId)    
 		{
             var _asbestosActions = new AsbestosActions(_asbestosService);
@@ -33,16 +40,53 @@ namespace LBHAsbestosAPI.Controllers
             //            developerMessage = "XXX"
             //        }}
             //};
-
-            var resultsOutput = new Dictionary<string, IEnumerable<Inspection>>()
+=======
+        public async Task<JsonResult> GetInspection(string propertyId)
+        {
+            try
             {
-                {"results", response}
-            };
+                var responseBuilder = new InspectionResponseBuilder();
 
-            return new JsonResult(resultsOutput)
+                if (!InspectionIdValidator.Validate(propertyId))
+                {
+                    var developerMessage = "Invalid parameter - propertyId";
+                    var userMessage = "Please provide a valid property id";
+
+                    return responseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+
+                var _asbestosActions = new AsbestosActions(_asbestosService);
+                var response = await _asbestosActions.GetInspection(propertyId);
+>>>>>>> Stashed changes
+
+                return responseBuilder.BuildSuccessResponse(response);
+            }
+            catch (MissingInspectionException ex)
             {
+                var developerMessage = ex.Message;
+                var userMessage = "Cannot find inspection";
+
+                var responseBuilder = new InspectionResponseBuilder();
+                return responseBuilder.BuildErrorResponse(
+                userMessage, developerMessage, 404);
+            }
+            catch (Exception ex)
+            {
+<<<<<<< Updated upstream
                 StatusCode = 200
             };
 		}
 	}
+=======
+                var developerMessage = ex.Message;
+                var userMessage = "We had some problems processing your request";
+
+                var responseBuilder = new InspectionResponseBuilder();
+                return responseBuilder.BuildErrorResponse(
+                    userMessage, developerMessage, 500);
+            }
+        }
+    }
+>>>>>>> Stashed changes
 }
