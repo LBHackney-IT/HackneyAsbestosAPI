@@ -34,17 +34,17 @@ namespace UnitTests.Integration
             var result = await _client.GetAsync(_baseUri + "0000001");
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
-  
+
         [Theory]
-        [InlineData("12345678", true)]
-        [InlineData("1", false)]
-        [InlineData("123456789", false)]
-        [InlineData("abc", false)]
-        [InlineData("A1234567", false)]
-        [InlineData("1!234567", false)]
-        public async Task return_400_for_invalid_request(string id)
+        [InlineData("12345678")]
+        [InlineData("1")]
+        [InlineData("123456789")]
+        [InlineData("abc")]
+        [InlineData("A1234567")]
+        [InlineData("1!234567")]
+        public async Task return_400_for_invalid_request(string inspectionId)
         {
-            var result = await _client.GetAsync(_baseUri + id);
+            var result = await _client.GetAsync(_baseUri + inspectionId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
@@ -94,12 +94,12 @@ namespace UnitTests.Integration
         }
 
         [Theory]
-        [InlineData("12345678", true)]
-        [InlineData("1", false)]
-        [InlineData("123456789", false)]
-        [InlineData("abc", false)]
-        [InlineData("A1234567", false)]
-        [InlineData("1!234567", false)]
+        [InlineData("12345678")]
+        [InlineData("1")]
+        [InlineData("123456789")]
+        [InlineData("abc")]
+        [InlineData("A1234567")]
+        [InlineData("1!234567")]
         public async Task return_valid_json_for_invalid_requests(string inspectionId)
         {
             var json = new StringBuilder();
