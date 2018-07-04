@@ -6,7 +6,6 @@ namespace LBHAsbestosAPI.Entities
     public class InspectionResponse
     {
 		public bool Success { get; set; }
-        public string ErrorMesage { get; set; }
 		public List<Inspection> Data { get; set; }
     }
 }

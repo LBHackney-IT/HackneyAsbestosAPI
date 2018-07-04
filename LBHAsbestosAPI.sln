@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LBHAsbestosAPI", "LBHAsbestosAPI\LBHAsbestosAPI.csproj", "{B2092428-C5E0-40DB-AA0F-89D8F66684C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{B9DFAEEA-B8E3-4B51-8B46-BDC8C25C6059}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{999E657B-D185-4718-B914-E268EB65B1BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +15,9 @@ Global
 		{B2092428-C5E0-40DB-AA0F-89D8F66684C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2092428-C5E0-40DB-AA0F-89D8F66684C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2092428-C5E0-40DB-AA0F-89D8F66684C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9DFAEEA-B8E3-4B51-8B46-BDC8C25C6059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9DFAEEA-B8E3-4B51-8B46-BDC8C25C6059}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9DFAEEA-B8E3-4B51-8B46-BDC8C25C6059}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9DFAEEA-B8E3-4B51-8B46-BDC8C25C6059}.Release|Any CPU.Build.0 = Release|Any CPU
+		{999E657B-D185-4718-B914-E268EB65B1BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{999E657B-D185-4718-B914-E268EB65B1BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{999E657B-D185-4718-B914-E268EB65B1BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{999E657B-D185-4718-B914-E268EB65B1BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

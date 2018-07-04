@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
+using LBHAsbestosAPI.Factories;
 using LBHAsbestosAPI.Interfaces;
-using LBHAsbestosAPI.Repositories;
 
 namespace LBHAsbestosAPI.Services
 {
-	public class AsbestosService : IAsbestosService
+    public class AsbestosService : IAsbestosService
     {
-		Psi2000Api api;
-		
-        public AsbestosService()
+        IPsi2000Api _api;
+
+        public AsbestosService(IPsi2000Api api)
         {
-			api = new Psi2000Api();
+            if (TestStatus.IsRunningTests)
+            {
+                _api = AsbestosRepositoryFactory.Build();
+            }
+            else
+            {
+                _api = api;
+            }
         }
 
 		public Task<IEnumerable<Element>> GetElements(int elementId)
@@ -23,13 +30,13 @@ namespace LBHAsbestosAPI.Services
 
 		public async Task<IEnumerable<Floor>> GetFloor(int floorId)
 		{
-			return api.GetFloor(floorId);
+			return _api.GetFloor(floorId);
 		}
 
 		public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
 		{
-			InspectionResponse response = await api.GetInspections(propertyId);
-			List<Inspection> r = response.Data;
+			InspectionResponse response = await _api.GetInspections(propertyId);
+            List<Inspection> r = response.Data;
 			return r;
 		}
 

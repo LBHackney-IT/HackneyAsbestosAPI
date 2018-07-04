@@ -9,12 +9,10 @@ namespace LBHAsbestosAPI.Actions
 	public class AsbestosActions : IAsbestosActions
     {
 		IAsbestosService _asbestosService;
-        
 
 		public AsbestosActions(IAsbestosService asbestosService)
         {
 			_asbestosService = asbestosService;
-            
         }
 
 		public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
