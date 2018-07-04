@@ -27,8 +27,8 @@ namespace LBHAsbestosAPI.Controllers
 
                 if (!InspectionIdValidator.Validate(propertyId))
                 {
-                    var developerMessage = "Invalid parameter - propertyId";
-                    var userMessage = "Please provide a valid property id";
+                    var developerMessage = "Invalid parameter - inspectionId";
+                    var userMessage = "Please provide a valid inspection id";
 
                     return responseBuilder.BuildErrorResponse(
                         userMessage, developerMessage, 400);

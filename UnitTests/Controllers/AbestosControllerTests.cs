@@ -15,7 +15,10 @@ namespace UnitTests
         [Fact]
         public async Task return_200_for_valid_request()
         {
-            var fakeResponse = new List<Inspection>();
+            var fakeResponse = new List<Inspection>()
+            {
+                { new Inspection() }
+            };
 
             var fakeAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService
@@ -29,7 +32,6 @@ namespace UnitTests
         }
 
         [Theory]
-        [InlineData("12345678")]
         [InlineData("1")]
         [InlineData("123456789")]
         [InlineData("abc")]
@@ -92,7 +94,6 @@ namespace UnitTests
         }
 
         [Theory]
-        [InlineData("12345678")]
         [InlineData("1")]
         [InlineData("123456789")]
         [InlineData("abc")]
@@ -104,10 +105,10 @@ namespace UnitTests
             var controller = new AsbestosController(fakeAsbestosService.Object);
 
             var response = JObject.FromObject((await controller.GetInspection(inspectionId)).Value);
-            var userMessage = response["errors"]["userMessage"];
-            var developerMessage = response["errors"]["developerMessage"];
+            var userMessage = response["errors"].First["userMessage"].ToString();
+            var developerMessage = response["errors"].First["developerMessage"].ToString();
 
-            var expectedUserMessage = "Please provide a valid inspection number";
+            var expectedUserMessage = "Please provide a valid inspection id";
             var expectedDeveloperMessage = "Invalid parameter - inspectionId";
 
             Assert.Equal(expectedUserMessage, userMessage);
@@ -115,7 +116,6 @@ namespace UnitTests
         }
 
         [Theory]
-        [InlineData("12345678")]
         [InlineData("1")]
         [InlineData("123456789")]
         [InlineData("abc")]
