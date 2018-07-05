@@ -5,15 +5,15 @@ namespace LBHAsbestosAPI.Validators
 {
     public static class InspectionIdValidator
     {
-        public static bool Validate(string inspectionId)
+        public static bool Validate(string propertyId)
         {
             var validIdLength = 8;
 
-            if (inspectionId.Length != validIdLength)
+            if (propertyId.Length != validIdLength)
             {
                 return false;
             }
-            if (inspectionId.Any(c => !char.IsDigit(c)))
+            if (propertyId.Any(c => !char.IsDigit(c)))
             {
                 return false;
             }

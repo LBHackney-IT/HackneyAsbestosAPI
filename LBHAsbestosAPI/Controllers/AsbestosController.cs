@@ -17,7 +17,17 @@ namespace LBHAsbestosAPI.Controllers
         {
 			_asbestosService = asbestosService;
         }
-		
+
+        // GET properties
+        /// <summary>
+        /// Gets a list of inspections for a particular property id
+        /// </summary>
+        /// <param name="propertyId">An 8 digit number that identifies a property</param>
+        /// <returns>A list of inspections matching the specified property id</returns>
+        /// <response code="200">Returns the list of inspections</response>
+        /// <response code ="404">If the property id does not return any inspections</response>
+        /// <response code="400">If the inspection id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response>  	
         [HttpGet("inspection/{propertyId}")]
         public async Task<JsonResult> GetInspection(string propertyId)
         {
