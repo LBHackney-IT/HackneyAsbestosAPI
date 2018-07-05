@@ -32,5 +32,6 @@
 
   <ItemGroup>
     <Compile Remove="TempStuff\IResponseMessageBuilder.cs" />
+    <Compile Remove="Controllers\ApiErrorMessage.cs" />
   </ItemGroup>
 </Project>
