@@ -5,6 +5,7 @@ using LBHAsbestosAPI.Interfaces;
 using LBHAsbestosAPI.Builders;
 using LBHAsbestosAPI.Validators;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace LBHAsbestosAPI.Controllers
 {
@@ -12,12 +13,17 @@ namespace LBHAsbestosAPI.Controllers
 	public class AsbestosController : Controller
     {
 		IAsbestosService _asbestosService;
+		protected readonly ILogger<AsbestosController> _logger;
 
-        public AsbestosController(IAsbestosService asbestosService)
+		public AsbestosController(IAsbestosService asbestosService, ILogger<AsbestosController> logger = null)
         {
 			_asbestosService = asbestosService;
+			if (null != logger)
+            {
+                _logger = logger;
+            }
         }
-
+  
         // GET properties
         /// <summary>
         /// Gets a list of inspections for a particular property id
@@ -30,7 +36,9 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="500">If any errors are encountered</response>  	
         [HttpGet("inspection/{propertyId}")]
         public async Task<JsonResult> GetInspection(string propertyId)
-        {
+		{
+			_logger.LogInformation("yeah!");
+
             try
             {
                 var responseBuilder = new InspectionResponseBuilder();
