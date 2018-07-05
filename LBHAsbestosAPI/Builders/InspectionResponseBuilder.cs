@@ -30,7 +30,6 @@ namespace LBHAsbestosAPI.TempStuff
             };
         }
 
-
         public JsonResult BuildSuccessResponse(IEnumerable<Inspection> response)
         {
             var successResult = new Dictionary<string, IEnumerable<Inspection>>()
