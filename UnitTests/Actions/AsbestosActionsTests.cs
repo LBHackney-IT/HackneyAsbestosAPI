@@ -14,7 +14,10 @@ namespace UnitTests
         [Fact]
         public async Task return_type_list_of_inspections()
         {
-            var fakeResponse = new List<Inspection>();
+            var fakeResponse = new List<Inspection>()
+            {
+                { new Inspection() }
+            };
 
             var fakeAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService

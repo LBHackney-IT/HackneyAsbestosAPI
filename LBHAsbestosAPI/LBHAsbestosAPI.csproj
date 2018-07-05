@@ -4,6 +4,11 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+    
   <ItemGroup>
     <Folder Include="wwwroot\" />
     <Folder Include="Dtos\" />
@@ -17,6 +22,7 @@
     <Folder Include="Validators\" />
     <Folder Include="Models\" />
     <Folder Include="Factories\" />
+    <Folder Include="Builders\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,4 +35,8 @@
   </ItemGroup>
 
 
+  <ItemGroup>
+    <Compile Remove="TempStuff\IResponseMessageBuilder.cs" />
+    <Compile Remove="Controllers\ApiErrorMessage.cs" />
+  </ItemGroup>
 </Project>

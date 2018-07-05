@@ -1,7 +1,6 @@
-﻿using System;
-namespace LBHAsbestosAPI.Models
+﻿namespace LBHAsbestosAPI.Controllers
 {
-    public class ApiErrorMessage
+    internal class ApiErrorMessage
     {
         public string userMessage { get; set; }
         public string developerMessage { get; set; }

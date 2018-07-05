@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 
@@ -20,6 +21,14 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<InspectionResponse> GetInspections(string propertyId)
         {
+            if (propertyId == "31415926")
+            {
+                throw new Exception();
+            }
+            if (propertyId == "00000000")
+            {
+                throw new MissingInspectionException();
+            }
 
             var fakeInspectionResponse = new InspectionResponse()
             {

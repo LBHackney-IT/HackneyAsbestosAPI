@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
-using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
+using LBHAsbestosAPI.Builders;
+using LBHAsbestosAPI.Validators;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LBHAsbestosAPI.Controllers
@@ -11,38 +11,62 @@ namespace LBHAsbestosAPI.Controllers
 	[Route("api/v1/")]
 	public class AsbestosController : Controller
     {
-		private IAsbestosService _asbestosService;
+		IAsbestosService _asbestosService;
 
         public AsbestosController(IAsbestosService asbestosService)
         {
 			_asbestosService = asbestosService;
         }
-		
+
+        // GET properties
+        /// <summary>
+        /// Gets a list of inspections for a particular property id
+        /// </summary>
+        /// <param name="propertyId">An 8 digit number that identifies a property</param>
+        /// <returns>A list of inspections matching the specified property id</returns>
+        /// <response code="200">Returns the list of inspections</response>
+        /// <response code ="404">If the property id does not return any inspections</response>
+        /// <response code="400">If the inspection id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response>  	
         [HttpGet("inspection/{propertyId}")]
-        public async Task<JsonResult> GetInspection(string propertyId)    
-		{
-            var _asbestosActions = new AsbestosActions(_asbestosService);
-            var response = await _asbestosActions.GetInspection(propertyId);
-
-            // TODO example for returning an unsuccessful response
-            //var resultsOutput = new Dictionary<string, ApiErrorMessage>()
-            //{
-            //    { "errors", new ApiErrorMessage()
-            //        {
-            //            userMessage = "XXX",
-            //            developerMessage = "XXX"
-            //        }}
-            //};
-
-            var resultsOutput = new Dictionary<string, IEnumerable<Inspection>>()
+        public async Task<JsonResult> GetInspection(string propertyId)
+        {
+            try
             {
-                {"results", response}
-            };
+                var responseBuilder = new InspectionResponseBuilder();
 
-            return new JsonResult(resultsOutput)
+                if (!InspectionIdValidator.Validate(propertyId))
+                {
+                    var developerMessage = "Invalid parameter - inspectionId";
+                    var userMessage = "Please provide a valid inspection id";
+
+                    return responseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+
+                var _asbestosActions = new AsbestosActions(_asbestosService);
+                var response = await _asbestosActions.GetInspection(propertyId);
+
+                return responseBuilder.BuildSuccessResponse(response);
+            }
+            catch (MissingInspectionException ex)
             {
-                StatusCode = 200
-            };
-		}
-	}
+                var developerMessage = ex.Message;
+                var userMessage = "Cannot find inspection";
+
+                var responseBuilder = new InspectionResponseBuilder();
+                return responseBuilder.BuildErrorResponse(
+                userMessage, developerMessage, 404);
+            }
+            catch (Exception ex)
+            {
+                var developerMessage = ex.Message;
+                var userMessage = "We had some problems processing your request";
+
+                var responseBuilder = new InspectionResponseBuilder();
+                return responseBuilder.BuildErrorResponse(
+                    userMessage, developerMessage, 500); 
+            }
+        }
+    }
 }

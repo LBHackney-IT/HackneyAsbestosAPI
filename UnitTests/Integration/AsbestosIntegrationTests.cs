@@ -31,20 +31,19 @@ namespace UnitTests.Integration
         [Fact]
         public async Task return_200_for_valid_request()
         {
-            var result = await _client.GetAsync(_baseUri + "0000001");
+            var result = await _client.GetAsync(_baseUri + "00000001");
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
-  
+
         [Theory]
-        [InlineData("12345678", true)]
-        [InlineData("1", false)]
-        [InlineData("123456789", false)]
-        [InlineData("abc", false)]
-        [InlineData("A1234567", false)]
-        [InlineData("1!234567", false)]
-        public async Task return_400_for_invalid_request(string id)
+        [InlineData("1")]
+        [InlineData("123456789")]
+        [InlineData("abc")]
+        [InlineData("A1234567")]
+        [InlineData("1!234567")]
+        public async Task return_400_for_invalid_request(string inspectionId)
         {
-            var result = await _client.GetAsync(_baseUri + id);
+            var result = await _client.GetAsync(_baseUri + inspectionId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
@@ -88,33 +87,33 @@ namespace UnitTests.Integration
             {
                 ContractResolver = contractResolver
             });
-            var result = await _client.GetStringAsync(_baseUri + "0000001");
+            var result = await _client.GetStringAsync(_baseUri + "00000001");
 
             Assert.Equal(expectedStringResult, result);
         }
 
         [Theory]
-        [InlineData("12345678", true)]
-        [InlineData("1", false)]
-        [InlineData("123456789", false)]
-        [InlineData("abc", false)]
-        [InlineData("A1234567", false)]
-        [InlineData("1!234567", false)]
+        [InlineData("1")]
+        [InlineData("123456789")]
+        [InlineData("abc")]
+        [InlineData("A1234567")]
+        [InlineData("1!234567")]
         public async Task return_valid_json_for_invalid_requests(string inspectionId)
         {
             var json = new StringBuilder();
             json.Append("{");
-            json.Append("\"results\":");
+            json.Append("\"errors\":");
             json.Append("[");
             json.Append("{");
-            json.Append("\"developerMessage\":\"Invalid parameter - inspectionId\",");
-            json.Append("\"userMessage\":\"Please provide a valid inspection number\"");
+            json.Append("\"userMessage\":\"Please provide a valid inspection id\",");
+            json.Append("\"developerMessage\":\"Invalid parameter - inspectionId\"");
             json.Append("}");
+            json.Append("]");
             json.Append("}");
 
-            var result = await _client.GetStringAsync(_baseUri + inspectionId);
-
-            Assert.Equal(json.ToString(), result);
+            var result = await _client.GetAsync(_baseUri + inspectionId);
+            var resultString = await result.Content.ReadAsStringAsync();
+            Assert.Equal(json.ToString(), resultString);
         }
     }
 }
