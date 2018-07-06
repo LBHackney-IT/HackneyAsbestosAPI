@@ -75,5 +75,11 @@ namespace LBHAsbestosAPI.Controllers
                     userMessage, developerMessage, 500); 
             }
         }
+
+        [HttpGet("room/{roomId}")]
+        public async Task<JsonResult> GetRoom(string roomId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

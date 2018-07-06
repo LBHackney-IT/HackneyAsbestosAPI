@@ -22,6 +22,7 @@ namespace UnitTests
             fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
         }
 
+        #region Inspection controller tests
         [Fact]
         public async Task return_200_for_valid_request()
         {
@@ -145,5 +146,6 @@ namespace UnitTests
 
             Assert.NotNull(response["errors"]);
         }
+        #endregion
     }
 }
