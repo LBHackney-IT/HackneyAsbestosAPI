@@ -20,11 +20,12 @@ namespace LBHAsbestosAPI.Actions
 
 		public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
 		{
-            _logger.LogInformation("yeah actions");
+            _logger.LogInformation($"Calling GetInspection() with {propertyId}");
 			IEnumerable<Inspection> lInspection = await _asbestosService.GetInspection(propertyId);
 
             if (lInspection.Any() == false)
             {
+                _logger.LogError($"No inspections returned for {propertyId}");
                 throw new MissingInspectionException();
             }
 

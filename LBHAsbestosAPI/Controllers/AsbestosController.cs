@@ -12,12 +12,15 @@ namespace LBHAsbestosAPI.Controllers
 	public class AsbestosController : Controller
     {
 		IAsbestosService _asbestosService;
-        protected readonly ILoggerAdapter<AsbestosActions> _logger;
+        ILoggerAdapter<AsbestosActions> _loggerActions;
+        protected readonly ILoggerAdapter<AsbestosController> _logger;
 
-        public AsbestosController(IAsbestosService asbestosService, ILoggerAdapter<AsbestosActions> logger)
+        public AsbestosController(IAsbestosService asbestosService, ILoggerAdapter<AsbestosController> logger,
+                                  ILoggerAdapter<AsbestosActions> loggerActions)
         {
 			_asbestosService = asbestosService;
             _logger = logger;
+            _loggerActions = loggerActions;
         }
   
         // GET properties
@@ -39,6 +42,7 @@ namespace LBHAsbestosAPI.Controllers
                 _logger.LogInformation($"Calling InspectionIdValidator() with {propertyId}");
                 if (!InspectionIdValidator.Validate(propertyId))
                 {
+                    _logger.LogError("propertyId has not passed validation");
                     var developerMessage = "Invalid parameter - inspectionId";
                     var userMessage = "Please provide a valid inspection id";
 
@@ -46,13 +50,14 @@ namespace LBHAsbestosAPI.Controllers
                         userMessage, developerMessage, 400);
                 }
 
-                var _asbestosActions = new AsbestosActions(_asbestosService, _logger);
+                var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await _asbestosActions.GetInspection(propertyId);
 
                 return responseBuilder.BuildSuccessResponse(response);
             }
             catch (MissingInspectionException ex)
             {
+                _logger.LogError("No inspections returned for propertyId");
                 var developerMessage = ex.Message;
                 var userMessage = "Cannot find inspection";
 
