@@ -2,7 +2,6 @@
 using System.IO;
 using System.Reflection;
 using LBHAsbestosAPI.Extension;
-using LBHAsbestosAPI.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -47,15 +46,20 @@ namespace LBHAsbestosAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory )
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {         
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
 			loggerFactory.AddNLog();
 			app.AddNLogWeb();
-            env.ConfigureNLog("NLog.config");
+
+            if (!TestStatus.IsRunningTests)
+            {
+                env.ConfigureNLog("NLog.config");
+            }
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI( cw =>

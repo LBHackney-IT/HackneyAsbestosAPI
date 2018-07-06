@@ -13,6 +13,13 @@ namespace UnitTests
 {
     public class AbestosControllerTests
     {
+        Mock<ILoggerAdapter<AsbestosActions>> fakeLogger;
+
+        public AbestosControllerTests()
+        {
+            fakeLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
+        }
+
         [Fact]
         public async Task return_200_for_valid_request()
         {
@@ -46,7 +53,7 @@ namespace UnitTests
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
-            var controller = new AsbestosController(fakeAsbestosService.Object);
+            var controller = new AsbestosController(fakeAsbestosService.Object, fakeLogger.Object);
             var response = await controller.GetInspection(propertyId);
 
             Assert.Equal(400, response.StatusCode);
@@ -61,7 +68,7 @@ namespace UnitTests
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
-            var controller = new AsbestosController(fakeAsbestosService.Object);
+            var controller = new AsbestosController(fakeAsbestosService.Object, fakeLogger.Object);
             var response = await controller.GetInspection("00000000");
 
             Assert.Equal(404, response.StatusCode);
@@ -84,7 +91,7 @@ namespace UnitTests
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
-            AsbestosController controller = new AsbestosController(fakeAsbestosService.Object);
+            AsbestosController controller = new AsbestosController(fakeAsbestosService.Object, fakeLogger.Object);
             var response = JObject.FromObject((await controller.GetInspection("12345678")).Value);
 
             var responseId = response["results"][0]["Id"];
@@ -103,7 +110,7 @@ namespace UnitTests
         public async Task return_error_message_if_inspectionid_is_not_valid(string propertyId)
         {
             var fakeAsbestosService = new Mock<IAsbestosService>();
-            var controller = new AsbestosController(fakeAsbestosService.Object);
+            var controller = new AsbestosController(fakeAsbestosService.Object, fakeLogger.Object);
 
             var response = JObject.FromObject((await controller.GetInspection(propertyId)).Value);
             var userMessage = response["errors"].First["userMessage"].ToString();
@@ -125,7 +132,7 @@ namespace UnitTests
         public async Task response_has_the_valid_format_if_request_unsuccessful(string propertyId)
         {
             var fakeAsbestosService = new Mock<IAsbestosService>();
-            var controller = new AsbestosController(fakeAsbestosService.Object);
+            var controller = new AsbestosController(fakeAsbestosService.Object, fakeLogger.Object);
             var response = JObject.FromObject((await controller.GetInspection(propertyId)).Value);
 
             Assert.NotNull(response["errors"]);
