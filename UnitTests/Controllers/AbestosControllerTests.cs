@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Controllers;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
@@ -25,7 +26,7 @@ namespace UnitTests
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
-            var controller = new AsbestosController(fakeAsbestosService.Object);
+            var controller = new AsbestosController(fakeAsbestosService.Object, fakeLogger.Object);
 
             var response = await controller.GetInspection("12345678");
             Assert.Equal(200, response.StatusCode);

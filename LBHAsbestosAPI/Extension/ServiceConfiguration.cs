@@ -1,4 +1,5 @@
 ﻿using System;
+using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Interfaces;
 using LBHAsbestosAPI.Logging;
 using LBHAsbestosAPI.Repositories;
@@ -11,7 +12,7 @@ namespace LBHAsbestosAPI.Extension
     {
 		public static void AddCustomServices(this IServiceCollection services)
 		{
-			services.AddScoped(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+            services.AddScoped(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
             services.AddTransient<IPsi2000Api, Psi2000Api>();
             services.AddScoped(typeof(IAsbestosService), typeof(AsbestosService));
         }

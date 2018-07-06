@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Linq;
+using LBHAsbestosAPI.Interfaces;
 
 namespace LBHAsbestosAPI.Validators
 {
     public static class InspectionIdValidator
     {
+       
         public static bool Validate(string propertyId)
         {
+            
             var validIdLength = 8;
 
             if (propertyId.Length != validIdLength)

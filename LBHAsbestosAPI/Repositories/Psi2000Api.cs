@@ -20,9 +20,16 @@ namespace LBHAsbestosAPI.Repositories
 		static string apiUsername = Environment.GetEnvironmentVariable("PSI_TEST_USERNAME");
 		static string apiPassword = Environment.GetEnvironmentVariable("PSI_TEST_PASSWORD");
 
+        ILoggerAdapter<Psi2000Api> _logger;
+
+        public Psi2000Api(ILoggerAdapter<Psi2000Api> logger)
+        {
+            _logger = logger;
+        }
 
 		public async Task<bool> Login()
 		{
+            _logger.LogInformation("yeah login psiapi");
 			using (var client = new HttpClient())
 			{
 				try

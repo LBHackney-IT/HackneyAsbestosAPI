@@ -13,15 +13,12 @@ namespace LBHAsbestosAPI.Controllers
 	public class AsbestosController : Controller
     {
 		IAsbestosService _asbestosService;
-		protected readonly ILogger<AsbestosController> _logger;
+        protected readonly ILoggerAdapter<AsbestosActions> _logger;
 
-		public AsbestosController(IAsbestosService asbestosService, ILogger<AsbestosController> logger = null)
+        public AsbestosController(IAsbestosService asbestosService, ILoggerAdapter<AsbestosActions> logger)
         {
 			_asbestosService = asbestosService;
-			if (null != logger)
-            {
-                _logger = logger;
-            }
+            _logger = logger;
         }
   
         // GET properties
@@ -36,13 +33,11 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="500">If any errors are encountered</response>  	
         [HttpGet("inspection/{propertyId}")]
         public async Task<JsonResult> GetInspection(string propertyId)
-		{
-			_logger.LogInformation("yeah!");
-
+		{ 
             try
             {
                 var responseBuilder = new InspectionResponseBuilder();
-
+                _logger.LogInformation($"Calling InspectionIdValidator() with {propertyId}");
                 if (!InspectionIdValidator.Validate(propertyId))
                 {
                     var developerMessage = "Invalid parameter - inspectionId";
@@ -52,7 +47,7 @@ namespace LBHAsbestosAPI.Controllers
                         userMessage, developerMessage, 400);
                 }
 
-                var _asbestosActions = new AsbestosActions(_asbestosService);
+                var _asbestosActions = new AsbestosActions(_asbestosService, _logger);
                 var response = await _asbestosActions.GetInspection(propertyId);
 
                 return responseBuilder.BuildSuccessResponse(response);

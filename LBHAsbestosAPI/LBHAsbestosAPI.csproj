@@ -45,4 +45,10 @@
     <Compile Remove="TempStuff\IResponseMessageBuilder.cs" />
     <Compile Remove="Controllers\ApiErrorMessage.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="NLog.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NLog.config" />
+  </ItemGroup>
 </Project>

@@ -55,7 +55,7 @@ namespace LBHAsbestosAPI
             }
 			loggerFactory.AddNLog();
 			app.AddNLogWeb();
-
+            env.ConfigureNLog("NLog.config");
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI( cw =>

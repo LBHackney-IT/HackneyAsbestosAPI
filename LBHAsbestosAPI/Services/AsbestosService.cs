@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Factories;
 using LBHAsbestosAPI.Interfaces;
@@ -10,8 +11,9 @@ namespace LBHAsbestosAPI.Services
     public class AsbestosService : IAsbestosService
     {
         IPsi2000Api _api;
+        ILoggerAdapter<AsbestosService> _logger;
 
-        public AsbestosService(IPsi2000Api api)
+        public AsbestosService(IPsi2000Api api, ILoggerAdapter<AsbestosService> logger)
         {
             if (TestStatus.IsRunningTests)
             {
@@ -20,6 +22,7 @@ namespace LBHAsbestosAPI.Services
             else
             {
                 _api = api;
+                _logger = logger;
             }
         }
 
@@ -35,6 +38,7 @@ namespace LBHAsbestosAPI.Services
 
 		public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
 		{
+            _logger.LogInformation("yeah actions");
 			InspectionResponse response = await _api.GetInspections(propertyId);
             List<Inspection> r = response.Data;
 			return r;
