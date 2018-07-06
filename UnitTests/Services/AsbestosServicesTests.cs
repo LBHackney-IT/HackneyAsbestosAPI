@@ -14,6 +14,15 @@ namespace UnitTests
 {
     public class AsbestosServicesTests
     {
+        Mock<ILoggerAdapter<AsbestosService>> fakeLogger;
+        Mock<ILoggerAdapter<Psi2000Api>> fakePsiLogger;
+
+        public AsbestosServicesTests()
+        {
+            fakeLogger = new Mock<ILoggerAdapter<AsbestosService>>();
+            fakePsiLogger = new Mock<ILoggerAdapter<Psi2000Api>>();
+        }
+
         [Fact]
         public async Task can_access_inspection_data_from_inspectionrequest()
         {
@@ -39,13 +48,13 @@ namespace UnitTests
                     .Setup(m => m.GetInspections(It.IsAny<string>()))
                     .Returns(Task.FromResult(fakeInspection)); 
 
-                asbestosService = new AsbestosService(fakeRepository.Object);
+                asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
             }
             // Case for the test running in conjunction with the solution tests.
             // The asbestos service uses the fakePsi2000Api repository.
             else
             {
-                asbestosService = new AsbestosService(new Psi2000Api());
+                asbestosService = new AsbestosService(new Psi2000Api(fakePsiLogger.Object), fakeLogger.Object);
             }
 
             responseData = await asbestosService.GetInspection("random string");

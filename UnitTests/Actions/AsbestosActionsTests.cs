@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
+using LBHAsbestosAPI.Controllers;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 using Moq;
@@ -14,6 +15,7 @@ namespace UnitTests
         [Fact]
         public async Task return_type_list_of_inspections()
         {
+            var fakeLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             var fakeResponse = new List<Inspection>()
             {
                 { new Inspection() }
@@ -24,7 +26,7 @@ namespace UnitTests
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
-            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object);
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
             var response = await asbestosAction.GetInspection("Random string");
 
             Assert.IsType(typeof(List<Inspection>), response);

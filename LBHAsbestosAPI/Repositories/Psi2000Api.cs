@@ -20,9 +20,16 @@ namespace LBHAsbestosAPI.Repositories
 		static string apiUsername = Environment.GetEnvironmentVariable("PSI_TEST_USERNAME");
 		static string apiPassword = Environment.GetEnvironmentVariable("PSI_TEST_PASSWORD");
 
+        ILoggerAdapter<Psi2000Api> _logger;
+
+        public Psi2000Api(ILoggerAdapter<Psi2000Api> logger)
+        {
+            _logger = logger;
+        }
 
 		public async Task<bool> Login()
 		{
+            _logger.LogInformation("Logging into PSI");
 			using (var client = new HttpClient())
 			{
 				try
@@ -51,9 +58,11 @@ namespace LBHAsbestosAPI.Repositories
 				}
 				catch (HttpRequestException httpRequestException)
                 {
+                    _logger.LogError("Login failed");
                     return false;
                 }
 			}
+            _logger.LogInformation("Login successful");
 			return true;
 		}
 
@@ -64,7 +73,8 @@ namespace LBHAsbestosAPI.Repositories
 
 		public async Task<InspectionResponse> GetInspections(string propertyId)
         {
-			InspectionResponse response = new InspectionResponse();
+            _logger.LogInformation($"Connecting to PSI for requesting inspections for the property id {propertyId}");
+            InspectionResponse response = new InspectionResponse();
 			if (cookie == null)
 			{
 				var logedIn = Login();
@@ -100,6 +110,7 @@ namespace LBHAsbestosAPI.Repositories
  
 				response = JsonConvert.DeserializeObject<InspectionResponse>(responseData); 
             }
+            _logger.LogInformation($"Response returned from PSI - Success: {response.Success}");
 			return response;
         }
 

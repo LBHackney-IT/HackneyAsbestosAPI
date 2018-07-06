@@ -6,7 +6,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
+using NLog.Extensions.Logging;
+
+using NLog.Web;
 
 namespace LBHAsbestosAPI
 {
@@ -42,11 +46,19 @@ namespace LBHAsbestosAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {         
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+			loggerFactory.AddNLog();
+			app.AddNLogWeb();
+
+            if (!TestStatus.IsRunningTests)
+            {
+                env.ConfigureNLog("NLog.config");
             }
             app.UseMvc();
             app.UseSwagger();

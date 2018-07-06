@@ -10,9 +10,12 @@ namespace LBHAsbestosAPI.Services
     public class AsbestosService : IAsbestosService
     {
         IPsi2000Api _api;
+        ILoggerAdapter<AsbestosService> _logger;
 
-        public AsbestosService(IPsi2000Api api)
+        public AsbestosService(IPsi2000Api api, ILoggerAdapter<AsbestosService> logger)
         {
+            _logger = logger;
+
             if (TestStatus.IsRunningTests)
             {
                 _api = AsbestosRepositoryFactory.Build();
@@ -35,6 +38,7 @@ namespace LBHAsbestosAPI.Services
 
 		public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
 		{
+            _logger.LogInformation($"Calling GetInspections() with {propertyId}");
 			InspectionResponse response = await _api.GetInspections(propertyId);
             List<Inspection> r = response.Data;
 			return r;

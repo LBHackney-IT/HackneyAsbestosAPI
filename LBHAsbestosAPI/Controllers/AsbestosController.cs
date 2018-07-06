@@ -12,12 +12,17 @@ namespace LBHAsbestosAPI.Controllers
 	public class AsbestosController : Controller
     {
 		IAsbestosService _asbestosService;
+        ILoggerAdapter<AsbestosActions> _loggerActions;
+        protected readonly ILoggerAdapter<AsbestosController> _logger;
 
-        public AsbestosController(IAsbestosService asbestosService)
+        public AsbestosController(IAsbestosService asbestosService, ILoggerAdapter<AsbestosController> logger,
+                                  ILoggerAdapter<AsbestosActions> loggerActions)
         {
 			_asbestosService = asbestosService;
+            _logger = logger;
+            _loggerActions = loggerActions;
         }
-
+  
         // GET properties
         /// <summary>
         /// Gets a list of inspections for a particular property id
@@ -30,13 +35,14 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="500">If any errors are encountered</response>  	
         [HttpGet("inspection/{propertyId}")]
         public async Task<JsonResult> GetInspection(string propertyId)
-        {
+		{ 
             try
             {
                 var responseBuilder = new InspectionResponseBuilder();
-
+                _logger.LogInformation($"Calling InspectionIdValidator() with {propertyId}");
                 if (!InspectionIdValidator.Validate(propertyId))
                 {
+                    _logger.LogError("propertyId has not passed validation");
                     var developerMessage = "Invalid parameter - inspectionId";
                     var userMessage = "Please provide a valid inspection id";
 
@@ -44,13 +50,14 @@ namespace LBHAsbestosAPI.Controllers
                         userMessage, developerMessage, 400);
                 }
 
-                var _asbestosActions = new AsbestosActions(_asbestosService);
+                var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await _asbestosActions.GetInspection(propertyId);
 
                 return responseBuilder.BuildSuccessResponse(response);
             }
             catch (MissingInspectionException ex)
             {
+                _logger.LogError("No inspections returned for propertyId");
                 var developerMessage = ex.Message;
                 var userMessage = "Cannot find inspection";
 
@@ -60,7 +67,7 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (Exception ex)
             {
-                var developerMessage = ex.Message;
+                var developerMessage = ex.StackTrace;
                 var userMessage = "We had some problems processing your request";
 
                 var responseBuilder = new InspectionResponseBuilder();
