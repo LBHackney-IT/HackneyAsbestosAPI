@@ -11,7 +11,7 @@ GET /v1/inspection/
 
 ### Parameters
 
-- inspectionId (required)
+- propertyId (required)
 
 ### Response
 
