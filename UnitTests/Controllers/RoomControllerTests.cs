@@ -23,7 +23,10 @@ namespace UnitTests.Controllers
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
 
-            var fakeResponse = new List<Room>();
+            var fakeResponse = new List<Room>()
+            {
+                new Room()
+            };
            
             fakeAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService

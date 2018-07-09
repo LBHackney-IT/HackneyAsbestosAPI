@@ -120,6 +120,13 @@ namespace UnitTests
             Assert.Equal(expectedDeveloperMessage, developerMessage);
         }
 
+        [Fact]
+        public async Task response_has_the_valid_format_if_request_successful()
+        {
+            var response = JObject.FromObject((await controller.GetInspection("12345678")).Value);
+            Assert.NotNull(response["results"]);
+        }
+
         [Theory]
         [InlineData("1")]
         [InlineData("123456789")]
