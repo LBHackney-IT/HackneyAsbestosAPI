@@ -12,24 +12,50 @@ namespace UnitTests
 {
     public class AsbestosActionsTests
     {
+        Mock<ILoggerAdapter<AsbestosActions>> fakeLogger;
+        Mock<IAsbestosService> fakeAsbestosService;
+
+        public AsbestosActionsTests()
+        {
+            fakeLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
+            fakeAsbestosService = new Mock<IAsbestosService>();
+        }
+
         [Fact]
         public async Task return_type_list_of_inspections()
         {
-            var fakeLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             var fakeResponse = new List<Inspection>()
             {
-                { new Inspection() }
+                new Inspection()
             };
 
-            var fakeAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
             var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-            var response = await asbestosAction.GetInspection("Random string");
+            var response = await asbestosAction.GetInspection("RandomId");
 
-            Assert.IsType(typeof(List<Inspection>), response);
+            Assert.True(response is List<Inspection>);
+        }
+
+        [Fact]
+        public async Task return_type_list_of_rooms()
+        {
+            var fakeResponse = new List<Room>()
+            {
+                new Room()
+            };
+
+            fakeAsbestosService
+                .Setup(m => m.GetRoom(It.IsAny<string>()))
+                .Returns(Task.FromResult<IEnumerable<Room>>(fakeResponse));
+
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+            var response = await asbestosAction.GetInspection("RandomId");
+
+            Assert.True(response is List<Room>);
+
         }
     }
 }
