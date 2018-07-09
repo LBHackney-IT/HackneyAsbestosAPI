@@ -71,7 +71,7 @@ namespace UnitTests
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeEmptyResponse));
 
-            var CustomController = new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+            var CustomController = new AsbestosController(fakeCustomAsbestosService.Object, fakeControllerLogger.Object,
                                                     fakeActionsLogger.Object);
             var response = await CustomController.GetInspection("00000000");
             Assert.Equal(404, response.StatusCode);
