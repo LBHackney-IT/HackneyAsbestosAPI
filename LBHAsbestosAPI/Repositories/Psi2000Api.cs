@@ -106,7 +106,7 @@ namespace LBHAsbestosAPI.Repositories
 				HttpResponseMessage responseMessage =  client.GetAsync(baseAddress).Result;
 				responseMessage.EnsureSuccessStatusCode();
 
-				var responseData =   responseMessage.Content.ReadAsStringAsync().Result ;
+				var responseData = responseMessage.Content.ReadAsStringAsync().Result ;
  
 				response = JsonConvert.DeserializeObject<InspectionResponse>(responseData); 
             }
@@ -114,9 +114,10 @@ namespace LBHAsbestosAPI.Repositories
 			return response;
         }
 
-		public IEnumerable<Room> GetRoom(int roomId)
+        public async Task<RoomResponse> GetRoom(string roomId)
         {
-            return new List<Room>();
+            throw new NotImplementedException();
+            //return JsonConvert.DeserializeObject<RoomResponse>();
         }
 
         public IEnumerable<Floor> GetFloor(int floorId)

@@ -24,7 +24,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task can_access_inspection_data_from_inspectionrequest()
+        public async Task can_access_inspection_data_from_inspection_request()
         {
             IEnumerable<Inspection> responseData;
             IAsbestosService asbestosService;
@@ -33,12 +33,12 @@ namespace UnitTests
             if (!TestStatus.IsRunningTests)
             {
                 var fakeRepository = new Mock<IPsi2000Api>();
-                var fakeInspection = new InspectionResponse()
+                var fakeInspectionResponse = new InspectionResponse()
                 {
                     Data = new List<Inspection>()
                 };
 
-                fakeInspection.Data.Add(new Inspection()
+                fakeInspectionResponse.Data.Add(new Inspection()
                 {
                     Id = 655,
                     LocationDescription = "A house"
@@ -46,7 +46,7 @@ namespace UnitTests
 
                 fakeRepository
                     .Setup(m => m.GetInspections(It.IsAny<string>()))
-                    .Returns(Task.FromResult(fakeInspection)); 
+                    .Returns(Task.FromResult(fakeInspectionResponse)); 
 
                 asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
             }

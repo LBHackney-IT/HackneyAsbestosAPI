@@ -46,7 +46,7 @@ namespace LBHAsbestosAPI.Repositories
             return Task.FromResult(fakeInspectionResponse);
         }
 
-        public IEnumerable<Room> GetRoom(int roomId)
+        public Task<RoomResponse> GetRoom(string roomId)
         {
             throw new NotImplementedException();
         }

@@ -9,7 +9,7 @@ namespace LBHAsbestosAPI.Interfaces
         IEnumerable<Element> GetElement(int elementId);
         IEnumerable<Floor> GetFloor(int floorId);
         Task<InspectionResponse> GetInspections(string propertyId);
-        IEnumerable<Room> GetRoom(int roomId);
+        Task<RoomResponse> GetRoom(string roomId);
         Task<bool> Login();
     }
 }
