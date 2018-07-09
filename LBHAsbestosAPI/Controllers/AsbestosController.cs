@@ -40,7 +40,7 @@ namespace LBHAsbestosAPI.Controllers
             {
                 var responseBuilder = new InspectionResponseBuilder();
                 _logger.LogInformation($"Calling InspectionIdValidator() with {propertyId}");
-                if (!InspectionIdValidator.Validate(propertyId))
+                if (!IdValidator.ValidatePropertyId(propertyId))
                 {
                     _logger.LogError("propertyId has not passed validation");
                     var developerMessage = "Invalid parameter - inspectionId";

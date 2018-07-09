@@ -128,8 +128,8 @@ namespace UnitTests
         }
 
         [Theory]
-        [InlineData("1")]
-        [InlineData("123456789")]
+        //[InlineData("1")]
+        //[InlineData("123456789")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
