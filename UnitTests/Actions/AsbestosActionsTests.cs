@@ -22,7 +22,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task return_type_list_of_inspections()
+        public async Task return_type_should_be_list_of_inspections()
         {
             var fakeResponse = new List<Inspection>()
             {
@@ -40,22 +40,18 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task return_type_list_of_rooms()
+        public async Task return_type_should_be_room()
         {
-            var fakeResponse = new List<Room>()
-            {
-                new Room()
-            };
+            var fakeResponse = new Room();
 
             fakeAsbestosService
                 .Setup(m => m.GetRoom(It.IsAny<string>()))
-                .Returns(Task.FromResult<IEnumerable<Room>>(fakeResponse));
+                .Returns(Task.FromResult<Room>(fakeResponse));
 
             var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
             var response = await asbestosAction.GetInspection("RandomId");
 
-            Assert.True(response is List<Room>);
-
+            Assert.True(response is Room);
         }
     }
 }

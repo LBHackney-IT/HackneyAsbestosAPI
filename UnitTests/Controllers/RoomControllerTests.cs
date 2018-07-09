@@ -23,15 +23,12 @@ namespace UnitTests.Controllers
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
 
-            var fakeResponse = new List<Room>()
-            {
-                new Room()
-            };
+            var fakeResponse = new Room();
            
             fakeAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService
                 .Setup(m => m.GetRoom(It.IsAny<string>()))
-                .Returns(Task.FromResult<IEnumerable<Room>>(fakeResponse));
+                .Returns(Task.FromResult(fakeResponse));
 
             controller = new AsbestosController(fakeAsbestosService.Object,
                                                     fakeControllerLogger.Object,
@@ -65,18 +62,16 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
-            var fakeResponse = new List<Room>()
+            var fakeResponse = new Room()
             {
-                new Room()
-                {
-                    Id = 8456,
-                    Description = "Second floor on the right"
-                }};
+                Id = 8456,
+                Description = "Second floor on the right"
+            };
             
             var fakeCustomAsbestosService = new Mock<IAsbestosService>();
             fakeCustomAsbestosService
                 .Setup(m => m.GetRoom(It.IsAny<string>()))
-                .Returns(Task.FromResult<IEnumerable<Room>>(fakeResponse));
+                .Returns(Task.FromResult(fakeResponse));
 
             var customController = new AsbestosController(fakeCustomAsbestosService.Object,
                                                         fakeControllerLogger.Object,
