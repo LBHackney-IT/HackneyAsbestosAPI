@@ -11,7 +11,6 @@ using Xunit;
 
 namespace UnitTests
 {
-    // TODO refractoring
     public class InspectionControllerTests
     {
         Mock<ILoggerAdapter<AsbestosActions>> fakeActionsLogger;
@@ -26,11 +25,7 @@ namespace UnitTests
 
             var fakeResponse = new List<Inspection>()
             {
-                { new Inspection()
-                    {
-                        Id = 433,
-                        LocationDescription = "Under the bridge"
-                    }}
+                new Inspection()
             };
 
             fakeAsbestosService = new Mock<IAsbestosService>();
@@ -80,7 +75,25 @@ namespace UnitTests
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
-            var response = JObject.FromObject((await controller.GetInspection("12345678")).Value);
+            var fakeResponse = new List<Inspection>()
+            {
+                { new Inspection()
+                    {
+                        Id = 433,
+                        LocationDescription = "Under the bridge"
+                    }}
+            };
+
+            var fakeCustomAsbestosService = new Mock<IAsbestosService>();
+            fakeCustomAsbestosService
+                .Setup(m => m.GetInspection(It.IsAny<string>()))
+                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
+
+            var customController = new AsbestosController(fakeCustomAsbestosService.Object,
+                                                        fakeControllerLogger.Object,
+                                                           fakeActionsLogger.Object);
+
+            var response = JObject.FromObject((await customController.GetInspection("12345678")).Value);
             var responseId = response["results"][0]["Id"];
             var responseLocationDescription = response["results"][0]["LocationDescription"];
 

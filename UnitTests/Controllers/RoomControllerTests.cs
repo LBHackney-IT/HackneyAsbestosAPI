@@ -78,6 +78,7 @@ namespace UnitTests.Controllers
             var customController = new AsbestosController(fakeCustomAsbestosService.Object,
                                                         fakeControllerLogger.Object,
                                                            fakeActionsLogger.Object);
+
             var response = JObject.FromObject((await customController.GetRoom("123456")).Value);
             var responseId = response["results"].First["Id"];
             var responseDescription = response["results"].First["Description"];
