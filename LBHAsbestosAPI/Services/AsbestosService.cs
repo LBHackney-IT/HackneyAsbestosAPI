@@ -44,9 +44,11 @@ namespace LBHAsbestosAPI.Services
 			return r;
 		}
 
-        public Task<Room> GetRoom(string roomId)
+        public async Task<Room> GetRoom(string roomId)
 		{
-			throw new NotImplementedException();
+            _logger.LogInformation($"Calling GetRoom with {roomId}");
+            RoomResponse response = await _api.GetRoom(roomId);
+            return response.Data;
 		}
 	}
 }
