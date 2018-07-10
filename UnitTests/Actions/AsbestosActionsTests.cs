@@ -43,6 +43,7 @@ namespace UnitTests
         public async Task return_type_should_be_room()
         {
             var fakeResponse = new Room();
+            //Room room = null;
 
             fakeAsbestosService
                 .Setup(m => m.GetRoom(It.IsAny<string>()))

@@ -24,7 +24,11 @@ namespace UnitTests.Controllers
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
 
-            var fakeResponse = new Room();
+            var fakeResponse = new Room()
+            {
+                Id = 8546,
+                Description = "Second floor on the right"
+            };
            
             fakeAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService
@@ -56,29 +60,25 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task return_404_if_request_is_successful_but_no_results()
         {
-            var response = await controller.GetRoom("000000");
+            Room fakeEmptyResponse = null;
+
+            var fakeCustomAsbestosService = new Mock<IAsbestosService>();
+            fakeCustomAsbestosService
+                .Setup(m => m.GetRoom(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeEmptyResponse));
+
+            var customController = new AsbestosController(fakeCustomAsbestosService.Object,
+                                                        fakeControllerLogger.Object,
+                                                           fakeActionsLogger.Object);
+            var response = await customController.GetRoom("000000");
             Assert.Equal(404, response.StatusCode);
         }
 
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
-            var fakeResponse = new Room()
-            {
-                Id = 8546,
-                Description = "Second floor on the right"
-            };
             
-            var fakeCustomAsbestosService = new Mock<IAsbestosService>();
-            fakeCustomAsbestosService
-                .Setup(m => m.GetRoom(It.IsAny<string>()))
-                .Returns(Task.FromResult(fakeResponse));
-
-            var customController = new AsbestosController(fakeCustomAsbestosService.Object,
-                                                        fakeControllerLogger.Object,
-                                                           fakeActionsLogger.Object);
-
-            var response = JObject.FromObject((await customController.GetRoom("123456")).Value);
+            var response = JObject.FromObject((await controller.GetRoom("123456")).Value);
             var responseId = response["results"]["Id"].Value<int>();
             var responseDescription = response["results"]["Description"];
 

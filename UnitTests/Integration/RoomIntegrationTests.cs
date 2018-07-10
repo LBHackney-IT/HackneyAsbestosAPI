@@ -102,7 +102,7 @@ namespace UnitTests.Integration
             json.Append("\"errors\":");
             json.Append("[");
             json.Append("{");
-            json.Append("\"userMessage\":\"Please provide a valid rooom id\",");
+            json.Append("\"userMessage\":\"Please provide a valid room id\",");
             json.Append("\"developerMessage\":\"Invalid parameter - roomId\"");
             json.Append("}");
             json.Append("]");

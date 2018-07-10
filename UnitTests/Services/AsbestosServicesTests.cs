@@ -81,8 +81,8 @@ namespace UnitTests
 
                 fakeRoomResponse.Data = new Room()
                 {
-                    Id = 655655,
-                    Description = "Third floor"
+                    Id = 5003,
+                    Description = "Ground Floor"
                 };
 
                 fakeRepository
@@ -99,8 +99,8 @@ namespace UnitTests
             }
 
             responseData = await asbestosService.GetRoom("random string");
-            Assert.Equal(655655, responseData.Id);
-            Assert.Equal("Third floor", responseData.Description);
+            Assert.Equal(5003, responseData.Id);
+            Assert.Equal("Ground Floor", responseData.Description);
         }
     }
 }

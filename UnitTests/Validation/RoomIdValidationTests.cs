@@ -8,7 +8,6 @@ namespace UnitTests.Validation
     {
         [Theory]
         [InlineData("123456", true)]
-        [InlineData("1", false)]
         [InlineData("12345678", false)]
         [InlineData("abc", false)]
         [InlineData("A1234567", false)]

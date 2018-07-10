@@ -36,7 +36,7 @@ namespace LBHAsbestosAPI.Actions
             _logger.LogInformation($"Calling GetRoom() with {roomId}");
             Room room = await _asbestosService.GetRoom(roomId);
 
-            if (room.Id == 0)
+            if (room == null)
             {
                 _logger.LogError($"No rooms returned for {roomId}");
                 throw new MissingRoomException();
