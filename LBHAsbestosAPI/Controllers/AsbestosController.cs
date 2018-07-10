@@ -5,6 +5,7 @@ using LBHAsbestosAPI.Interfaces;
 using LBHAsbestosAPI.Builders;
 using LBHAsbestosAPI.Validators;
 using Microsoft.AspNetCore.Mvc;
+using LBHAsbestosAPI.Repositories;
 
 namespace LBHAsbestosAPI.Controllers
 {
@@ -67,7 +68,16 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (Exception ex)
             {
-                var developerMessage = ex.StackTrace;
+                string developerMessage;
+                if (ex is InvalidLoginException)
+                {
+                    developerMessage = ex.Message;
+                }
+                else
+                {
+                    developerMessage = ex.StackTrace;
+                }
+
                 var userMessage = "We had some problems processing your request";
 
                 var responseBuilder = new InspectionResponseBuilder();
