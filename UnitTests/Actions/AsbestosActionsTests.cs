@@ -46,10 +46,10 @@ namespace UnitTests
 
             fakeAsbestosService
                 .Setup(m => m.GetRoom(It.IsAny<string>()))
-                .Returns(Task.FromResult<Room>(fakeResponse));
+                .Returns(Task.FromResult(fakeResponse));
 
             var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-            var response = await asbestosAction.GetInspection("RandomId");
+            var response = await asbestosAction.GetRoom("RandomId");
 
             Assert.True(response is Room);
         }

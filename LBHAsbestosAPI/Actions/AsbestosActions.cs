@@ -31,6 +31,16 @@ namespace LBHAsbestosAPI.Actions
 
 			return lInspection;
 		}
+
+        public async Task<Room> GetRoom(string roomId)
+        {
+            _logger.LogInformation($"Calling GetRoom() with {roomId}");
+            Room room = await _asbestosService.GetRoom(roomId);
+
+            return room;
+        }
+
+
 	}
 
     public class MissingInspectionException : Exception { }
