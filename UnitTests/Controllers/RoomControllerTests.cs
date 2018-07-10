@@ -6,6 +6,7 @@ using LBHAsbestosAPI.Controllers;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 using Moq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
@@ -64,7 +65,7 @@ namespace UnitTests.Controllers
         {
             var fakeResponse = new Room()
             {
-                Id = 8456,
+                Id = 8546,
                 Description = "Second floor on the right"
             };
             
@@ -78,8 +79,8 @@ namespace UnitTests.Controllers
                                                            fakeActionsLogger.Object);
 
             var response = JObject.FromObject((await customController.GetRoom("123456")).Value);
-            var responseId = response["results"].First["Id"];
-            var responseDescription = response["results"].First["Description"];
+            var responseId = response["results"]["Id"].Value<int>();
+            var responseDescription = response["results"]["Description"];
 
             Assert.Equal(8546, responseId);
             Assert.Equal("Second floor on the right", responseDescription);

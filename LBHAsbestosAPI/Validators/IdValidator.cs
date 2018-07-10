@@ -25,9 +25,9 @@ namespace LBHAsbestosAPI.Validators
 
         public static bool ValidateRoomId(string roomId)
         {
-            var validIdLength = 6;
+            var validIdMaxLength = 7;
 
-            if (roomId.Length != validIdLength)
+            if (roomId.Length >= validIdMaxLength)
             {
                 return false;
             }

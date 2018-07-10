@@ -48,7 +48,26 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<RoomResponse> GetRoom(string roomId)
         {
-            throw new NotImplementedException();
+            if (roomId == "314159")
+            {
+                throw new Exception();
+            }
+            if (roomId == "000000")
+            {
+                throw new MissingRoomException();
+            }
+
+            var fakeRoomResponse = new RoomResponse()
+            {
+                Success = true,
+                Data = new Room()
+                {
+                    Id = 5003,
+                    Description = "Ground Floor"
+                }
+            };
+
+            return Task.FromResult(fakeRoomResponse);
         }
 
         public Task<bool> Login()

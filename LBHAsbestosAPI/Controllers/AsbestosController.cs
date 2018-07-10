@@ -89,7 +89,53 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("room/{roomId}")]
         public async Task<JsonResult> GetRoom(string roomId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var responseBuilder = new RoomResponseBuilder();
+                _logger.LogInformation($"Calling RoomIdValidator() with {roomId}");
+                if (!IdValidator.ValidateRoomId(roomId))
+                {
+                    _logger.LogError("roomId has not passed validation");
+                    var developerMessage = "Invalid parameter - roomId";
+                    var userMessage = "Please provide a valid room id";
+
+                    return responseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+
+                var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
+                var response = await _asbestosActions.GetRoom(roomId);
+
+                return responseBuilder.BuildSuccessResponse(response);
+            }
+            catch (MissingRoomException ex)
+            {
+                _logger.LogError("No room returned for roomId");
+                var developerMessage = ex.Message;
+                var userMessage = "Cannot find room";
+
+                var responseBuilder = new RoomResponseBuilder();
+                return responseBuilder.BuildErrorResponse(
+                userMessage, developerMessage, 404);
+            }
+            catch (Exception ex)
+            {
+                string developerMessage;
+                if (ex is InvalidLoginException)
+                {
+                    developerMessage = ex.Message;
+                }
+                else
+                {
+                    developerMessage = ex.StackTrace;
+                }
+
+                var userMessage = "We had some problems processing your request";
+
+                var responseBuilder = new RoomResponseBuilder();
+                return responseBuilder.BuildErrorResponse(
+                    userMessage, developerMessage, 500);
+            }
         }
     }
 }

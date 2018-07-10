@@ -28,7 +28,6 @@ namespace LBHAsbestosAPI.Actions
                 _logger.LogError($"No inspections returned for {propertyId}");
                 throw new MissingInspectionException();
             }
-
 			return lInspection;
 		}
 
@@ -37,11 +36,15 @@ namespace LBHAsbestosAPI.Actions
             _logger.LogInformation($"Calling GetRoom() with {roomId}");
             Room room = await _asbestosService.GetRoom(roomId);
 
+            if (room.Id == 0)
+            {
+                _logger.LogError($"No rooms returned for {roomId}");
+                throw new MissingRoomException();
+            }
             return room;
         }
-
-
 	}
 
     public class MissingInspectionException : Exception { }
+    public class MissingRoomException : Exception { }
 }

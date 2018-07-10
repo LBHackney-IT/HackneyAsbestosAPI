@@ -37,7 +37,6 @@ namespace UnitTests.Integration
         }
 
         [Theory]
-        [InlineData("1")]
         [InlineData("12345678")]
         [InlineData("abc")]
         [InlineData("A1234567")]
@@ -91,7 +90,6 @@ namespace UnitTests.Integration
         }
 
         [Theory]
-        [InlineData("1")]
         [InlineData("12345678")]
         [InlineData("abc")]
         [InlineData("A1234567")]

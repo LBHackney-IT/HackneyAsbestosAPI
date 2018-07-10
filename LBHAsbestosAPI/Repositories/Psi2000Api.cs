@@ -103,7 +103,6 @@ namespace LBHAsbestosAPI.Repositories
                 responseMessage.EnsureSuccessStatusCode();
 
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;
-
                 response = JsonConvert.DeserializeObject<InspectionResponse>(responseData);
             }
             return response;
@@ -131,7 +130,6 @@ namespace LBHAsbestosAPI.Repositories
                 responseMessage.EnsureSuccessStatusCode();
 
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;
-
                 response = JsonConvert.DeserializeObject<RoomResponse>(responseData);
             }
             return response;
