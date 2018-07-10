@@ -17,9 +17,10 @@ namespace LBHAsbestosAPI.Repositories
         static Cookie cookie;
         static string baseUri = Environment.GetEnvironmentVariable("PSI_TEST_BASE_URI");
         static string loginUri = baseUri + "login";
-        static string inspectionUri = baseUri + "api/inspections";
         static string apiUsername = Environment.GetEnvironmentVariable("PSI_TEST_USERNAME");
         static string apiPassword = Environment.GetEnvironmentVariable("PSI_TEST_PASSWORD");
+        static string inspectionUri = baseUri + "api/inspections";
+        static string roomUri = baseUri + "api/rooms/";
 
         ILoggerAdapter<Psi2000Api> _logger;
 
@@ -81,11 +82,10 @@ namespace LBHAsbestosAPI.Repositories
 
         public async Task<InspectionResponse> GetInspections(string propertyId)
         {
-            _logger.LogInformation($"Connecting to PSI for requesting inspections for the property id {propertyId}");
-            InspectionResponse response = new InspectionResponse();
-            var loginSuccess = await LoginIfCookieIsInvalid();
+            var response = new InspectionResponse();
+            var loginAction = await LoginIfCookieIsInvalid();
 
-            if (!loginSuccess)
+            if (!loginAction)
             {
                 throw new InvalidLoginException();
             }
@@ -106,13 +106,36 @@ namespace LBHAsbestosAPI.Repositories
 
                 response = JsonConvert.DeserializeObject<InspectionResponse>(responseData);
             }
-            _logger.LogInformation($"Response returned from PSI - Success: {response.Success}");
             return response;
         }
 
         public async Task<RoomResponse> GetRoom(string roomId)
         {
-            throw new NotImplementedException();
+            var response = new RoomResponse();
+            var loginAction = await LoginIfCookieIsInvalid();
+
+            if (!loginAction)
+            {
+                throw new InvalidLoginException();
+            }
+
+            var baseAddress = new Uri(roomUri + roomId);
+            var cookieContainer = new CookieContainer();
+            cookieContainer.Add(baseAddress, cookie);
+
+            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
+
+            using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
+            {
+                HttpResponseMessage responseMessage = client.GetAsync(baseAddress).Result;
+                responseMessage.EnsureSuccessStatusCode();
+
+                var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+
+                response = JsonConvert.DeserializeObject<RoomResponse>(responseData);
+            }
+            return response;
+
         }
 
         public IEnumerable<Floor> GetFloor(int floorId)
