@@ -14,13 +14,13 @@ using System.Text;
 
 namespace UnitTests.Integration
 {
-    public class AsbestosIntegrationTests
+    public class InspectionIntegrationTests
     {
         readonly TestServer _server;
         readonly HttpClient _client;
         string _baseUri;
 
-        public AsbestosIntegrationTests()
+        public InspectionIntegrationTests()
         {
             _server = new TestServer(new WebHostBuilder()
                                      .UseStartup<TestStartup>());

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace LBHAsbestosAPI.Repositories
 {
@@ -38,9 +39,8 @@ namespace LBHAsbestosAPI.Repositories
 					                                                  new StringContent("{\"UserName\":\"" + apiUsername + "\",\"Password\":\"" + apiPassword
 					                                                                    + "\"}"
 					                                                                    , Encoding.UTF8, "application/json"));
-
-
-					string cookieValue = "";
+					
+                    string cookieValue = "";
 					var headers = res.Headers;
 					IEnumerable<string> values;
 					if (headers.TryGetValues("Set-Cookie", out values))
@@ -75,24 +75,29 @@ namespace LBHAsbestosAPI.Repositories
         {
             _logger.LogInformation($"Connecting to PSI for requesting inspections for the property id {propertyId}");
             InspectionResponse response = new InspectionResponse();
-			if (cookie == null)
-			{
-				var logedIn = Login();
-                if (!logedIn.Result)
-                {
-					// login failed
-					return response;
-                }
-			}
-			if (cookie.Expired )
-			{
-				var logedIn = Login();
-				if (!logedIn.Result)
-				{
-					// login failed
-					return response;
-                }
-			}
+            var loginSuccess = await LoginIfCookieIsInvalid();
+            if (!loginSuccess)
+            {
+               o
+            }
+   //         if (cookie == null)
+			//{
+			//	var logedIn = Login();
+   //             if (!logedIn.Result)
+   //             {
+			//		// login failed
+			//		return response;
+   //             }
+			//}
+			//if (cookie.Expired )
+			//{
+			//	var logedIn = Login();
+			//	if (!logedIn.Result)
+			//	{
+			//		// login failed
+			//		return response;
+   //             }
+			//}
 
 			var inspections = new List<Inspection>();
 			var baseAddress = new Uri(inspectionUri + "?filter=(UPRN=\"" + propertyId + "\")");
@@ -117,12 +122,35 @@ namespace LBHAsbestosAPI.Repositories
         public async Task<RoomResponse> GetRoom(string roomId)
         {
             throw new NotImplementedException();
-            //return JsonConvert.DeserializeObject<RoomResponse>();
         }
 
         public IEnumerable<Floor> GetFloor(int floorId)
         {
             return new List<Floor>();
         }
-	}
+
+        private async Task<bool> LoginIfCookieIsInvalid()
+        {
+            if (cookie == null)
+            {
+                var logedIn = await Login();
+                var result = logedIn;
+                if (!logedIn)
+                {
+                    // login failed
+                    return false;
+                }
+            }
+            if (cookie.Expired)
+            {
+                var logedIn = await Login();
+                if (!logedIn)
+                {
+                    // login failed
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 }

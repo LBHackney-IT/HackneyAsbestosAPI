@@ -9,7 +9,7 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
-namespace UnitTests
+namespace UnitTests.Controllers
 {
     public class InspectionControllerTests
     {
