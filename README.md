@@ -37,7 +37,39 @@ GET /v1/inspection/
 
 ### List room details
 
-TODO
+Returns a room matching a room id.
+
+```
+GET /v1/room/
+```
+### Parameters
+
+- roomId (required)
+
+### Response
+
+```json
+{
+  "results": {
+    "id": 12345,
+    "floorId": 1234,
+    "description": "External",
+    "propertyId": 123456,
+    "orderId": null,
+    "uprn": 123456,
+    "isInspected": false,
+    "isDoesContainAsbestos": false,
+    "isDidContainAsbestos": false,
+    "isAnyToDos": true,
+    "createdBy": "TEST",
+    "modifiedBy": null,
+    "dateOfModification": null,
+    "dateOfCreation": "2011-02-16T16:29:10.107+00:00",
+    "isActive": true,
+    "isLiableToAsbestos": true
+  }
+}
+```
 
 ### List floor details
 
