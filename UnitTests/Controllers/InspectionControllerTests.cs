@@ -50,6 +50,7 @@ namespace UnitTests.Controllers
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
+        [InlineData("12 456")]
         public async Task return_400_for_invalid_request(string propertyId)
         {
             var response = await controller.GetInspection(propertyId);
@@ -105,6 +106,7 @@ namespace UnitTests.Controllers
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
+        [InlineData("12 456")]
         public async Task return_error_message_if_inspectionid_is_not_valid(string propertyId)
         {
             var response = JObject.FromObject((await controller.GetInspection(propertyId)).Value);
@@ -126,9 +128,11 @@ namespace UnitTests.Controllers
         }
 
         [Theory]
+        [InlineData("12345678910")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
+        [InlineData("12 456")]
         public async Task response_has_the_valid_format_if_request_unsuccessful(string propertyId)
         {
             var response = JObject.FromObject((await controller.GetInspection(propertyId)).Value);

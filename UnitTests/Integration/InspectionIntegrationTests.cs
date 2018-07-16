@@ -42,6 +42,7 @@ namespace UnitTests.Integration
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
+        [InlineData("12 456")]
         public async Task return_400_for_invalid_request(string inspectionId)
         {
             var result = await _client.GetAsync(_baseUri + inspectionId);
@@ -102,6 +103,7 @@ namespace UnitTests.Integration
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
+        [InlineData("12 456")]
         public async Task return_valid_json_for_invalid_requests(string inspectionId)
         {
             var json = new StringBuilder();
