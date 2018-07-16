@@ -21,51 +21,59 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<InspectionResponse> GetInspections(string propertyId)
         {
-            if (propertyId == "31415926")
+            if (propertyId.Length == 10)
             {
                 throw new Exception();
             }
-            if (propertyId == "00000000")
-            {
-                throw new MissingInspectionException();
-            }
 
-            var fakeInspectionResponse = new InspectionResponse()
+            var fakeInspectionresponse = new InspectionResponse()
             {
-                Success = true,
-                Data = new List<Inspection>()
+                Success = true
+            };
+
+            if (propertyId.Length == 9)
+            {
+                fakeInspectionresponse.Data = new List<Inspection>();
+            }
+            else 
+            {
+                fakeInspectionresponse.Data = new List<Inspection>()
                 {
                     new Inspection()
                     {
                         Id = 655,
                         LocationDescription = "A house"
                     }
-                }
-            };
+                };
+            }
 
-            return Task.FromResult(fakeInspectionResponse);
+            return Task.FromResult(fakeInspectionresponse);
         }
 
         public Task<RoomResponse> GetRoom(string roomId)
         {
-            if (roomId == "314159")
+            if (roomId.Length == 4)
             {
                 throw new Exception();
-            }
-            if (roomId == "000000")
-            {
-                throw new MissingRoomException();
             }
 
             var fakeRoomResponse = new RoomResponse()
             {
-                Success = true,
-                Data = new Room()
+                Success = true
+            };
+
+            if (roomId.Length == 5)
+            {
+                fakeRoomResponse.Data = null;
+            }
+            else
+            {
+                fakeRoomResponse.Data = new Room()
                 {
                     Id = 5003,
                     Description = "Ground Floor"
-                }
-            };
+                };
+            }
 
             return Task.FromResult(fakeRoomResponse);
         }

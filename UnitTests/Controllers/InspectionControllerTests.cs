@@ -46,8 +46,7 @@ namespace UnitTests.Controllers
         }
 
         [Theory]
-        [InlineData("1")]
-        [InlineData("123456789")]
+        [InlineData("12345678910")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
@@ -102,8 +101,7 @@ namespace UnitTests.Controllers
         }
 
         [Theory]
-        [InlineData("1")]
-        [InlineData("123456789")]
+        [InlineData("12345678910")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
@@ -128,8 +126,6 @@ namespace UnitTests.Controllers
         }
 
         [Theory]
-        //[InlineData("1")]
-        //[InlineData("123456789")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]

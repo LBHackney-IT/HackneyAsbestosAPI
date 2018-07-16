@@ -32,7 +32,9 @@ namespace UnitTests.Integration
         [Fact]
         public async Task return_200_for_valid_request()
         {
-            var result = await _client.GetAsync(_baseUri + "000001");
+            Random random = new Random();
+            var randomId = random.Next((int)Math.Pow(10,5), (int)Math.Pow(10,6) - 1);
+            var result = await _client.GetAsync(_baseUri + randomId);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
 
@@ -51,14 +53,18 @@ namespace UnitTests.Integration
         [Fact]
         public async Task return_404_if_request_successful_but_no_results()
         {
-            var result = await _client.GetAsync(_baseUri + "000000");
+            Random random = new Random();
+            var randomId = random.Next((int)Math.Pow(10, 4), (int)Math.Pow(10, 5) - 1);
+            var result = await _client.GetAsync(_baseUri + randomId);
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
         [Fact]
         public async Task return_500_when_internal_server_error()
         {
-            var result = await _client.GetAsync(_baseUri + "314159");
+            Random random = new Random();
+            var randomId = random.Next((int)Math.Pow(10, 3), (int)Math.Pow(10, 4) - 1);
+            var result = await _client.GetAsync(_baseUri + randomId);
             Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 

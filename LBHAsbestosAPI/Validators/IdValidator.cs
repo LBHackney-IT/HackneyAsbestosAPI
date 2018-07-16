@@ -10,9 +10,9 @@ namespace LBHAsbestosAPI.Validators
         public static bool ValidatePropertyId(string propertyId)
         {
             // TODO current validation constrains are temporal and have yet to be reviewed 
-            var validIdLength = 8;
+            var validIdMaxLength = 11;
 
-            if (propertyId.Length != validIdLength)
+            if (propertyId.Length >= validIdMaxLength)
             {
                 return false;
             }
