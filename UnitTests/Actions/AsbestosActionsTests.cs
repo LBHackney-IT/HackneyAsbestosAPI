@@ -8,7 +8,7 @@ using LBHAsbestosAPI.Interfaces;
 using Moq;
 using Xunit;
 
-namespace UnitTests
+namespace UnitTests.Actions
 {
     public class AsbestosActionsTests
     {

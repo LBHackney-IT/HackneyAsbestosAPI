@@ -10,12 +10,13 @@ using LBHAsbestosAPI.Services;
 using Moq;
 using Xunit;
 
-namespace UnitTests
+namespace UnitTests.Services
 {
     public class AsbestosServicesTests
     {
         Mock<ILoggerAdapter<AsbestosService>> fakeLogger;
         Mock<ILoggerAdapter<Psi2000Api>> fakePsiLogger;
+        IAsbestosService asbestosService;
 
         public AsbestosServicesTests()
         {
@@ -23,12 +24,10 @@ namespace UnitTests
             fakePsiLogger = new Mock<ILoggerAdapter<Psi2000Api>>();
         }
 
-        // TODO refractoring the two methods below
         [Fact]
         public async Task can_access_inspection_data_from_response()
         {
             IEnumerable<Inspection> responseData;
-            IAsbestosService asbestosService;
 
             // Case for the test running isolated from the other tests
             if (!TestStatus.IsRunningTests)
@@ -68,7 +67,6 @@ namespace UnitTests
         public async Task can_access_room_data_from_response()
         {
             Room responseData;
-            IAsbestosService asbestosService;
 
             // Case fof the test running isolated from the other thests
             if (!TestStatus.IsRunningTests)
