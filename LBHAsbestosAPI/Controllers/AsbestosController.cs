@@ -28,7 +28,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <summary>
         /// Gets a list of inspections for a particular property id
         /// </summary>
-        /// <param name="propertyId">An 8 digit number that identifies a property</param>
+        /// <param name="propertyId">A numeric string that identifies a property</param>
         /// <returns>A list of inspections matching the specified property id</returns>
         /// <response code="200">Returns the list of inspections</response>
         /// <response code ="404">If the property id does not return any inspections</response>
@@ -86,6 +86,16 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
+        // GET properties
+        /// <summary>
+        /// Gets a room for a particular room id
+        /// </summary>
+        /// <param name="roomId">A numeric string that identifies a room</param>
+        /// <returns>A room matching the specified room id</returns>
+        /// <response code="200">Returns a room</response>
+        /// <response code ="404">If the room id does not return any room</response>
+        /// <response code="400">If the room id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response> 
         [HttpGet("room/{roomId}")]
         public async Task<JsonResult> GetRoom(string roomId)
         {
