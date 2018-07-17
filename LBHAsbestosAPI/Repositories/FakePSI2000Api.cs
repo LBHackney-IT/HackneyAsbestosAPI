@@ -84,6 +84,11 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<bool> Login()
         {
+            //fakeRoomResponse.Data = new Floor()
+            //{
+            //    Id = 3434,
+            //    Description = "First Floor"
+            //};
             throw new NotImplementedException();
         }
     }
