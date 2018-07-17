@@ -4,10 +4,10 @@ namespace LBHAsbestosAPI.Entities
     public class Floor
     {
 		public virtual int Id { get; set; }
-		public virtual int Description { get; set; }
+		public virtual string Description { get; set; }
 		public virtual int PropertyId { get; set; }
 		public virtual int OrderId { get; set; }
-		public virtual int Uprn { get; set; }
+		public virtual string Uprn { get; set; }
 		public virtual bool IsInspected { get; set; }
 		public virtual bool IsDoesContainAsbestos { get; set; }
 		public virtual bool IsDidContainAsbestos { get; set; }
