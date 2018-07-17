@@ -133,7 +133,6 @@ namespace LBHAsbestosAPI.Repositories
                 response = JsonConvert.DeserializeObject<RoomResponse>(responseData);
             }
             return response;
-
         }
 
         public IEnumerable<Floor> GetFloor(int floorId)
