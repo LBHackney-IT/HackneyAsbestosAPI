@@ -41,6 +41,7 @@ namespace LBHAsbestosAPI.Controllers
             {
                 var responseBuilder = new InspectionResponseBuilder();
                 _logger.LogInformation($"Calling InspectionIdValidator() with {propertyId}");
+
                 if (!IdValidator.ValidatePropertyId(propertyId))
                 {
                     _logger.LogError("propertyId has not passed validation");
@@ -103,6 +104,7 @@ namespace LBHAsbestosAPI.Controllers
             {
                 var responseBuilder = new RoomResponseBuilder();
                 _logger.LogInformation($"Calling RoomIdValidator() with {roomId}");
+
                 if (!IdValidator.ValidateId(roomId))
                 {
                     _logger.LogError("roomId has not passed validation");
@@ -151,7 +153,54 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("floor/{floorId}")]
         public async Task<JsonResult> GetFloor(string floorId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var responseBuilder = new FloorResponseBuilder();
+                _logger.LogInformation($"Calling FloorIdValidator() with {floorId}");
+
+                if (!IdValidator.ValidateId(floorId))
+                {
+                    _logger.LogError("floorId has not passed validation");
+                    var developerMessage = "Invalid parameter - floorId";
+                    var userMessage = "Please provide a valid floor id";
+
+                    return responseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+
+                var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
+                var response = await _asbestosActions.GetFloor(floorId);
+
+                return responseBuilder.BuildSuccessResponse(response);
+            }
+            catch (MissingRoomException ex)
+            {
+                _logger.LogError("No floor returned for floorId");
+                var developerMessage = ex.Message;
+                var userMessage = "Cannot find floor";
+
+                var responseBuilder = new FloorResponseBuilder();
+                return responseBuilder.BuildErrorResponse(
+                userMessage, developerMessage, 404);
+            }
+            catch (Exception ex)
+            {
+                string developerMessage;
+                if (ex is InvalidLoginException)
+                {
+                    developerMessage = ex.Message;
+                }
+                else
+                {
+                    developerMessage = ex.StackTrace;
+                }
+
+                var userMessage = "We had some problems processing your request";
+
+                var responseBuilder = new RoomResponseBuilder();
+                return responseBuilder.BuildErrorResponse(
+                    userMessage, developerMessage, 500);
+            }
         }
     }
 }
