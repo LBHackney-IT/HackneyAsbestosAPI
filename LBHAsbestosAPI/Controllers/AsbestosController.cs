@@ -69,21 +69,7 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (Exception ex)
             {
-                string developerMessage;
-                if (ex is InvalidLoginException)
-                {
-                    developerMessage = ex.Message;
-                }
-                else
-                {
-                    developerMessage = ex.StackTrace;
-                }
-
-                var userMessage = "We had some problems processing your request";
-
-                var responseBuilder = new InspectionResponseBuilder();
-                return responseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, 500); 
+                return BuildErrorResponseFromException(ex);
             }
         }
 
@@ -132,21 +118,7 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (Exception ex)
             {
-                string developerMessage;
-                if (ex is InvalidLoginException)
-                {
-                    developerMessage = ex.Message;
-                }
-                else
-                {
-                    developerMessage = ex.StackTrace;
-                }
-
-                var userMessage = "We had some problems processing your request";
-
-                var responseBuilder = new RoomResponseBuilder();
-                return responseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, 500);
+                return BuildErrorResponseFromException(ex);
             }
         }
 
@@ -185,22 +157,27 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (Exception ex)
             {
-                string developerMessage;
-                if (ex is InvalidLoginException)
-                {
-                    developerMessage = ex.Message;
-                }
-                else
-                {
-                    developerMessage = ex.StackTrace;
-                }
-
-                var userMessage = "We had some problems processing your request";
-
-                var responseBuilder = new RoomResponseBuilder();
-                return responseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, 500);
+                return BuildErrorResponseFromException(ex);
             }
+        }
+
+        private JsonResult BuildErrorResponseFromException (Exception ex)
+        {
+            var userMessage = "We had some problems processing your request";
+            string developerMessage;
+
+            if (ex is InvalidLoginException)
+            {
+                developerMessage = ex.Message;
+            }
+            else
+            {
+                developerMessage = ex.StackTrace;
+            }
+
+            var responseBuilder = new RoomResponseBuilder();
+            return responseBuilder.BuildErrorResponse(
+                    userMessage, developerMessage, 500);
         }
     }
 }
