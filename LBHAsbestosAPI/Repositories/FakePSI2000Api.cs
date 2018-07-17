@@ -77,6 +77,11 @@ namespace LBHAsbestosAPI.Repositories
             return Task.FromResult(fakeRoomResponse);
         }
 
+        public Task<FloorResponse> GetFloor(string floorId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> Login()
         {
             throw new NotImplementedException();

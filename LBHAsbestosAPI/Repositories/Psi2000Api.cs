@@ -135,7 +135,7 @@ namespace LBHAsbestosAPI.Repositories
             return response;
         }
 
-        public IEnumerable<Floor> GetFloor(int floorId)
+        public Task<FloorResponse> GetFloor(string floorId)
         {
             throw new NotImplementedException();
         }

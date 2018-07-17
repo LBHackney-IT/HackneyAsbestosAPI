@@ -43,7 +43,12 @@ namespace LBHAsbestosAPI.Actions
             }
             return room;
         }
-    }
+
+        public async Task<Floor> GetFloor(string floorId)
+        {
+            throw new NotImplementedException();
+        }
+	}
 
     public class MissingInspectionException : Exception { }
 
