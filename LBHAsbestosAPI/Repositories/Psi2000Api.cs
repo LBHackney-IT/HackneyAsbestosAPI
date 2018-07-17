@@ -20,6 +20,7 @@ namespace LBHAsbestosAPI.Repositories
         static string apiPassword = Environment.GetEnvironmentVariable("PSI_TEST_PASSWORD");
         static string inspectionUri = baseUri + "api/inspections";
         static string roomUri = baseUri + "api/rooms/";
+        static string floorUri = baseUri + "api/floors/";
 
         ILoggerAdapter<Psi2000Api> _logger;
 
@@ -35,10 +36,12 @@ namespace LBHAsbestosAPI.Repositories
             {
                 try
                 {
-                    HttpResponseMessage httpResponse = await client.PostAsync(loginUri,
-                                                                      new StringContent("{\"UserName\":\"" + apiUsername + "\",\"Password\":\"" + apiPassword
-                                                                                        + "\"}"
-                                                                                        , Encoding.UTF8, "application/json"));
+                    var httpResponse = await client.PostAsync(
+                        loginUri, new StringContent(
+                            "{\"UserName\":\"" + apiUsername + 
+                            "\",\"Password\":\"" + apiPassword + 
+                            "\"}", Encoding.UTF8, "application/json"));
+                    
                     var response = JsonConvert.DeserializeObject<Response>(
                                     await httpResponse.Content.ReadAsStringAsync());
 
@@ -111,9 +114,30 @@ namespace LBHAsbestosAPI.Repositories
             return JsonConvert.DeserializeObject<RoomResponse>(responseData);
         }
 
-        public Task<FloorResponse> GetFloor(string floorId)
+        public async Task<FloorResponse> GetFloor(string floorId)
         {
-            throw new NotImplementedException();
+            var response = new FloorResponse();
+            var loginAction = await LoginIfCookieIsInvalid();
+
+            if (!loginAction)
+            {
+                throw new InvalidLoginException();
+            }
+
+            var baseAddress = new Uri(floorUri + floorId);
+            var responseData = GetResponseData(baseAddress);
+
+
+            //try
+            //{
+            //    var test = JsonConvert.DeserializeObject<FloorResponse>(responseData);
+            //}
+            //catch (Exception ex)
+            //{
+            //    var a = ex.Message;
+            //}
+
+            return JsonConvert.DeserializeObject<FloorResponse>(responseData);
         }
 
         private async Task<bool> LoginIfCookieIsInvalid()

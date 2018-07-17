@@ -6,14 +6,13 @@ using LBHAsbestosAPI.Interfaces;
 
 namespace LBHAsbestosAPI.Repositories
 {
+    
     public class FakePSI2000Api: IPsi2000Api
     {
-        public IEnumerable<Element> GetElement(int elementId)
-        {
-            throw new NotImplementedException();
-        }
+        static int triggerExceptionIdLength = 4;
+        static int nullResponseIdLength = 5;
 
-        public IEnumerable<Floor> GetFloor(int floorId)
+        public IEnumerable<Element> GetElement(int elementId)
         {
             throw new NotImplementedException();
         }
@@ -51,7 +50,7 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<RoomResponse> GetRoom(string roomId)
         {
-            if (roomId.Length == 4)
+            if (roomId.Length == triggerExceptionIdLength)
             {
                 throw new Exception();
             }
@@ -61,7 +60,7 @@ namespace LBHAsbestosAPI.Repositories
                 Success = true
             };
 
-            if (roomId.Length == 5)
+            if (roomId.Length == nullResponseIdLength)
             {
                 fakeRoomResponse.Data = null;
             }
@@ -79,16 +78,34 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<FloorResponse> GetFloor(string floorId)
         {
-            throw new NotImplementedException();
+            if (floorId.Length == triggerExceptionIdLength)
+            {
+                throw new Exception();
+            }
+
+            var fakeFloorResponse = new FloorResponse()
+            {
+                Success = true
+            };
+
+            if (floorId.Length == nullResponseIdLength)
+            {
+                fakeFloorResponse.Data = null;
+            }
+            else
+            {
+                fakeFloorResponse.Data = new Floor()
+                {
+                    Id = 3434,
+                    Description = "First Floor"
+                };
+            }
+
+            return Task.FromResult(fakeFloorResponse);
         }
 
         public Task<bool> Login()
         {
-            //fakeRoomResponse.Data = new Floor()
-            //{
-            //    Id = 3434,
-            //    Description = "First Floor"
-            //};
             throw new NotImplementedException();
         }
     }
