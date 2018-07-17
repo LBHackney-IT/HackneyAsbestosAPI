@@ -77,7 +77,6 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
-            
             var response = JObject.FromObject((await controller.GetRoom("123456")).Value);
             var responseId = response["results"]["Id"].Value<int>();
             var responseDescription = response["results"]["Description"];

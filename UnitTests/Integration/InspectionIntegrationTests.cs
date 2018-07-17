@@ -16,16 +16,16 @@ namespace UnitTests.Integration
 {
     public class InspectionIntegrationTests
     {
-        readonly TestServer _server;
-        readonly HttpClient _client;
-        string _baseUri;
+        readonly TestServer server;
+        readonly HttpClient client;
+        string baseUri;
 
         public InspectionIntegrationTests()
         {
-            _server = new TestServer(new WebHostBuilder()
+            server = new TestServer(new WebHostBuilder()
                                      .UseStartup<TestStartup>());
-            _client = _server.CreateClient();
-            _baseUri = "api/v1/inspection/";
+            client = server.CreateClient();
+            baseUri = "api/v1/inspection/";
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace UnitTests.Integration
         {
             Random random = new Random();
             var randomId = random.Next((int)Math.Pow(10, 7), (int)(Math.Pow(10, 8) - 1));
-            var result = await _client.GetAsync(_baseUri + randomId);
+            var result = await client.GetAsync(baseUri + randomId);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
 
@@ -45,7 +45,7 @@ namespace UnitTests.Integration
         [InlineData("12 456")]
         public async Task return_400_for_invalid_request(string inspectionId)
         {
-            var result = await _client.GetAsync(_baseUri + inspectionId);
+            var result = await client.GetAsync(baseUri + inspectionId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
@@ -54,7 +54,7 @@ namespace UnitTests.Integration
         {
             Random random = new Random();
             var randomId = random.Next((int)Math.Pow(10, 8), (int)(Math.Pow(10, 9) - 1));
-            var result = await _client.GetAsync(_baseUri + randomId);
+            var result = await client.GetAsync(baseUri + randomId);
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
@@ -63,7 +63,7 @@ namespace UnitTests.Integration
         {
             Random random = new Random();
             var randomId = random.Next((int)Math.Pow(10, 9), (int)Math.Pow(10, 10) - 1);
-            var result = await _client.GetAsync(_baseUri + randomId);
+            var result = await client.GetAsync(baseUri + randomId);
             Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 
@@ -93,7 +93,7 @@ namespace UnitTests.Integration
             {
                 ContractResolver = contractResolver
             });
-            var result = await _client.GetStringAsync(_baseUri + "00000001");
+            var result = await client.GetStringAsync(baseUri + "00000001");
 
             Assert.Equal(expectedStringResult, result);
         }
@@ -117,7 +117,7 @@ namespace UnitTests.Integration
             json.Append("]");
             json.Append("}");
 
-            var result = await _client.GetAsync(_baseUri + inspectionId);
+            var result = await client.GetAsync(baseUri + inspectionId);
             var resultString = await result.Content.ReadAsStringAsync();
             Assert.Equal(json.ToString(), resultString);
         }

@@ -37,7 +37,5 @@ namespace LBHAsbestosAPI.Validators
             }
             return true;
         }
-
-
     }
 }
