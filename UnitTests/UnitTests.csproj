@@ -27,4 +27,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="Integration\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Validation\RoomIdValidationTests.cs" />
+  </ItemGroup>
 </Project>
