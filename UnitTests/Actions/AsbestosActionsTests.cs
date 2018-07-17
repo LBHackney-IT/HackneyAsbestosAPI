@@ -53,5 +53,20 @@ namespace UnitTests.Actions
 
             Assert.True(response is Room);
         }
+
+        [Fact]
+        public async Task return_type_should_be_floor()
+        {
+            var fakeResponse = new Floor();
+
+            fakeAsbestosService
+                .Setup(m => m.GetFloor(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeResponse));
+
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+            var response = await asbestosAction.GetFloor("RandomId");
+
+            Assert.True(response is Floor);
+        }
     }
 }
