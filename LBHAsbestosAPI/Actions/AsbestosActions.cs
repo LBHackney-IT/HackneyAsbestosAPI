@@ -46,7 +46,15 @@ namespace LBHAsbestosAPI.Actions
 
         public async Task<Floor> GetFloor(string floorId)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Calling Getfloor() with {floorId}");
+            Floor floor = await _asbestosService.GetFloor(floorId);
+
+            if (floor == null)
+            {
+                _logger.LogError($"No rooms returned for {floorId}");
+                throw new MissingRoomException();
+            }
+            return floor;
         }
 	}
 
