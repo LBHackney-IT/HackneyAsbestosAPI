@@ -29,5 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Validation\RoomIdValidationTests.cs" />
+    <Compile Remove="Validation\RoomIdValidationTests.cs" />
   </ItemGroup>
 </Project>
