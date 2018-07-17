@@ -52,6 +52,7 @@ namespace LBHAsbestosAPI.Repositories
                     string cookieValue = "";
                     var headers = httpResponse.Headers;
                     IEnumerable<string> values;
+
                     if (headers.TryGetValues("Set-Cookie", out values))
                     {
                         cookieValue = values.First();
@@ -60,7 +61,6 @@ namespace LBHAsbestosAPI.Repositories
                     var headerValues = cookieValue.Split(";");
                     cookieValue = headerValues[0].Split("=")[1];
                     string cookieKey = headerValues[0].Split("=")[0];
-
 
                     cookie = new Cookie(cookieKey, cookieValue);
                     cookie.Expires = DateTime.Now.AddMinutes(19);
@@ -133,12 +133,11 @@ namespace LBHAsbestosAPI.Repositories
                 response = JsonConvert.DeserializeObject<RoomResponse>(responseData);
             }
             return response;
-
         }
 
-        public IEnumerable<Floor> GetFloor(int floorId)
+        public Task<FloorResponse> GetFloor(string floorId)
         {
-            return new List<Floor>();
+            throw NotImplementedException;
         }
 
         private async Task<bool> LoginIfCookieIsInvalid()

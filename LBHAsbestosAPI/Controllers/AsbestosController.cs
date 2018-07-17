@@ -147,5 +147,11 @@ namespace LBHAsbestosAPI.Controllers
                     userMessage, developerMessage, 500);
             }
         }
+
+        [HttpGet("floor/{floorId}")]
+        public async Task<JsonResult> GetFloor(string floorId)
+        {
+            throw NotImplementedException;
+        }
     }
 }
