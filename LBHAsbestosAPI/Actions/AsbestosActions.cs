@@ -46,7 +46,7 @@ namespace LBHAsbestosAPI.Actions
 
         public async Task<Floor> GetFloor(string floorId)
         {
-            throw NotImplementedException;
+            throw new NotImplementedException();
         }
 	}
 

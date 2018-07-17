@@ -151,7 +151,7 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("floor/{floorId}")]
         public async Task<JsonResult> GetFloor(string floorId)
         {
-            throw NotImplementedException;
+            throw new NotImplementedException();
         }
     }
 }
