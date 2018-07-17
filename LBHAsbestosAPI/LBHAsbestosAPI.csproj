@@ -45,6 +45,7 @@
     <Compile Remove="TempStuff\IResponseMessageBuilder.cs" />
     <Compile Remove="Controllers\ApiErrorMessage.cs" />
     <Compile Remove="Logging\LoggerFactory.cs" />
+    <Compile Remove="Actions\IAsbestosActions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="NLog.config" />

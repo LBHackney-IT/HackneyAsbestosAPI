@@ -48,7 +48,9 @@ namespace LBHAsbestosAPI.Services
 
         public async Task<Floor> GetFloor(string floorId)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Calling GetFloor with {floorId}");
+            FloorResponse response = await _api.GetFloor(floorId);
+            return response.Data;
         }
     }
 }
