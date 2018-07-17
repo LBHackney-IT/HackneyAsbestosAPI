@@ -103,7 +103,7 @@ namespace LBHAsbestosAPI.Controllers
             {
                 var responseBuilder = new RoomResponseBuilder();
                 _logger.LogInformation($"Calling RoomIdValidator() with {roomId}");
-                if (!IdValidator.ValidateRoomId(roomId))
+                if (!IdValidator.ValidateId(roomId))
                 {
                     _logger.LogError("roomId has not passed validation");
                     var developerMessage = "Invalid parameter - roomId";

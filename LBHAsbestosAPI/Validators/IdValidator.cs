@@ -23,15 +23,15 @@ namespace LBHAsbestosAPI.Validators
             return true;
         }
 
-        public static bool ValidateRoomId(string roomId)
+        public static bool ValidateId(string id)
         {
             var validIdMaxLength = 7;
 
-            if (roomId.Length >= validIdMaxLength)
+            if (id.Length >= validIdMaxLength)
             {
                 return false;
             }
-            if (roomId.Any(c => !char.IsDigit(c)))
+            if (id.Any(c => !char.IsDigit(c)))
             {
                 return false;
             }

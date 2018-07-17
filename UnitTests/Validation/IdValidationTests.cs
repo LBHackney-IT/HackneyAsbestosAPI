@@ -26,10 +26,10 @@ namespace UnitTests.Validation
         [InlineData("A1234567", false)]
         [InlineData("1!234567", false)]
         [InlineData("12 456", false)]
-        public void return_boolean_if_roomid_is_valid(string roomId, bool expected)
+        public void return_boolean_if_id_is_valid(string roomId, bool expected)
         {
-            var validationResult = IdValidator.ValidateRoomId(roomId);
+            var validationResult = IdValidator.ValidateId(roomId);
             Assert.Equal(expected, validationResult);
-        } 
+        }
     }
 }
