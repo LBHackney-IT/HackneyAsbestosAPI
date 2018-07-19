@@ -7,7 +7,7 @@ using LBHAsbestosAPI.Interfaces;
 
 namespace LBHAsbestosAPI.Actions
 {
-	public class AsbestosActions : IAsbestosActions
+    public class AsbestosActions : IAsbestosActions
     {
         IAsbestosService _asbestosService;
         ILoggerAdapter<AsbestosActions> _logger;
@@ -43,7 +43,7 @@ namespace LBHAsbestosAPI.Actions
             }
             return room;
         }
-	}
+    }
 
     public class MissingInspectionException : Exception { }
     public class MissingRoomException : Exception { }
