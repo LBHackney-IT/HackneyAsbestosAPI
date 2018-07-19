@@ -36,7 +36,7 @@ namespace LBHAsbestosAPI.Repositories
             {
                 try
                 {
-                    HttpResponseMessage httpResponse = await client.PostAsync(loginUri,
+                    var httpResponse = await client.PostAsync(loginUri,
                                                                       new StringContent("{\"UserName\":\"" + apiUsername + "\",\"Password\":\"" + apiPassword
                                                                                         + "\"}"
                                                                                         , Encoding.UTF8, "application/json"));
@@ -99,7 +99,7 @@ namespace LBHAsbestosAPI.Repositories
 
             using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
             {
-                HttpResponseMessage responseMessage = client.GetAsync(baseAddress).Result;
+                var responseMessage = client.GetAsync(baseAddress).Result;
                 responseMessage.EnsureSuccessStatusCode();
 
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;
@@ -126,7 +126,7 @@ namespace LBHAsbestosAPI.Repositories
 
             using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
             {
-                HttpResponseMessage responseMessage = client.GetAsync(baseAddress).Result;
+                var responseMessage = client.GetAsync(baseAddress).Result;
                 responseMessage.EnsureSuccessStatusCode();
 
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;

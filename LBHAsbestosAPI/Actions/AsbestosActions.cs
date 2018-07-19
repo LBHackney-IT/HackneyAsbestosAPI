@@ -21,7 +21,7 @@ namespace LBHAsbestosAPI.Actions
 		public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
 		{
             _logger.LogInformation($"Calling GetInspection() with {propertyId}");
-			IEnumerable<Inspection> lInspection = await _asbestosService.GetInspection(propertyId);
+			var lInspection = await _asbestosService.GetInspection(propertyId);
 
             if (lInspection.Any() == false)
             {
@@ -34,7 +34,7 @@ namespace LBHAsbestosAPI.Actions
         public async Task<Room> GetRoom(string roomId)
         {
             _logger.LogInformation($"Calling GetRoom() with {roomId}");
-            Room room = await _asbestosService.GetRoom(roomId);
+            var room = await _asbestosService.GetRoom(roomId);
 
             if (room == null)
             {
@@ -46,5 +46,6 @@ namespace LBHAsbestosAPI.Actions
 	}
 
     public class MissingInspectionException : Exception { }
+
     public class MissingRoomException : Exception { }
 }
