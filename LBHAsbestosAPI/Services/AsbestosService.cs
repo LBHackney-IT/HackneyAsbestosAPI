@@ -39,15 +39,15 @@ namespace LBHAsbestosAPI.Services
 		public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
 		{
             _logger.LogInformation($"Calling GetInspections() with {propertyId}");
-			InspectionResponse response = await _api.GetInspections(propertyId);
-            List<Inspection> responseInspections = response.Data;
+			var response = await _api.GetInspections(propertyId);
+            var responseInspections = response.Data;
 			return responseInspections;
 		}
 
         public async Task<Room> GetRoom(string roomId)
 		{
             _logger.LogInformation($"Calling GetRoom with {roomId}");
-            RoomResponse response = await _api.GetRoom(roomId);
+            var response = await _api.GetRoom(roomId);
             return response.Data;
 		}
 	}
