@@ -6,7 +6,7 @@ using LBHAsbestosAPI.Interfaces;
 
 namespace LBHAsbestosAPI.Repositories
 {
-    public class FakePSI2000Api: IPsi2000Api
+    public class FakePSI2000Api : IPsi2000Api
     {
         public IEnumerable<Element> GetElement(int elementId)
         {
@@ -22,7 +22,7 @@ namespace LBHAsbestosAPI.Repositories
         {
             if (propertyId.Length == 10)
             {
-                throw new Exception();
+                throw new TextExceptionInFakePSI();
             }
 
             var fakeInspectionresponse = new InspectionResponse()
@@ -34,7 +34,7 @@ namespace LBHAsbestosAPI.Repositories
             {
                 fakeInspectionresponse.Data = new List<Inspection>();
             }
-            else 
+            else
             {
                 fakeInspectionresponse.Data = new List<Inspection>()
                 {
@@ -53,7 +53,7 @@ namespace LBHAsbestosAPI.Repositories
         {
             if (roomId.Length == 4)
             {
-                throw new Exception();
+                throw new TextExceptionInFakePSI();
             }
 
             var fakeRoomResponse = new RoomResponse()
@@ -82,4 +82,6 @@ namespace LBHAsbestosAPI.Repositories
             throw new NotImplementedException();
         }
     }
+
+    public class TextExceptionInFakePSI : Exception { }
 }

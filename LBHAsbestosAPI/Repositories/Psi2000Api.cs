@@ -137,7 +137,7 @@ namespace LBHAsbestosAPI.Repositories
 
         public IEnumerable<Floor> GetFloor(int floorId)
         {
-            return new List<Floor>();
+            throw new NotImplementedException();
         }
 
         private async Task<bool> LoginIfCookieIsInvalid()

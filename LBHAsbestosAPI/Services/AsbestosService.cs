@@ -40,8 +40,8 @@ namespace LBHAsbestosAPI.Services
 		{
             _logger.LogInformation($"Calling GetInspections() with {propertyId}");
 			InspectionResponse response = await _api.GetInspections(propertyId);
-            List<Inspection> r = response.Data;
-			return r;
+            List<Inspection> responseInspections = response.Data;
+			return responseInspections;
 		}
 
         public async Task<Room> GetRoom(string roomId)
