@@ -7,7 +7,7 @@ using LBHAsbestosAPI.Interfaces;
 
 namespace LBHAsbestosAPI.Actions
 {
-	public class AsbestosActions : IAsbestosActions
+    public class AsbestosActions : IAsbestosActions
     {
         IAsbestosService _asbestosService;
         ILoggerAdapter<AsbestosActions> _logger;
@@ -21,17 +21,31 @@ namespace LBHAsbestosAPI.Actions
 		public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
 		{
             _logger.LogInformation($"Calling GetInspection() with {propertyId}");
-			IEnumerable<Inspection> lInspection = await _asbestosService.GetInspection(propertyId);
+			var lInspection = await _asbestosService.GetInspection(propertyId);
 
             if (lInspection.Any() == false)
             {
                 _logger.LogError($"No inspections returned for {propertyId}");
                 throw new MissingInspectionException();
             }
-
 			return lInspection;
 		}
-	}
+
+        public async Task<Room> GetRoom(string roomId)
+        {
+            _logger.LogInformation($"Calling GetRoom() with {roomId}");
+            var room = await _asbestosService.GetRoom(roomId);
+
+            if (room == null)
+            {
+                _logger.LogError($"No rooms returned for {roomId}");
+                throw new MissingRoomException();
+            }
+            return room;
+        }
+    }
 
     public class MissingInspectionException : Exception { }
+
+    public class MissingRoomException : Exception { }
 }

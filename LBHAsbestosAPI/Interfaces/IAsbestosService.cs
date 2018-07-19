@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
@@ -9,7 +9,7 @@ namespace LBHAsbestosAPI.Interfaces
     {
 		Task<IEnumerable<Inspection>> GetInspection(string propertyId);
 		Task<IEnumerable<Floor>> GetFloor(int floorId);
-		Task<IEnumerable<Room>> GetRoom(int roomId);
+		Task<Room> GetRoom(string roomId);
 		Task<IEnumerable<Element>> GetElements(int elementId);
     }
 }

@@ -8,28 +8,50 @@ using LBHAsbestosAPI.Interfaces;
 using Moq;
 using Xunit;
 
-namespace UnitTests
+namespace UnitTests.Actions
 {
     public class AsbestosActionsTests
     {
-        [Fact]
-        public async Task return_type_list_of_inspections()
+        Mock<ILoggerAdapter<AsbestosActions>> fakeLogger;
+        Mock<IAsbestosService> fakeAsbestosService;
+
+        public AsbestosActionsTests()
         {
-            var fakeLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
+            fakeLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
+            fakeAsbestosService = new Mock<IAsbestosService>();
+        }
+
+        [Fact]
+        public async Task return_type_should_be_list_of_inspections()
+        {
             var fakeResponse = new List<Inspection>()
             {
-                { new Inspection() }
+                new Inspection()
             };
 
-            var fakeAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
             var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-            var response = await asbestosAction.GetInspection("Random string");
+            var response = await asbestosAction.GetInspection("RandomId");
 
-            Assert.IsType(typeof(List<Inspection>), response);
+            Assert.True(response is List<Inspection>);
+        }
+
+        [Fact]
+        public async Task return_type_should_be_room()
+        {
+            var fakeResponse = new Room();
+
+            fakeAsbestosService
+                .Setup(m => m.GetRoom(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeResponse));
+
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+            var response = await asbestosAction.GetRoom("RandomId");
+
+            Assert.True(response is Room);
         }
     }
 }

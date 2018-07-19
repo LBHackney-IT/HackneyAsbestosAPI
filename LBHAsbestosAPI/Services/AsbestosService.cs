@@ -39,14 +39,16 @@ namespace LBHAsbestosAPI.Services
 		public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
 		{
             _logger.LogInformation($"Calling GetInspections() with {propertyId}");
-			InspectionResponse response = await _api.GetInspections(propertyId);
-            List<Inspection> r = response.Data;
-			return r;
+			var response = await _api.GetInspections(propertyId);
+            var responseInspections = response.Data;
+			return responseInspections;
 		}
 
-		public Task<IEnumerable<Room>> GetRoom(int roomId)
+        public async Task<Room> GetRoom(string roomId)
 		{
-			throw new NotImplementedException();
+            _logger.LogInformation($"Calling GetRoom with {roomId}");
+            var response = await _api.GetRoom(roomId);
+            return response.Data;
 		}
 	}
 }

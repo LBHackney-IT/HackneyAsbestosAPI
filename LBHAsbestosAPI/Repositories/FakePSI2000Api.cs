@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 
 namespace LBHAsbestosAPI.Repositories
 {
-    public class FakePSI2000Api: IPsi2000Api
+    public class FakePSI2000Api : IPsi2000Api
     {
         public IEnumerable<Element> GetElement(int elementId)
         {
@@ -21,34 +20,61 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<InspectionResponse> GetInspections(string propertyId)
         {
-            if (propertyId == "31415926")
+            if (propertyId.Length == 10)
             {
-                throw new Exception();
-            }
-            if (propertyId == "00000000")
-            {
-                throw new MissingInspectionException();
+                throw new TextExceptionInFakePSI();
             }
 
-            var fakeInspectionResponse = new InspectionResponse()
+            var fakeInspectionresponse = new InspectionResponse()
             {
-                Success = true,
-                Data = new List<Inspection>()
+                Success = true
+            };
+
+            if (propertyId.Length == 9)
+            {
+                fakeInspectionresponse.Data = new List<Inspection>();
+            }
+            else
+            {
+                fakeInspectionresponse.Data = new List<Inspection>()
                 {
                     new Inspection()
                     {
                         Id = 655,
                         LocationDescription = "A house"
                     }
-                }
-            };
+                };
+            }
 
-            return Task.FromResult(fakeInspectionResponse);
+            return Task.FromResult(fakeInspectionresponse);
         }
 
-        public IEnumerable<Room> GetRoom(int roomId)
+        public Task<RoomResponse> GetRoom(string roomId)
         {
-            throw new NotImplementedException();
+            if (roomId.Length == 4)
+            {
+                throw new TextExceptionInFakePSI();
+            }
+
+            var fakeRoomResponse = new RoomResponse()
+            {
+                Success = true
+            };
+
+            if (roomId.Length == 5)
+            {
+                fakeRoomResponse.Data = null;
+            }
+            else
+            {
+                fakeRoomResponse.Data = new Room()
+                {
+                    Id = 5003,
+                    Description = "Ground Floor"
+                };
+            }
+
+            return Task.FromResult(fakeRoomResponse);
         }
 
         public Task<bool> Login()
@@ -56,4 +82,6 @@ namespace LBHAsbestosAPI.Repositories
             throw new NotImplementedException();
         }
     }
+
+    public class TextExceptionInFakePSI : Exception { }
 }

@@ -9,97 +9,91 @@ using Moq;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
-namespace UnitTests
+namespace UnitTests.Controllers
 {
-    public class AbestosControllerTests
+    public class InspectionControllerTests
     {
         Mock<ILoggerAdapter<AsbestosActions>> fakeActionsLogger;
         Mock<ILoggerAdapter<AsbestosController>> fakeControllerLogger;
+        Mock<IAsbestosService> fakeAsbestosService;
+        AsbestosController controller;
 
-        public AbestosControllerTests()
+        public InspectionControllerTests()
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
+
+            var fakeResponse = new List<Inspection>()
+            {
+                new Inspection()
+            };
+
+            fakeAsbestosService = new Mock<IAsbestosService>();
+            fakeAsbestosService
+                .Setup(m => m.GetInspection(It.IsAny<string>()))
+                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
+
+            controller = new AsbestosController(fakeAsbestosService.Object, 
+                                                    fakeControllerLogger.Object,
+                                                    fakeActionsLogger.Object);
         }
 
         [Fact]
         public async Task return_200_for_valid_request()
         {
-            var fakeResponse = new List<Inspection>()
-            {
-                { new Inspection() }
-            };
-
-            var fakeAsbestosService = new Mock<IAsbestosService>();
-            fakeAsbestosService
-                .Setup(m => m.GetInspection(It.IsAny<string>()))
-                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
-
-            var controller = new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
-                                                    fakeActionsLogger.Object);
-
             var response = await controller.GetInspection("12345678");
             Assert.Equal(200, response.StatusCode);
         }
 
         [Theory]
-        [InlineData("1")]
-        [InlineData("123456789")]
+        [InlineData("12345678910")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
+        [InlineData("12 456")]
         public async Task return_400_for_invalid_request(string propertyId)
         {
-            var fakeResponse = new List<Inspection>();
-            var fakeAsbestosService = new Mock<IAsbestosService>();
-            fakeAsbestosService
-                .Setup(m => m.GetInspection(It.IsAny<string>()))
-                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
-
-            var controller = new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
-                                                    fakeActionsLogger.Object);
             var response = await controller.GetInspection(propertyId);
-
             Assert.Equal(400, response.StatusCode);
         }
 
         [Fact]
         public async Task return_404_if_request_is_successful_but_no_results()
         {
-            var fakeResponse = new List<Inspection>();
-            var fakeAsbestosService = new Mock<IAsbestosService>();
+            var fakeEmptyResponse = new List<Inspection>();
+            var fakeCustomAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
-                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
+                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeEmptyResponse));
 
-            var controller = new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+            var CustomController = new AsbestosController(fakeCustomAsbestosService.Object, fakeControllerLogger.Object,
                                                     fakeActionsLogger.Object);
-            var response = await controller.GetInspection("00000000");
-
+            var response = await CustomController.GetInspection("00000000");
             Assert.Equal(404, response.StatusCode);
         }
 
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
-            var fakeResponse = new List<Inspection>
+            var fakeResponse = new List<Inspection>()
             {
-                new Inspection()
-                {
-                    Id = 433,
-                    LocationDescription = "Under the bridge"
-                }
+                { new Inspection()
+                    {
+                        Id = 433,
+                        LocationDescription = "Under the bridge"
+                    }}
             };
 
-            var fakeAsbestosService = new Mock<IAsbestosService>();
-            fakeAsbestosService
+            var fakeCustomAsbestosService = new Mock<IAsbestosService>();
+            fakeCustomAsbestosService
                 .Setup(m => m.GetInspection(It.IsAny<string>()))
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
-            AsbestosController controller = new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
-                                                                   fakeActionsLogger.Object);
-            var response = JObject.FromObject((await controller.GetInspection("12345678")).Value);
+            var customController = new AsbestosController(fakeCustomAsbestosService.Object,
+                                                        fakeControllerLogger.Object,
+                                                           fakeActionsLogger.Object);
 
+            var response = JObject.FromObject((await customController.GetInspection("12345678")).Value);
             var responseId = response["results"][0]["Id"];
             var responseLocationDescription = response["results"][0]["LocationDescription"];
 
@@ -108,17 +102,13 @@ namespace UnitTests
         }
 
         [Theory]
-        [InlineData("1")]
-        [InlineData("123456789")]
+        [InlineData("12345678910")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
+        [InlineData("12 456")]
         public async Task return_error_message_if_inspectionid_is_not_valid(string propertyId)
         {
-            var fakeAsbestosService = new Mock<IAsbestosService>();
-            var controller = new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
-                                                    fakeActionsLogger.Object);
-
             var response = JObject.FromObject((await controller.GetInspection(propertyId)).Value);
             var userMessage = response["errors"].First["userMessage"].ToString();
             var developerMessage = response["errors"].First["developerMessage"].ToString();
@@ -130,19 +120,22 @@ namespace UnitTests
             Assert.Equal(expectedDeveloperMessage, developerMessage);
         }
 
+        [Fact]
+        public async Task response_has_the_valid_format_if_request_successful()
+        {
+            var response = JObject.FromObject((await controller.GetInspection("12345678")).Value);
+            Assert.NotNull(response["results"]);
+        }
+
         [Theory]
-        [InlineData("1")]
-        [InlineData("123456789")]
+        [InlineData("12345678910")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
+        [InlineData("12 456")]
         public async Task response_has_the_valid_format_if_request_unsuccessful(string propertyId)
         {
-            var fakeAsbestosService = new Mock<IAsbestosService>();
-            var controller = new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
-                                                    fakeActionsLogger.Object);
             var response = JObject.FromObject((await controller.GetInspection(propertyId)).Value);
-
             Assert.NotNull(response["errors"]);
         }
     }
