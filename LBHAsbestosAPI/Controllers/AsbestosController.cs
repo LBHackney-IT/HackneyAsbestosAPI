@@ -124,12 +124,12 @@ namespace LBHAsbestosAPI.Controllers
 
         // GET properties
         /// <summary>
-        /// Gets a room for a particular floor id
+        /// Gets a floor for a particular floor id
         /// </summary>
         /// <param name="floorId">A numeric string that identifies a floor</param>
-        /// <returns>A room matching the specified floor id</returns>
+        /// <returns>A floor matching the specified floor id</returns>
         /// <response code="200">Returns a floor</response>
-        /// <response code="404">If the room id does not return any floor</response>
+        /// <response code="404">If the floor id does not return any floor</response>
         /// <response code="400">If the floor id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
         [HttpGet("floor/{floorId}")]
@@ -155,7 +155,7 @@ namespace LBHAsbestosAPI.Controllers
 
                 return responseBuilder.BuildSuccessResponse(response);
             }
-            catch (MissingRoomException ex)
+            catch (MissingFloorException ex)
             {
                 _logger.LogError("No floor returned for floorId");
                 var developerMessage = ex.Message;
@@ -185,7 +185,7 @@ namespace LBHAsbestosAPI.Controllers
                 developerMessage = ex.StackTrace;
             }
 
-            var responseBuilder = new RoomResponseBuilder();
+            var responseBuilder = new FloorResponseBuilder();
             return responseBuilder.BuildErrorResponse(
                     userMessage, developerMessage, 500);
         }

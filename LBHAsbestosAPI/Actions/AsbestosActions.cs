@@ -52,7 +52,7 @@ namespace LBHAsbestosAPI.Actions
             if (floor == null)
             {
                 _logger.LogError($"No rooms returned for {floorId}");
-                throw new MissingRoomException();
+                throw new MissingFloorException();
             }
             return floor;
         }
@@ -61,4 +61,6 @@ namespace LBHAsbestosAPI.Actions
     public class MissingInspectionException : Exception { }
 
     public class MissingRoomException : Exception { }
+
+    public class MissingFloorException : Exception { }
 }
