@@ -127,16 +127,6 @@ namespace LBHAsbestosAPI.Repositories
             var baseAddress = new Uri(floorUri + floorId);
             var responseData = GetResponseData(baseAddress);
 
-
-            //try
-            //{
-            //    var test = JsonConvert.DeserializeObject<FloorResponse>(responseData);
-            //}
-            //catch (Exception ex)
-            //{
-            //    var a = ex.Message;
-            //}
-
             return JsonConvert.DeserializeObject<FloorResponse>(responseData);
         }
 
