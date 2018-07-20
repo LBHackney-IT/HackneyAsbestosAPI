@@ -49,7 +49,7 @@ namespace LBHAsbestosAPI.Services
         public async Task<Floor> GetFloor(string floorId)
         {
             _logger.LogInformation($"Calling GetFloor with {floorId}");
-            FloorResponse response = await _api.GetFloor(floorId);
+            var response = await _api.GetFloor(floorId);
             return response.Data;
         }
     }
