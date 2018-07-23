@@ -7,6 +7,6 @@ namespace LBHAsbestosAPI.Entities
     {
 		public bool Success { get; set; }
         public string ErrorMesage { get; set; }
-        public List<Element> Data { get; set; }
+        public Element Data { get; set; }
     }
 }

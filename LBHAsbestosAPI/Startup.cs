@@ -19,7 +19,7 @@ namespace LBHAsbestosAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            TestStatus.IsRunningTests = false;
+            //TestStatus.IsRunningTests = false;
         }
 
         public IConfiguration Configuration { get; }

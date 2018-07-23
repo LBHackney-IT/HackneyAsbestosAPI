@@ -3,21 +3,21 @@ namespace LBHAsbestosAPI.Entities
 {
     public class Element
     {
-		int Id { get; set; }
-		int RoomId { get; set; }
-		string Description { get; set; }
-		int PropertyId { get; set; }
-		int OrderId { get; set; }
-		string Uprn { get; set; }
-		bool IsInspected { get; set; }
-		bool IsDoesContainAsbestos { get; set; }
-		bool IsDidContainAsbestos { get; set; }
-		bool IsAnyToDos { get; set; }
-		string CreatedBy { get; set; }
-		string ModifiedBy { get; set; }
-		DateTime DateOfModification { get; set; }
-		DateTime DateOfCreation { get; set; }
-		bool IsActive { get; set; }
-		bool IsLiableToAsbestos { get; set; }
+        public int Id { get; set; }
+		public int RoomId { get; set; }
+		public string Description { get; set; }
+		public int PropertyId { get; set; }
+		public int OrderId { get; set; }
+		public string Uprn { get; set; }
+		public bool IsInspected { get; set; }
+		public bool IsDoesContainAsbestos { get; set; }
+		public bool IsDidContainAsbestos { get; set; }
+		public bool IsAnyToDos { get; set; }
+		public string CreatedBy { get; set; }
+		public string ModifiedBy { get; set; }
+		public DateTime DateOfModification { get; set; }
+		public DateTime DateOfCreation { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsLiableToAsbestos { get; set; }
     }
 }

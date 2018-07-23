@@ -103,7 +103,6 @@ namespace UnitTests.Services
             Assert.Equal("Ground Floor", responseData.Description);
         }
 
-        //TODO review this test
         [Fact]
         public async Task can_access_floor_data_from_response()
         {
@@ -139,6 +138,41 @@ namespace UnitTests.Services
             }
 
             responseData = await asbestosService.GetFloor("random string");
+            Assert.Equal(3434, responseData.Id);
+            Assert.Equal("First Floor", responseData.Description);
+        }
+
+        [Fact]
+        public async Task can_access_element_data_from_response()
+        {
+            Element responseData;
+
+            if (!TestStatus.IsRunningTests)
+            {
+                var fakeRepository = new Mock<IPsi2000Api>();
+                var fakeElementResponse = new ElementResponse()
+                {
+                    Data = new Element()
+                    {
+                        Id = 4567,
+                        Description = "Second Floor"
+                    }
+                };
+
+                fakeRepository
+                    .Setup(m => m.GetElement(It.IsAny<string>()))
+                    .Returns(Task.FromResult(fakeElementResponse));
+
+                asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
+            }
+            // Case for the test running in conjunction with the solution tests.
+            // The asbestos service uses the fakePsi2000Api repository.
+            else
+            {
+                asbestosService = new AsbestosService(new Psi2000Api(fakePsiLogger.Object), fakeLogger.Object);
+            }
+
+            responseData = await asbestosService.GetElement("random string");
             Assert.Equal(3434, responseData.Id);
             Assert.Equal("First Floor", responseData.Description);
         }

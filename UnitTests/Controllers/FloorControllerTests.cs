@@ -7,7 +7,6 @@ using LBHAsbestosAPI.Interfaces;
 using Moq;
 using Newtonsoft.Json.Linq;
 using Xunit;
-using Bogus;
 using UnitTests.Helpers;
 
 namespace UnitTests.Controllers
