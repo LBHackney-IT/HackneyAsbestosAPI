@@ -14,9 +14,8 @@ namespace UnitTests.Helpers
 
         public static int GenerateRandomId(int digits)
         {
-            digits -= 1;
             return random.Random.Number(
-                (int)Math.Pow(10, digits), (int)Math.Pow(10, digits+1) - 1);
+                (int)Math.Pow(10, digits-1), (int)Math.Pow(10, digits) - 1);
         }
 
         public static string GenerateRandomText()
