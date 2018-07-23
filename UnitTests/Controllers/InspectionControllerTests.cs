@@ -7,6 +7,7 @@ using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 using Moq;
 using Newtonsoft.Json.Linq;
+using UnitTests.Helpers;
 using Xunit;
 
 namespace UnitTests.Controllers
@@ -17,15 +18,24 @@ namespace UnitTests.Controllers
         Mock<ILoggerAdapter<AsbestosController>> fakeControllerLogger;
         Mock<IAsbestosService> fakeAsbestosService;
         AsbestosController controller;
+        int fakeId;
+        string fakeDescription;
 
         public InspectionControllerTests()
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
 
+            fakeId = Fake.GenerateRandomId(8);
+            fakeDescription = Fake.GenerateRandomText();
+
             var fakeResponse = new List<Inspection>()
             {
-                new Inspection()
+                { new Inspection()
+                    {
+                        Id = fakeId,
+                        LocationDescription = fakeDescription
+                    }}
             };
 
             fakeAsbestosService = new Mock<IAsbestosService>();
@@ -41,7 +51,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task return_200_for_valid_request()
         {
-            var response = await controller.GetInspection("12345678");
+            var response = await controller.GetInspection(fakeId.ToString());
             Assert.Equal(200, response.StatusCode);
         }
 
@@ -68,37 +78,19 @@ namespace UnitTests.Controllers
 
             var CustomController = new AsbestosController(fakeCustomAsbestosService.Object, fakeControllerLogger.Object,
                                                     fakeActionsLogger.Object);
-            var response = await CustomController.GetInspection("00000000");
+            var response = await CustomController.GetInspection(fakeId.ToString());
             Assert.Equal(404, response.StatusCode);
         }
 
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
-            var fakeResponse = new List<Inspection>()
-            {
-                { new Inspection()
-                    {
-                        Id = 433,
-                        LocationDescription = "Under the bridge"
-                    }}
-            };
-
-            var fakeCustomAsbestosService = new Mock<IAsbestosService>();
-            fakeCustomAsbestosService
-                .Setup(m => m.GetInspection(It.IsAny<string>()))
-                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
-
-            var customController = new AsbestosController(fakeCustomAsbestosService.Object,
-                                                        fakeControllerLogger.Object,
-                                                           fakeActionsLogger.Object);
-
-            var response = JObject.FromObject((await customController.GetInspection("12345678")).Value);
+            var response = JObject.FromObject((await controller.GetInspection(fakeId.ToString())).Value);
             var responseId = response["results"][0]["Id"];
             var responseLocationDescription = response["results"][0]["LocationDescription"];
 
-            Assert.Equal(433, responseId);
-            Assert.Equal("Under the bridge", responseLocationDescription);
+            Assert.Equal(fakeId, responseId);
+            Assert.Equal(fakeDescription, responseLocationDescription);
         }
 
         [Theory]
@@ -123,7 +115,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task response_has_the_valid_format_if_request_successful()
         {
-            var response = JObject.FromObject((await controller.GetInspection("12345678")).Value);
+            var response = JObject.FromObject((await controller.GetInspection(fakeId.ToString())).Value);
             Assert.NotNull(response["results"]);
         }
 

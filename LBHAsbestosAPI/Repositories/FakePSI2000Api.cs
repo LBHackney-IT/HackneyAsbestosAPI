@@ -18,9 +18,9 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<InspectionResponse> GetInspections(string propertyId)
         {
-            if (propertyId.Length == 10)
+            if (propertyId.Length == triggerExceptionIdLength)
             {
-                throw new TextExceptionInFakePSI();
+                throw new TestExceptionInFakePSI();
             }
 
             var fakeInspectionresponse = new InspectionResponse()
@@ -28,7 +28,7 @@ namespace LBHAsbestosAPI.Repositories
                 Success = true
             };
 
-            if (propertyId.Length == 9)
+            if (propertyId.Length == nullResponseIdLength)
             {
                 fakeInspectionresponse.Data = new List<Inspection>();
             }
@@ -51,7 +51,7 @@ namespace LBHAsbestosAPI.Repositories
         {
             if (roomId.Length == triggerExceptionIdLength)
             {
-                throw new TextExceptionInFakePSI();
+                throw new TestExceptionInFakePSI();
             }
 
             var fakeRoomResponse = new RoomResponse()
@@ -79,7 +79,7 @@ namespace LBHAsbestosAPI.Repositories
         {
             if (floorId.Length == triggerExceptionIdLength)
             {
-                throw new Exception();
+                throw new TestExceptionInFakePSI();
             }
 
             var fakeFloorResponse = new FloorResponse()
@@ -109,5 +109,5 @@ namespace LBHAsbestosAPI.Repositories
         }
     }
 
-    public class TextExceptionInFakePSI : Exception { }
+    public class TestExceptionInFakePSI : Exception { }
 }

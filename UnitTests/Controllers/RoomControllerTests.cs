@@ -8,6 +8,7 @@ using LBHAsbestosAPI.Interfaces;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnitTests.Helpers;
 using Xunit;
 
 namespace UnitTests.Controllers
@@ -18,16 +19,21 @@ namespace UnitTests.Controllers
         Mock<ILoggerAdapter<AsbestosController>> fakeControllerLogger;
         Mock<IAsbestosService> fakeAsbestosService;
         readonly AsbestosController controller;
+        int fakeId;
+        string fakeDescription;
 
         public RoomControllerTests()
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
 
+            fakeId = Fake.GenerateRandomId(6);
+            fakeDescription = Fake.GenerateRandomText();
+
             var fakeResponse = new Room()
             {
-                Id = 8546,
-                Description = "Second floor on the right"
+                Id = fakeId,
+                Description = fakeDescription
             };
            
             fakeAsbestosService = new Mock<IAsbestosService>();
@@ -43,7 +49,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task return_200_for_valid_request()
         {
-            var response = await controller.GetRoom("123456");
+            var response = await controller.GetRoom(fakeId.ToString());
             Assert.Equal(200, response.StatusCode);
         }
 
@@ -70,19 +76,19 @@ namespace UnitTests.Controllers
             var customController = new AsbestosController(fakeCustomAsbestosService.Object,
                                                         fakeControllerLogger.Object,
                                                            fakeActionsLogger.Object);
-            var response = await customController.GetRoom("000000");
+            var response = await customController.GetRoom(fakeId.ToString());
             Assert.Equal(404, response.StatusCode);
         }
 
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
-            var response = JObject.FromObject((await controller.GetRoom("123456")).Value);
+            var response = JObject.FromObject((await controller.GetRoom(fakeId.ToString())).Value);
             var responseId = response["results"]["Id"].Value<int>();
             var responseDescription = response["results"]["Description"];
 
-            Assert.Equal(8546, responseId);
-            Assert.Equal("Second floor on the right", responseDescription);
+            Assert.Equal(fakeId, responseId);
+            Assert.Equal(fakeDescription, responseDescription);
         }
 
         [Theory]
@@ -106,7 +112,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task response_has_the_valid_format_if_request_successful()
         {
-            var response = JObject.FromObject((await controller.GetRoom("123456")).Value);
+            var response = JObject.FromObject((await controller.GetRoom(fakeId.ToString())).Value);
             Assert.NotNull(response["results"]);
         }
 

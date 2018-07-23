@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using UnitTests.Helpers;
 using Xunit;
 
 namespace UnitTests.Integration
@@ -32,8 +33,7 @@ namespace UnitTests.Integration
         [Fact]
         public async Task return_200_for_valid_request()
         {
-            Random random = new Random();
-            var randomId = random.Next((int)Math.Pow(10,5), (int)Math.Pow(10,6) - 1);
+            var randomId = Fake.GenerateRandomId(6);
             var result = await _client.GetAsync(_baseUri + randomId);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
@@ -53,18 +53,16 @@ namespace UnitTests.Integration
         [Fact]
         public async Task return_404_if_request_successful_but_no_results()
         {
-            Random random = new Random();
-            var randomId = random.Next((int)Math.Pow(10, 4), (int)Math.Pow(10, 5) - 1);
-            var result = await _client.GetAsync(_baseUri + randomId);
+            var randomBadId = Fake.GenerateRandomId(5);
+            var result = await _client.GetAsync(_baseUri + randomBadId);
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
         [Fact]
         public async Task return_500_when_internal_server_error()
         {
-            Random random = new Random();
-            var randomId = random.Next((int)Math.Pow(10, 3), (int)Math.Pow(10, 4) - 1);
-            var result = await _client.GetAsync(_baseUri + randomId);
+            var randomBadId = Fake.GenerateRandomId(4);
+            var result = await _client.GetAsync(_baseUri + randomBadId);
             Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 
@@ -90,7 +88,9 @@ namespace UnitTests.Integration
             {
                 ContractResolver = contractResolver
             });
-            var result = await _client.GetStringAsync(_baseUri + "000001");
+
+            var randomId = Fake.GenerateRandomId(6);
+            var result = await _client.GetStringAsync(_baseUri + randomId);
 
             Assert.Equal(expectedStringResult, result);
         }

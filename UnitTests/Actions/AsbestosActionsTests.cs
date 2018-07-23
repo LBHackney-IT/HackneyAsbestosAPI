@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
-using LBHAsbestosAPI.Controllers;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 using Moq;
+using UnitTests.Helpers;
 using Xunit;
 
 namespace UnitTests.Actions
@@ -14,11 +14,13 @@ namespace UnitTests.Actions
     {
         Mock<ILoggerAdapter<AsbestosActions>> fakeLogger;
         Mock<IAsbestosService> fakeAsbestosService;
+        string fakeId;
 
         public AsbestosActionsTests()
         {
             fakeLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeAsbestosService = new Mock<IAsbestosService>();
+            fakeId = Fake.GenerateRandomId(6).ToString();
         }
 
         [Fact]
@@ -34,7 +36,7 @@ namespace UnitTests.Actions
                 .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
 
             var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-            var response = await asbestosAction.GetInspection("RandomId");
+            var response = await asbestosAction.GetInspection(fakeId);
 
             Assert.True(response is List<Inspection>);
         }
@@ -49,7 +51,7 @@ namespace UnitTests.Actions
                 .Returns(Task.FromResult(fakeResponse));
 
             var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-            var response = await asbestosAction.GetRoom("RandomId");
+            var response = await asbestosAction.GetRoom(fakeId);
 
             Assert.True(response is Room);
         }
@@ -64,7 +66,7 @@ namespace UnitTests.Actions
                 .Returns(Task.FromResult(fakeResponse));
 
             var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-            var response = await asbestosAction.GetFloor("RandomId");
+            var response = await asbestosAction.GetFloor(fakeId);
 
             Assert.True(response is Floor);
         }
