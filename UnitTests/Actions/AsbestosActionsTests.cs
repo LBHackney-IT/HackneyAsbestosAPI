@@ -81,9 +81,9 @@ namespace UnitTests.Actions
                 .Returns(Task.FromResult(fakeResponse));
 
             var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-            var response = await asbestosAction.GetFloor(fakeId);
+            var response = await asbestosAction.GetElement(fakeId);
 
-            Assert.True(response is Floor);
+            Assert.True(response is Element);
         }
     }
 }
