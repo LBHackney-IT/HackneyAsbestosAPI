@@ -77,11 +77,6 @@ namespace LBHAsbestosAPI.Repositories
             return true;
         }
 
-        public IEnumerable<Element> GetElement(int elementId)
-        {
-            return new List<Element>();
-        }
-
         public async Task<InspectionResponse> GetInspections(string propertyId)
         {
             var response = new InspectionResponse();
@@ -128,6 +123,11 @@ namespace LBHAsbestosAPI.Repositories
             var responseData = GetResponseData(baseAddress);
 
             return JsonConvert.DeserializeObject<FloorResponse>(responseData);
+        }
+
+        public async Task<ElementResponse> GetElement(string elementId)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task<bool> LoginIfCookieIsInvalid()

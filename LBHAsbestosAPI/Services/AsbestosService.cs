@@ -26,10 +26,7 @@ namespace LBHAsbestosAPI.Services
             }
         }
 
-        public Task<IEnumerable<Element>> GetElements(int elementId)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
         {
@@ -51,6 +48,11 @@ namespace LBHAsbestosAPI.Services
             _logger.LogInformation($"Calling GetFloor with {floorId}");
             var response = await _api.GetFloor(floorId);
             return response.Data;
+        }
+
+        public async Task<Element> GetElement(string elementId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

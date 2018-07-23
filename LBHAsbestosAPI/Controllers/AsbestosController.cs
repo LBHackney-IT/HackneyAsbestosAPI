@@ -171,6 +171,12 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
+        [HttpGet("element/{elementId}")]
+        public async Task<JsonResult> GetElement(string elementId)
+        {
+            throw new NotImplementedException();
+        }
+
         private JsonResult BuildErrorResponseFromException (Exception ex)
         {
             var userMessage = "We had some problems processing your request";
