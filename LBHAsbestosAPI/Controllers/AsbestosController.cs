@@ -89,7 +89,7 @@ namespace LBHAsbestosAPI.Controllers
             try
             {
                 var responseBuilder = new RoomResponseBuilder();
-                _logger.LogInformation($"Calling RoomIdValidator() with {roomId}");
+                _logger.LogInformation($"Calling IdValidator() with {roomId}");
 
                 if (!IdValidator.ValidateId(roomId))
                 {
@@ -138,7 +138,7 @@ namespace LBHAsbestosAPI.Controllers
             try
             {
                 var responseBuilder = new FloorResponseBuilder();
-                _logger.LogInformation($"Calling FloorIdValidator() with {floorId}");
+                _logger.LogInformation($"Calling IdValidator() with {floorId}");
 
                 if (!IdValidator.ValidateId(floorId))
                 {
@@ -171,10 +171,53 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
+        // GET properties
+        /// <summary>
+        /// Gets an element for a particular element id
+        /// </summary>
+        /// <param name="elementId">A numeric string that identifies an element</param>
+        /// <returns>An element matching the specified element id</returns>
+        /// <response code="200">Returns an element</response>
+        /// <response code="404">If the element id does not return any element</response>
+        /// <response code="400">If the element id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response> 
         [HttpGet("element/{elementId}")]
         public async Task<JsonResult> GetElement(string elementId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var responseBuilder = new ElementResponseBuilder();
+                _logger.LogInformation($"Calling IdValidator() with {elementId}");
+
+                if (!IdValidator.ValidateId(elementId))
+                {
+                    _logger.LogError("elementId has not passed validation");
+                    var developerMessage = "Invalid parameter - elementId";
+                    var userMessage = "Please provide a valid element id";
+
+                    return responseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+
+                var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
+                var response = await _asbestosActions.GetElement(elementId);
+
+                return responseBuilder.BuildSuccessResponse(response);
+            }
+            catch (MissingElementException ex)
+            {
+                _logger.LogError("No element returned for elementId");
+                var developerMessage = ex.Message;
+                var userMessage = "Cannot find element";
+
+                var responseBuilder = new ElementResponseBuilder();
+                return responseBuilder.BuildErrorResponse(
+                userMessage, developerMessage, 404);
+            }
+            catch (Exception ex)
+            {
+                return BuildErrorResponseFromException(ex);
+            }
         }
 
         private JsonResult BuildErrorResponseFromException (Exception ex)
@@ -191,7 +234,7 @@ namespace LBHAsbestosAPI.Controllers
                 developerMessage = ex.StackTrace;
             }
 
-            var responseBuilder = new FloorResponseBuilder();
+            var responseBuilder = new ErrorResponseBuilder();
             return responseBuilder.BuildErrorResponse(
                     userMessage, developerMessage, 500);
         }
