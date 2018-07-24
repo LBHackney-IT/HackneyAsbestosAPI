@@ -50,7 +50,9 @@ namespace LBHAsbestosAPI.Services
 
         public async Task<Element> GetElement(string elementId)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Calling GetElement with {elementId}");
+            var response = await _api.GetElement(elementId);
+            return response.Data; 
         }
     }
 }

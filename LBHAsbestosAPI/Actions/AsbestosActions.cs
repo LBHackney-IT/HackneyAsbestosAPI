@@ -38,7 +38,7 @@ namespace LBHAsbestosAPI.Actions
 
             if (room == null)
             {
-                _logger.LogError($"No rooms returned for {roomId}");
+                _logger.LogError($"No room returned for {roomId}");
                 throw new MissingRoomException();
             }
             return room;
@@ -47,11 +47,11 @@ namespace LBHAsbestosAPI.Actions
         public async Task<Floor> GetFloor(string floorId)
         {
             _logger.LogInformation($"Calling Getfloor() with {floorId}");
-            Floor floor = await _asbestosService.GetFloor(floorId);
+            var floor = await _asbestosService.GetFloor(floorId);
 
             if (floor == null)
             {
-                _logger.LogError($"No rooms returned for {floorId}");
+                _logger.LogError($"No floor returned for {floorId}");
                 throw new MissingFloorException();
             }
             return floor;
@@ -59,7 +59,15 @@ namespace LBHAsbestosAPI.Actions
 
         public async Task<Element> GetElement(string elementId)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Calling GetElement() with {elementId}");
+            var element = await _asbestosService.GetElement(elementId);
+
+            if (element == null)
+            {
+                _logger.LogError($"No element returned for {elementId}");
+                throw new MissingElementException();
+            }
+            return element;
         }
 	}
 
@@ -68,4 +76,6 @@ namespace LBHAsbestosAPI.Actions
     public class MissingRoomException : Exception { }
 
     public class MissingFloorException : Exception { }
+
+    public class MissingElementException : Exception { }
 }

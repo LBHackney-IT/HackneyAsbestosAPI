@@ -100,7 +100,30 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<ElementResponse> GetElement(string elementId)
         {
-            throw new NotImplementedException();
+            if (elementId.Length == triggerExceptionIdLength)
+            {
+                throw new TestExceptionInFakePSI();
+            }
+
+            var fakeElementResponse = new ElementResponse()
+            {
+                Success = true
+            };
+
+            if (elementId.Length == nullResponseIdLength)
+            {
+                fakeElementResponse.Data = null;
+            }
+            else
+            {
+                fakeElementResponse.Data = new Element()
+                {
+                    Id = 3434,
+                    Description = "First Floor"
+                };
+            }
+
+            return Task.FromResult(fakeElementResponse);
         }
 
         public Task<bool> Login()
