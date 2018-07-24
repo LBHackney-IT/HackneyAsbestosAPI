@@ -26,8 +26,6 @@ namespace LBHAsbestosAPI.Services
             }
         }
 
-
-
         public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
         {
             _logger.LogInformation($"Calling GetInspections() with {propertyId}");
