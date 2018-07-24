@@ -8,6 +8,7 @@ using LBHAsbestosAPI.Interfaces;
 using LBHAsbestosAPI.Repositories;
 using LBHAsbestosAPI.Services;
 using Moq;
+using UnitTests.Helpers;
 using Xunit;
 
 namespace UnitTests.Services
@@ -17,12 +18,17 @@ namespace UnitTests.Services
         Mock<ILoggerAdapter<AsbestosService>> fakeLogger;
         Mock<ILoggerAdapter<Psi2000Api>> fakePsiLogger;
         IAsbestosService asbestosService;
+        int fakeId;
+        string fakeDescription;
 
         public AsbestosServicesTests()
         {
             fakeLogger = new Mock<ILoggerAdapter<AsbestosService>>();
             fakePsiLogger = new Mock<ILoggerAdapter<Psi2000Api>>();
             TestStatus.IsRunningTests = false;
+
+            fakeId = Fake.GenerateRandomId(6);
+            fakeDescription = Fake.GenerateRandomText();
         }
 
         [Fact]
@@ -38,8 +44,8 @@ namespace UnitTests.Services
 
             fakeInspectionResponse.Data.Add(new Inspection()
             {
-                Id = 6555,
-                LocationDescription = "A houser"
+                Id = fakeId,
+                LocationDescription = fakeDescription
             });
 
             fakeRepository
@@ -47,10 +53,10 @@ namespace UnitTests.Services
                 .Returns(Task.FromResult(fakeInspectionResponse)); 
 
             asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
-            responseData = await asbestosService.GetInspection("random string");
+            responseData = await asbestosService.GetInspection(fakeId.ToString());
 
-            Assert.Equal(6555, responseData.ElementAt(0).Id);
-            Assert.Equal("A houser", responseData.ElementAt(0).LocationDescription);
+            Assert.Equal(fakeId, responseData.ElementAt(0).Id);
+            Assert.Equal(fakeDescription, responseData.ElementAt(0).LocationDescription);
         }
 
         [Fact]
@@ -61,12 +67,10 @@ namespace UnitTests.Services
             var fakeFloorResponse = new FloorResponse()
             {
                 Data = new Floor()
-            };
-
-            fakeFloorResponse.Data = new Floor()
-            {
-                Id = 34344,
-                Description = "Firsto Floor"
+                {
+                    Id = fakeId,
+                    Description = fakeDescription
+                }
             };
 
             fakeRepository
@@ -74,10 +78,10 @@ namespace UnitTests.Services
                 .Returns(Task.FromResult(fakeFloorResponse));
 
             asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
-            responseData = await asbestosService.GetFloor("random string");
+            responseData = await asbestosService.GetFloor(fakeId.ToString());
 
-            Assert.Equal(34344, responseData.Id);
-            Assert.Equal("Firsto Floor", responseData.Description);
+            Assert.Equal(fakeId, responseData.Id);
+            Assert.Equal(fakeDescription, responseData.Description);
         }
 
         [Fact]
@@ -88,24 +92,21 @@ namespace UnitTests.Services
             var fakeRoomResponse = new RoomResponse()
             {
                 Data = new Room()
-            };
-
-            fakeRoomResponse.Data = new Room()
-            {
-                Id = 50034,
-                Description = "Ground Floor 1"
+                {
+                    Id = fakeId,
+                    Description = fakeDescription
+                }
             };
 
             fakeRepository
                 .Setup(m => m.GetRoom(It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeRoomResponse));
-            bool test = TestStatus.IsRunningTests;
-            TestStatus.IsRunningTests = false;
-            asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
-            responseData = await asbestosService.GetRoom("random string");
 
-            Assert.Equal(50034, responseData.Id);
-            Assert.Equal("Ground Floor 1", responseData.Description);
+            asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
+            responseData = await asbestosService.GetRoom(fakeId.ToString());
+
+            Assert.Equal(fakeId, responseData.Id);
+            Assert.Equal(fakeDescription, responseData.Description);
         }
     }
 }
