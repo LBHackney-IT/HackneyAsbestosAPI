@@ -21,6 +21,8 @@ namespace LBHAsbestosAPI.Repositories
         static string inspectionUri = baseUri + "api/inspections";
         static string roomUri = baseUri + "api/rooms/";
         static string floorUri = baseUri + "api/floors/";
+        static string elementUri = baseUri + "api/elements/";
+
 
         ILoggerAdapter<Psi2000Api> _logger;
 
@@ -127,7 +129,18 @@ namespace LBHAsbestosAPI.Repositories
 
         public async Task<ElementResponse> GetElement(string elementId)
         {
-            throw new NotImplementedException();
+            var response = new FloorResponse();
+            var loginAction = await LoginIfCookieIsInvalid();
+
+            if (!loginAction)
+            {
+                throw new InvalidLoginException();
+            }
+
+            var baseAddress = new Uri(elementUri + elementId);
+            var responseData = GetResponseData(baseAddress);
+
+            return JsonConvert.DeserializeObject<ElementResponse>(responseData);
         }
 
         private async Task<bool> LoginIfCookieIsInvalid()
