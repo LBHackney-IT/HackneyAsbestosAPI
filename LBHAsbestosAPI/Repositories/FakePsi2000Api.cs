@@ -126,7 +126,7 @@ namespace LBHAsbestosAPI.Repositories
             return Task.FromResult(fakeElementResponse);
         }
 
-        public Task<FileResponse> GetFile(string Id) 
+        public Task<FileResponse> GetFile(string fileId, string fileType)
         {
             throw new NotImplementedException();
         }

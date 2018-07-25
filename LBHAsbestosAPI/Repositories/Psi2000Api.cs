@@ -22,7 +22,7 @@ namespace LBHAsbestosAPI.Repositories
         static string roomUri = baseUri + "api/rooms/";
         static string floorUri = baseUri + "api/floors/";
         static string elementUri = baseUri + "api/elements/";
-        static string photoUri = baseUri + "api/documents/photo/";
+        static string documentUri = baseUri + "api/documents/";
 
         ILoggerAdapter<Psi2000Api> _logger;
 
@@ -129,7 +129,7 @@ namespace LBHAsbestosAPI.Repositories
 
         public async Task<ElementResponse> GetElement(string elementId)
         {
-            var response = new FloorResponse();
+            var response = new ElementResponse();
             var loginAction = await LoginIfCookieIsInvalid();
 
             if (!loginAction)
@@ -141,6 +141,12 @@ namespace LBHAsbestosAPI.Repositories
             var responseData = GetResponseData(baseAddress);
 
             return JsonConvert.DeserializeObject<ElementResponse>(responseData);
+        }
+            
+        public async Task<FileResponse> GetFile(string fileId, string fileType)
+        {
+            var baseAddress = new Uri(documentUri + fileType + "/" + fileId);
+            return GetResponseStream(baseAddress);
         }
 
 

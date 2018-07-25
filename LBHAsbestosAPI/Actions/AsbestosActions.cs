@@ -70,9 +70,9 @@ namespace LBHAsbestosAPI.Actions
             return element;
         }
 
-        public async Task<FileResponse> GetFile(string fileId)
+        public async Task<FileResponse> GetFile(string fileId, string fileType)
         {
-            return await _asbestosService.GetFile(fileId);
+            return await _asbestosService.GetFile(fileId, fileType);
         }
 	}
 

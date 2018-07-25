@@ -47,9 +47,9 @@ namespace LBHAsbestosAPI.Services
             return response.Data; 
         }
 
-        public async Task<FileResponse> GetFile(string fileId)
-        {
-            return await _api.GetFile(fileId);
+        public async Task<FileResponse> GetFile(string fileId, string fileType)
+        {            
+            return await _api.GetFile(fileId, fileType);
         }
     }
 }
