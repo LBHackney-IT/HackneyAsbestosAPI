@@ -16,16 +16,16 @@ namespace UnitTests.Controllers
     public class InspectionControllerTests
     {
         Mock<ILoggerAdapter<AsbestosActions>> fakeActionsLogger;
-        Mock<ILoggerAdapter<AsbestosController>> fakeControllerLogger;
+        Mock<ILoggerAdapter<DataController>> fakeControllerLogger;
         Mock<IAsbestosService> fakeAsbestosService;
-        AsbestosController controller;
+        DataController controller;
         int fakeId;
         string fakeDescription;
 
         public InspectionControllerTests()
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
-            fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
+            fakeControllerLogger = new Mock<ILoggerAdapter<DataController>>();
             fakeAsbestosService = new Mock<IAsbestosService>();
 
             fakeId = Fake.GenerateRandomId(8);
@@ -62,6 +62,7 @@ namespace UnitTests.Controllers
             var fakeEmptyResponse = new List<Inspection>();
             controller = SetupControllerWithServiceReturningFakeObject(fakeEmptyResponse);
             var response = await controller.GetInspection(fakeId.ToString());
+
             Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
 
@@ -120,17 +121,17 @@ namespace UnitTests.Controllers
             Assert.NotNull(response["errors"]);
         }
 
-        private AsbestosController SetupControllerWithSimpleService()
+        private DataController SetupControllerWithSimpleService()
         {
-            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+            return new DataController(fakeAsbestosService.Object, fakeControllerLogger.Object,
                                           fakeActionsLogger.Object);
         }
 
-        private AsbestosController SetupControllerWithServiceReturningFakeObject(IEnumerable<Inspection> fakeResponse)
+        private DataController SetupControllerWithServiceReturningFakeObject(IEnumerable<Inspection> fakeResponse)
         {
             fakeAsbestosService.Setup(m => m.GetInspection(It.IsAny<string>()))
                                .Returns(Task.FromResult(fakeResponse));
-            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+            return new DataController(fakeAsbestosService.Object, fakeControllerLogger.Object,
                                           fakeActionsLogger.Object);
         }
     }

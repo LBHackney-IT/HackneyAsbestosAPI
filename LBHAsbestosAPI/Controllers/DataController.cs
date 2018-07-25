@@ -10,13 +10,13 @@ using LBHAsbestosAPI.Repositories;
 namespace LBHAsbestosAPI.Controllers
 {
 	[Route("api/v1/")]
-	public class AsbestosController : Controller
+	public class DataController : Controller
     {
 		IAsbestosService _asbestosService;
         ILoggerAdapter<AsbestosActions> _loggerActions;
-        protected readonly ILoggerAdapter<AsbestosController> _logger;
+        protected readonly ILoggerAdapter<DataController> _logger;
 
-        public AsbestosController(IAsbestosService asbestosService, ILoggerAdapter<AsbestosController> logger,
+        public DataController(IAsbestosService asbestosService, ILoggerAdapter<DataController> logger,
                                   ILoggerAdapter<AsbestosActions> loggerActions)
         {
 			_asbestosService = asbestosService;
@@ -37,9 +37,10 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("inspection/{propertyId}")]
         public async Task<JsonResult> GetInspection(string propertyId)
 		{ 
+            var responseBuilder = new InspectionResponseBuilder();
+
             try
             {
-                var responseBuilder = new InspectionResponseBuilder();
                 _logger.LogInformation($"Calling InspectionIdValidator() with {propertyId}");
 
                 if (!IdValidator.ValidatePropertyId(propertyId))
@@ -63,13 +64,13 @@ namespace LBHAsbestosAPI.Controllers
                 var developerMessage = ex.Message;
                 var userMessage = "Cannot find inspection";
 
-                var responseBuilder = new InspectionResponseBuilder();
                 return responseBuilder.BuildErrorResponse(
                 userMessage, developerMessage, 404);
             }
             catch (Exception ex)
             {
-                return BuildErrorResponseFromException(ex);
+                var userMessage = "We had some problems processing your request";
+                return responseBuilder.BuildErrorResponseFromException(ex, userMessage);
             }
         }
 
@@ -86,9 +87,10 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("room/{roomId}")]
         public async Task<JsonResult> GetRoom(string roomId)
         {
+            var responseBuilder = new RoomResponseBuilder();
+
             try
             {
-                var responseBuilder = new RoomResponseBuilder();
                 _logger.LogInformation($"Calling IdValidator() with {roomId}");
 
                 if (!IdValidator.ValidateId(roomId))
@@ -112,13 +114,13 @@ namespace LBHAsbestosAPI.Controllers
                 var developerMessage = ex.Message;
                 var userMessage = "Cannot find room";
 
-                var responseBuilder = new RoomResponseBuilder();
                 return responseBuilder.BuildErrorResponse(
                 userMessage, developerMessage, 404);
             }
             catch (Exception ex)
             {
-                return BuildErrorResponseFromException(ex);
+                var userMessage = "We had some problems processing your request";
+                return responseBuilder.BuildErrorResponseFromException(ex, userMessage);
             }
         }
 
@@ -135,9 +137,10 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("floor/{floorId}")]
         public async Task<JsonResult> GetFloor(string floorId)
         {
+            var responseBuilder = new FloorResponseBuilder();
+
             try
             {
-                var responseBuilder = new FloorResponseBuilder();
                 _logger.LogInformation($"Calling IdValidator() with {floorId}");
 
                 if (!IdValidator.ValidateId(floorId))
@@ -161,13 +164,13 @@ namespace LBHAsbestosAPI.Controllers
                 var developerMessage = ex.Message;
                 var userMessage = "Cannot find floor";
 
-                var responseBuilder = new FloorResponseBuilder();
                 return responseBuilder.BuildErrorResponse(
                 userMessage, developerMessage, 404);
             }
             catch (Exception ex)
             {
-                return BuildErrorResponseFromException(ex);
+                var userMessage = "We had some problems processing your request";
+                return responseBuilder.BuildErrorResponseFromException(ex, userMessage);
             }
         }
 

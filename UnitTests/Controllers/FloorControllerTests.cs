@@ -15,16 +15,16 @@ namespace UnitTests.Controllers
     public class FloorControllerTests
     {
         Mock<ILoggerAdapter<AsbestosActions>> fakeActionsLogger;
-        Mock<ILoggerAdapter<AsbestosController>> fakeControllerLogger;
+        Mock<ILoggerAdapter<DataController>> fakeControllerLogger;
         Mock<IAsbestosService> fakeAsbestosService;
-        AsbestosController controller;
+        DataController controller;
         int fakeId;
         string fakeDescription;
 
         public FloorControllerTests()
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
-            fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
+            fakeControllerLogger = new Mock<ILoggerAdapter<DataController>>();
             fakeAsbestosService = new Mock<IAsbestosService>();
 
             fakeId = Fake.GenerateRandomId(5);
@@ -109,17 +109,17 @@ namespace UnitTests.Controllers
             Assert.NotNull(response["errors"]);
         }
 
-        private AsbestosController SetupControllerWithSimpleService()
+        private DataController SetupControllerWithSimpleService()
         {
-            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+            return new DataController(fakeAsbestosService.Object, fakeControllerLogger.Object,
                                           fakeActionsLogger.Object);
         }
 
-        private AsbestosController SetupControllerWithServiceReturningFakeObject(Floor fakeResponse)
+        private DataController SetupControllerWithServiceReturningFakeObject(Floor fakeResponse)
         {
             fakeAsbestosService.Setup(m => m.GetFloor(It.IsAny<string>()))
                                .Returns(Task.FromResult(fakeResponse));
-            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+            return new DataController(fakeAsbestosService.Object, fakeControllerLogger.Object,
                                           fakeActionsLogger.Object);
         }
     }
