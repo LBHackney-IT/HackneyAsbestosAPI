@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LBHAsbestosAPI.Controllers;
 using LBHAsbestosAPI.Entities;
-using Microsoft.Extensions.Logging;
 
 namespace LBHAsbestosAPI.Actions
 {
@@ -13,5 +11,6 @@ namespace LBHAsbestosAPI.Actions
         Task<Floor> GetFloor(string floorId);
         Task<Room> GetRoom(string roomId);
         Task<Element> GetElement(string elementId);
+        Task<FileResponse> GetFile(string Id);
     }
 }

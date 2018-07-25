@@ -220,6 +220,26 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
+        [HttpGet("photo/{photoId}")]
+        public async Task<IActionResult> getPhoto(string photoId)
+        {
+            var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
+
+            try
+            {
+                var response = await _asbestosService.GetFile(photoId);
+                return File(response.DataStream, response.ContentType);
+            }
+            catch (MissingFileException ex)
+            {
+                var developerMessage = ex.Message;
+                var userMessage = "Cannot find file";
+                var responseBuilder = new ErrorResponseBuilder();
+
+                return StatusCode(500, ex.Message);
+            }
+        }
+ 
         private JsonResult BuildErrorResponseFromException (Exception ex)
         {
             var userMessage = "We had some problems processing your request";

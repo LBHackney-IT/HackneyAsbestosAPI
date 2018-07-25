@@ -1,7 +1,7 @@
 ﻿using System;
 namespace LBHAsbestosAPI.Entities
 {
-    public class File
+    public class FileResponse
     {
         public string ContentType { get; set; }
         public long? ByteSize { get; set; }

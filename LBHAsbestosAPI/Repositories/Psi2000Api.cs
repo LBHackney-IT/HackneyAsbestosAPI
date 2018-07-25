@@ -22,8 +22,7 @@ namespace LBHAsbestosAPI.Repositories
         static string roomUri = baseUri + "api/rooms/";
         static string floorUri = baseUri + "api/floors/";
         static string elementUri = baseUri + "api/elements/";
-
-        static string photoUri = baseUri + "documents/photo/";
+        static string photoUri = baseUri + "api/documents/photo/";
 
         ILoggerAdapter<Psi2000Api> _logger;
 
@@ -144,6 +143,8 @@ namespace LBHAsbestosAPI.Repositories
             return JsonConvert.DeserializeObject<ElementResponse>(responseData);
         }
 
+
+
         private async Task<bool> LoginIfCookieIsInvalid()
         {
             if (cookie == null)
@@ -185,7 +186,12 @@ namespace LBHAsbestosAPI.Repositories
             }
         }
 
-        private File GetResponseStream(Uri baseAddress)
+        public async Task<FileResponse> GetFile(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        private FileResponse GetResponseStream(Uri baseAddress)
         {
             var cookieContainer = new CookieContainer();
             cookieContainer.Add(baseAddress, cookie);
@@ -195,9 +201,17 @@ namespace LBHAsbestosAPI.Repositories
             using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
             {
                 var response = client.GetAsync(baseAddress);
-                response.Result.EnsureSuccessStatusCode();
 
-                var file = new File();
+                try
+                {
+                    response.Result.EnsureSuccessStatusCode();
+                }
+                catch (HttpRequestException ex)
+                {
+                    throw new MissingFileException();
+                }
+
+                var file = new FileResponse();
                 file.ContentType = response.Result.Content.Headers.ContentType.ToString();
                 file.ByteSize = response.Result.Content.Headers.ContentLength;
                 file.DataStream = response.Result.Content.ReadAsByteArrayAsync().Result;
@@ -207,5 +221,7 @@ namespace LBHAsbestosAPI.Repositories
         }
     }
     public class InvalidLoginException : Exception { }
+
+    public class MissingFileException : Exception { }
 }
 
