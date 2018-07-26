@@ -15,15 +15,7 @@ namespace LBHAsbestosAPI.Services
         public AsbestosService(IPsi2000Api api, ILoggerAdapter<AsbestosService> logger)
         {
             _logger = logger;
-
-            if (TestStatus.IsRunningTests)
-            {
-                _api = AsbestosRepositoryFactory.Build();
-            }
-            else
-            {
-                _api = api;
-            }
+            _api = api;
         }
 
         public Task<IEnumerable<Element>> GetElements(int elementId)

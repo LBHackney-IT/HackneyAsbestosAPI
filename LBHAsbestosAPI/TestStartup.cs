@@ -7,7 +7,7 @@ namespace LBHAsbestosAPI
     {
         public TestStartup(IConfiguration env) : base(env)
         {
-            TestStatus.IsRunningTests = true;
+            TestStatus.IsRunningIntegrationTests = true;
         }
     }
 }
