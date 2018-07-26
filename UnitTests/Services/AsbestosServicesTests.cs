@@ -25,7 +25,6 @@ namespace UnitTests.Services
         {
             fakeLogger = new Mock<ILoggerAdapter<AsbestosService>>();
             fakePsiLogger = new Mock<ILoggerAdapter<Psi2000Api>>();
-            TestStatus.IsRunningTests = false;
 
             fakeId = Fake.GenerateRandomId(6);
             fakeDescription = Fake.GenerateRandomText();
