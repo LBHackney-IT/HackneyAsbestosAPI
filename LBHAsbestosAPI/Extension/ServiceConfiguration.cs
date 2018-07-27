@@ -9,8 +9,8 @@ namespace LBHAsbestosAPI.Extension
 {
     public static class ServiceConfiguration
     {
-		public static void AddCustomServices(this IServiceCollection services)
-		{
+        public static void AddCustomServices(this IServiceCollection services)
+        {
             services.AddScoped(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
             services.AddScoped(typeof(IAsbestosService), typeof(AsbestosService));
             services.AddTransient<IPsi2000Api, Psi2000Api>();
