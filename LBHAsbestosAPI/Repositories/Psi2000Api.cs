@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace LBHAsbestosAPI.Repositories
 {
@@ -21,6 +20,7 @@ namespace LBHAsbestosAPI.Repositories
         static string apiPassword = Environment.GetEnvironmentVariable("PSI_TEST_PASSWORD");
         static string inspectionUri = baseUri + "api/inspections";
         static string roomUri = baseUri + "api/rooms/";
+        static string floorUri = baseUri + "api/floors/";
 
         ILoggerAdapter<Psi2000Api> _logger;
 
@@ -36,10 +36,12 @@ namespace LBHAsbestosAPI.Repositories
             {
                 try
                 {
-                    var httpResponse = await client.PostAsync(loginUri,
-                                                                      new StringContent("{\"UserName\":\"" + apiUsername + "\",\"Password\":\"" + apiPassword
-                                                                                        + "\"}"
-                                                                                        , Encoding.UTF8, "application/json"));
+                    var httpResponse = await client.PostAsync(
+                        loginUri, new StringContent(
+                            "{\"UserName\":\"" + apiUsername + 
+                            "\",\"Password\":\"" + apiPassword + 
+                            "\"}", Encoding.UTF8, "application/json"));
+                    
                     var response = JsonConvert.DeserializeObject<Response>(
                                     await httpResponse.Content.ReadAsStringAsync());
 
@@ -90,22 +92,10 @@ namespace LBHAsbestosAPI.Repositories
                 throw new InvalidLoginException();
             }
 
-            var inspections = new List<Inspection>();
             var baseAddress = new Uri(inspectionUri + "?filter=(UPRN=\"" + propertyId + "\")");
-            var cookieContainer = new CookieContainer();
-            cookieContainer.Add(baseAddress, cookie);
+            var responseData = GetResponseData(baseAddress);
 
-            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
-
-            using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
-            {
-                var responseMessage = client.GetAsync(baseAddress).Result;
-                responseMessage.EnsureSuccessStatusCode();
-
-                var responseData = responseMessage.Content.ReadAsStringAsync().Result;
-                response = JsonConvert.DeserializeObject<InspectionResponse>(responseData);
-            }
-            return response;
+            return JsonConvert.DeserializeObject<InspectionResponse>(responseData);
         }
 
         public async Task<RoomResponse> GetRoom(string roomId)
@@ -119,25 +109,25 @@ namespace LBHAsbestosAPI.Repositories
             }
 
             var baseAddress = new Uri(roomUri + roomId);
-            var cookieContainer = new CookieContainer();
-            cookieContainer.Add(baseAddress, cookie);
+            var responseData = GetResponseData(baseAddress);
 
-            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
-
-            using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
-            {
-                var responseMessage = client.GetAsync(baseAddress).Result;
-                responseMessage.EnsureSuccessStatusCode();
-
-                var responseData = responseMessage.Content.ReadAsStringAsync().Result;
-                response = JsonConvert.DeserializeObject<RoomResponse>(responseData);
-            }
-            return response;
+            return JsonConvert.DeserializeObject<RoomResponse>(responseData);
         }
 
-        public IEnumerable<Floor> GetFloor(int floorId)
+        public async Task<FloorResponse> GetFloor(string floorId)
         {
-            throw new NotImplementedException();
+            var response = new FloorResponse();
+            var loginAction = await LoginIfCookieIsInvalid();
+
+            if (!loginAction)
+            {
+                throw new InvalidLoginException();
+            }
+
+            var baseAddress = new Uri(floorUri + floorId);
+            var responseData = GetResponseData(baseAddress);
+
+            return JsonConvert.DeserializeObject<FloorResponse>(responseData);
         }
 
         private async Task<bool> LoginIfCookieIsInvalid()
@@ -163,7 +153,25 @@ namespace LBHAsbestosAPI.Repositories
             }
             return true;
         }
+
+        private string GetResponseData(Uri baseAddress)
+        {
+            var cookieContainer = new CookieContainer();
+            cookieContainer.Add(baseAddress, cookie);
+
+            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
+
+            using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
+            {
+                HttpResponseMessage responseMessage = client.GetAsync(baseAddress).Result;
+                responseMessage.EnsureSuccessStatusCode();
+
+                var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+                return responseData;
+            }
+        }
     }
 
     public class InvalidLoginException : Exception { }
 }
+

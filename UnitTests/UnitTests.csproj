@@ -16,6 +16,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="2.5.0" />
+    <PackageReference Include="Bogus" Version="22.3.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LBHAsbestosAPI\LBHAsbestosAPI.csproj" />
@@ -26,5 +27,10 @@
     <Folder Include="Validation\" />
     <Folder Include="Controllers\" />
     <Folder Include="Integration\" />
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Validation\RoomIdValidationTests.cs" />
+    <Compile Remove="Validation\RoomIdValidationTests.cs" />
   </ItemGroup>
 </Project>

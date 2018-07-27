@@ -43,9 +43,24 @@ namespace LBHAsbestosAPI.Actions
             }
             return room;
         }
+
+        public async Task<Floor> GetFloor(string floorId)
+        {
+            _logger.LogInformation($"Calling Getfloor() with {floorId}");
+            Floor floor = await _asbestosService.GetFloor(floorId);
+
+            if (floor == null)
+            {
+                _logger.LogError($"No rooms returned for {floorId}");
+                throw new MissingFloorException();
+            }
+            return floor;
+        }
     }
 
     public class MissingInspectionException : Exception { }
 
     public class MissingRoomException : Exception { }
+
+    public class MissingFloorException : Exception { }
 }

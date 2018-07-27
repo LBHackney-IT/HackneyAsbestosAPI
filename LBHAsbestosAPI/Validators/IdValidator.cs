@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using LBHAsbestosAPI.Interfaces;
 
 namespace LBHAsbestosAPI.Validators
 {
     public static class IdValidator
     {
-       
         public static bool ValidatePropertyId(string propertyId)
         {
             // TODO current validation constrains are temporal and have yet to be reviewed 
@@ -23,15 +21,15 @@ namespace LBHAsbestosAPI.Validators
             return true;
         }
 
-        public static bool ValidateRoomId(string roomId)
+        public static bool ValidateId(string id)
         {
             var validIdMaxLength = 7;
 
-            if (roomId.Length >= validIdMaxLength)
+            if (id.Length >= validIdMaxLength)
             {
                 return false;
             }
-            if (roomId.Any(c => !char.IsDigit(c)))
+            if (id.Any(c => !char.IsDigit(c)))
             {
                 return false;
             }

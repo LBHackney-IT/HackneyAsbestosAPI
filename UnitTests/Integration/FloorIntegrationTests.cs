@@ -1,85 +1,82 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using LBHAsbestosAPI;
+using LBHAsbestosAPI.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Xunit;
-using LBHAsbestosAPI.Entities;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
-using System.Text;
 using UnitTests.Helpers;
+using Xunit;
 
 namespace UnitTests.Integration
 {
-    public class InspectionIntegrationTests
+    public class FloorIntegrationTests
     {
-        readonly TestServer server;
-        readonly HttpClient client;
-        string baseUri;
+        readonly TestServer _server;
+        readonly HttpClient _client;
+        string _baseUri;
 
-        public InspectionIntegrationTests()
+        public FloorIntegrationTests()
         {
-            server = new TestServer(new WebHostBuilder()
+            _server = new TestServer(new WebHostBuilder()
                                      .UseStartup<TestStartup>());
-            client = server.CreateClient();
-            baseUri = "api/v1/inspection/";
+            _client = _server.CreateClient();
+            _baseUri = "api/v1/floor/";
         }
 
         [Fact]
         public async Task return_200_for_valid_request()
         {
+            Random random = new Random();
             var randomId = Fake.GenerateRandomId(6);
-            var result = await client.GetAsync(baseUri + randomId);
+            var result = await _client.GetAsync(_baseUri + randomId);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
 
         [Theory]
-        [InlineData("12345678910")]
+        [InlineData("12345678")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_400_for_invalid_request(string inspectionId)
+        public async Task return_400_for_invalid_request(string floorId)
         {
-            var result = await client.GetAsync(baseUri + inspectionId);
+            var result = await _client.GetAsync(_baseUri + floorId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_404_if_request_is_successful_but_no_results()
+        public async Task return_404_if_request_successful_but_no_results()
         {
             var randomBadId = Fake.GenerateRandomId(5);
-            var result = await client.GetAsync(baseUri + randomBadId);
+            var result = await _client.GetAsync(_baseUri + randomBadId);
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
-
+        
         [Fact]
         public async Task return_500_when_internal_server_error()
         {
             var randomBadId = Fake.GenerateRandomId(4);
-            var result = await client.GetAsync(baseUri + randomBadId);
+            var result = await _client.GetAsync(_baseUri + randomBadId);
             Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 
         [Fact]
         public async Task return_valid_json_for_valid_requests()
         {
-            var expectedResultContent = new Inspection()
+            var expectedResult = new Dictionary<string, Floor>()
             {
-                Id = 655,
-                LocationDescription = "A house"
-            };
-
-            var expectedResult = new Dictionary<string, IEnumerable<Inspection>>()
-            {
-                { "results", new List<Inspection>()
+                { "results", new Floor()
                     {
-                        {expectedResultContent}
-                    }}
+                        Id = 3434,
+                        Description = "First Floor"
+                    }
+                }
             };
 
             DefaultContractResolver contractResolver = new DefaultContractResolver
@@ -92,32 +89,32 @@ namespace UnitTests.Integration
                 ContractResolver = contractResolver
             });
 
-            var randomId = Fake.GenerateRandomId(6);
-            var result = await client.GetStringAsync(baseUri + randomId);
+            var fakeValidId = Fake.GenerateRandomId(6);
+            var result = await _client.GetStringAsync(_baseUri + fakeValidId);
 
             Assert.Equal(expectedStringResult, result);
         }
 
         [Theory]
-        [InlineData("12345678910")]
+        [InlineData("12345678")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_valid_json_for_invalid_requests(string inspectionId)
+        public async Task return_valid_json_for_invalid_requests(string floorId)
         {
             var json = new StringBuilder();
             json.Append("{");
             json.Append("\"errors\":");
             json.Append("[");
             json.Append("{");
-            json.Append("\"userMessage\":\"Please provide a valid inspection id\",");
-            json.Append("\"developerMessage\":\"Invalid parameter - inspectionId\"");
+            json.Append("\"userMessage\":\"Please provide a valid floor id\",");
+            json.Append("\"developerMessage\":\"Invalid parameter - floorId\"");
             json.Append("}");
             json.Append("]");
             json.Append("}");
 
-            var result = await client.GetAsync(baseUri + inspectionId);
+            var result = await _client.GetAsync(_baseUri + floorId);
             var resultString = await result.Content.ReadAsStringAsync();
             Assert.Equal(json.ToString(), resultString);
         }
