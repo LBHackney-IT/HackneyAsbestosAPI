@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace LBHAsbestosAPI.Repositories
@@ -180,7 +181,7 @@ namespace LBHAsbestosAPI.Repositories
             var cookieContainer = new CookieContainer();
             cookieContainer.Add(baseAddress, cookie);
 
-            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
+            using (var handler = new HttpClientHandler { CookieContainer = cookieContainer })
 
             using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
             {
@@ -202,7 +203,7 @@ namespace LBHAsbestosAPI.Repositories
             var cookieContainer = new CookieContainer();
             cookieContainer.Add(baseAddress, cookie);
 
-            using (var handler = new HttpClientHandler() { CookieContainer = cookieContainer })
+            using (var handler = new HttpClientHandler { CookieContainer = cookieContainer })
 
             using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
             {
@@ -211,23 +212,26 @@ namespace LBHAsbestosAPI.Repositories
                 try
                 {
                     response.Result.EnsureSuccessStatusCode();
+
+                    var file = new FileResponse
+                    {
+                        ContentType = response.Result.Content.Headers.ContentType.ToString(),
+                        ByteSize = response.Result.Content.Headers.ContentLength,
+                        DataStream = response.Result.Content.ReadAsByteArrayAsync().Result
+                    };
+                    return file;
                 }
-                catch (HttpRequestException ex)
+                catch (HttpRequestException)
                 {
-                    throw new MissingFileException();
+                    if (response.Result.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        return new FileResponse();
+                    }
+                    throw;
                 }
-
-                var file = new FileResponse();
-                file.ContentType = response.Result.Content.Headers.ContentType.ToString();
-                file.ByteSize = response.Result.Content.Headers.ContentLength;
-                file.DataStream = response.Result.Content.ReadAsByteArrayAsync().Result;
-
-                return file;
             }
         }
     }
     public class InvalidLoginException : Exception { }
-
-    public class MissingFileException : Exception { }
 }
 

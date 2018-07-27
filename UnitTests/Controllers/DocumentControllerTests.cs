@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Controllers;
@@ -43,6 +41,7 @@ namespace UnitTests.Controllers
             var response = (FileContentResult)await PickDocumentControllerEndpoint(randomPick, fakeId.ToString());
 
             Assert.Equal(fakeFile.Size, response.FileContents.Length);
+
         }
 
         [Theory]
@@ -52,7 +51,7 @@ namespace UnitTests.Controllers
         [InlineData("1!23456")]
         public async Task return_400_for_invalid_request_on_document_functions(string fileId)
         {
-            controller = SetupControllerWithSimpleService();
+            controller = SetupControllerWithFakeSimpleService();
             var response = (JsonResult)await PickDocumentControllerEndpoint(randomPick, fileId);
 
             Assert.Equal(400, response.StatusCode);
@@ -75,7 +74,7 @@ namespace UnitTests.Controllers
         [InlineData("1!23456")]
         public async Task return_error_message_if_floorid_is_not_valid(string fileId)
         {
-            controller = SetupControllerWithSimpleService();
+            controller = SetupControllerWithFakeSimpleService();
             var response = JObject.FromObject((((JsonResult)await PickDocumentControllerEndpoint(
                                                     randomPick, fileId))).Value);
 
@@ -89,7 +88,7 @@ namespace UnitTests.Controllers
             Assert.Equal(expectedDeveloperMessage, developerMessage);
         }
 
-        private DocumentController SetupControllerWithSimpleService()
+        private DocumentController SetupControllerWithFakeSimpleService()
         {
             return new DocumentController(fakeAsbestosService.Object,
                                             fakeControllerLogger.Object,
@@ -106,11 +105,11 @@ namespace UnitTests.Controllers
                                                 fakeActionsLogger.Object);
         }
 
-        private async Task<IActionResult> PickDocumentControllerEndpoint(int randomPick, string documentId)
+        private async Task<IActionResult> PickDocumentControllerEndpoint(int pick, string documentId)
         {
             IActionResult response = null;
 
-            switch (randomPick)
+            switch (pick)
             {
                 case 0:
                     response = await controller.getPhoto(documentId);

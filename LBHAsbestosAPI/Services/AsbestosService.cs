@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Factories;
@@ -48,8 +49,8 @@ namespace LBHAsbestosAPI.Services
         }
 
         public async Task<FileResponse> GetFile(string fileId, string fileType)
-        {            
-            return await _api.GetFile(fileId, fileType);
+        {
+                return await _api.GetFile(fileId, fileType);
         }
     }
 }

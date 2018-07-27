@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Builders;
 using LBHAsbestosAPI.Interfaces;
-using LBHAsbestosAPI.Repositories;
+using LBHAsbestosAPI.Validators;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LBHAsbestosAPI.Controllers
@@ -26,34 +26,42 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("photo/{photoId}")]
         public async Task<IActionResult> getPhoto(string photoId)
         {
-            return await fileResponseHelper(photoId, FileType.photo);
+            return await documentResponseHelper(photoId, FileType.photo);
         }
 
         [HttpGet("mainphoto/{mainPhotoId}")]
         public async Task<IActionResult> getMainPhoto(string mainPhotoId)
         {
-            return await fileResponseHelper(mainPhotoId, FileType.mainPhoto);
+            return await documentResponseHelper(mainPhotoId, FileType.mainPhoto);
         }
 
         [HttpGet("report/{reportId}")]
         public async Task<IActionResult> getReport(string reportId)
         {
-            return await fileResponseHelper(reportId, FileType.report);
+            return await documentResponseHelper(reportId, FileType.report);
         }
 
         [HttpGet("drawing/{drawingId}")]
         public async Task<IActionResult> getDrawing(string drawingId)
         {
-            return await fileResponseHelper(drawingId, FileType.drawing);
+            return await documentResponseHelper(drawingId, FileType.drawing);
         }
 
-        private async Task<IActionResult> fileResponseHelper(string fileId, string fileType)
+        private async Task<IActionResult> documentResponseHelper(string fileId, string fileType)
         {
             var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
 
             try
             {
-                var response = await _asbestosService.GetFile(fileId, fileType);
+                if (!IdValidator.ValidateId(fileId))
+                {
+                    var developerMessage = $"Invalid parameter - fileId";
+                    var userMessage = "Please provide a valid file id";
+
+                    return new ErrorResponseBuilder().BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+                var response = await _asbestosActions.GetFile(fileId, fileType);
                 return File(response.DataStream, response.ContentType);
             }
             catch (MissingFileException ex)
@@ -61,22 +69,23 @@ namespace LBHAsbestosAPI.Controllers
                 var developerMessage = ex.Message;
                 var userMessage = "Cannot find file";
 
-                var responseBuilder = new ErrorResponseBuilder();
-                return responseBuilder.BuildErrorResponse(
+                return new ErrorResponseBuilder().BuildErrorResponse(
                 userMessage, developerMessage, 404);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                var userMessage = "We had some problems processing your request";
+                return new ErrorResponseBuilder().BuildErrorResponseFromException(
+                    ex, userMessage);
             }
         }
     }
 
     public static class FileType
     {
-        public static string photo = "photo";
-        public static string report = "reports";
-        public static string drawing = "maindrawing";
-        public static string mainPhoto = "mainphoto";
+        public const string photo = "photo";
+        public const string report = "reports";
+        public const string drawing = "maindrawing";
+        public const string mainPhoto = "mainphoto";
     }
 }
