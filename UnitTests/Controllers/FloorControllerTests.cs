@@ -7,8 +7,8 @@ using LBHAsbestosAPI.Interfaces;
 using Moq;
 using Newtonsoft.Json.Linq;
 using Xunit;
-using Bogus;
 using UnitTests.Helpers;
+using System.Net;
 
 namespace UnitTests.Controllers
 {
@@ -50,7 +50,7 @@ namespace UnitTests.Controllers
         public async Task return_200_for_valid_request()
         {
             var response = await controller.GetFloor(fakeId.ToString());
-            Assert.Equal(200, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
         }
 
         [Theory]
@@ -61,7 +61,7 @@ namespace UnitTests.Controllers
         public async Task return_400_for_invalid_request(string floorId)
         {
             var response = await controller.GetFloor(floorId);
-            Assert.Equal(400, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace UnitTests.Controllers
                                                         fakeControllerLogger.Object,
                                                            fakeActionsLogger.Object);
             var response = await customController.GetFloor(fakeId.ToString());
-            Assert.Equal(404, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Fact]

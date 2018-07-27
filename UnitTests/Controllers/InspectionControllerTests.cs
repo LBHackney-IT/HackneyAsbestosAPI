@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Controllers;
@@ -52,7 +53,7 @@ namespace UnitTests.Controllers
         public async Task return_200_for_valid_request()
         {
             var response = await controller.GetInspection(fakeId.ToString());
-            Assert.Equal(200, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
         }
 
         [Theory]
@@ -64,7 +65,7 @@ namespace UnitTests.Controllers
         public async Task return_400_for_invalid_request(string propertyId)
         {
             var response = await controller.GetInspection(propertyId);
-            Assert.Equal(400, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
@@ -79,7 +80,7 @@ namespace UnitTests.Controllers
             var CustomController = new AsbestosController(fakeCustomAsbestosService.Object, fakeControllerLogger.Object,
                                                     fakeActionsLogger.Object);
             var response = await CustomController.GetInspection(fakeId.ToString());
-            Assert.Equal(404, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Fact]

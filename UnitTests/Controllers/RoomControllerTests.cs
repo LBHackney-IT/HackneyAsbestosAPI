@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Controllers;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 using Moq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnitTests.Helpers;
 using Xunit;
@@ -50,7 +50,7 @@ namespace UnitTests.Controllers
         public async Task return_200_for_valid_request()
         {
             var response = await controller.GetRoom(fakeId.ToString());
-            Assert.Equal(200, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
         }
 
         [Theory]
@@ -60,7 +60,7 @@ namespace UnitTests.Controllers
         public async Task return_400_for_invalid_request(string roomId)
         {
             var response = await controller.GetRoom(roomId);
-            Assert.Equal(400, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace UnitTests.Controllers
                                                         fakeControllerLogger.Object,
                                                            fakeActionsLogger.Object);
             var response = await customController.GetRoom(fakeId.ToString());
-            Assert.Equal(404, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Fact]
