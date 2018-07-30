@@ -4,7 +4,7 @@ namespace LBHAsbestosAPI.Entities
     public class FileResponse
     {
         public string ContentType { get; set; }
-        public long? ByteSize { get; set; }
-        public Byte[] DataStream { get; set; }
+        public long? Size { get; set; }
+        public Byte[] Data { get; set; }
     }
 }

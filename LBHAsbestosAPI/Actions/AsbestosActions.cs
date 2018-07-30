@@ -75,7 +75,7 @@ namespace LBHAsbestosAPI.Actions
 
             var file = await _asbestosService.GetFile(fileId, fileType);
 
-            if (file.DataStream == null)
+            if (file.Data == null)
             {
                 throw new MissingFileException();
             }

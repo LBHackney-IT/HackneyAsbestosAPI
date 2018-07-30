@@ -41,7 +41,6 @@ namespace UnitTests.Controllers
             var response = (FileContentResult)await PickDocumentControllerEndpoint(randomPick, fakeId.ToString());
 
             Assert.Equal(fakeFile.Size, response.FileContents.Length);
-
         }
 
         [Theory]

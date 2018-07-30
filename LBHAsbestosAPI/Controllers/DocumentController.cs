@@ -26,24 +26,28 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("photo/{photoId}")]
         public async Task<IActionResult> getPhoto(string photoId)
         {
+            //throw new NotImplementedException();
             return await documentResponseHelper(photoId, FileType.photo);
         }
 
         [HttpGet("mainphoto/{mainPhotoId}")]
         public async Task<IActionResult> getMainPhoto(string mainPhotoId)
         {
+            //throw new NotImplementedException();
             return await documentResponseHelper(mainPhotoId, FileType.mainPhoto);
         }
 
         [HttpGet("report/{reportId}")]
         public async Task<IActionResult> getReport(string reportId)
         {
+            //throw new NotImplementedException();
             return await documentResponseHelper(reportId, FileType.report);
         }
 
         [HttpGet("drawing/{drawingId}")]
         public async Task<IActionResult> getDrawing(string drawingId)
         {
+            //throw new NotImplementedException();
             return await documentResponseHelper(drawingId, FileType.drawing);
         }
 
@@ -62,7 +66,7 @@ namespace LBHAsbestosAPI.Controllers
                         userMessage, developerMessage, 400);
                 }
                 var response = await _asbestosActions.GetFile(fileId, fileType);
-                return File(response.DataStream, response.ContentType);
+                return File(response.Data, response.ContentType);
             }
             catch (MissingFileException ex)
             {

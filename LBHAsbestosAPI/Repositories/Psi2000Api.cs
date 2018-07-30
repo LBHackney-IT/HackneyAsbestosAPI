@@ -216,8 +216,8 @@ namespace LBHAsbestosAPI.Repositories
                     var file = new FileResponse
                     {
                         ContentType = response.Result.Content.Headers.ContentType.ToString(),
-                        ByteSize = response.Result.Content.Headers.ContentLength,
-                        DataStream = response.Result.Content.ReadAsByteArrayAsync().Result
+                        Size = response.Result.Content.Headers.ContentLength,
+                        Data = response.Result.Content.ReadAsByteArrayAsync().Result
                     };
                     return file;
                 }
