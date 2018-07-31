@@ -26,33 +26,19 @@ namespace UnitTests.Controllers
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
+            fakeAsbestosService = new Mock<IAsbestosService>();
 
             fakeId = Fake.GenerateRandomId(8);
             fakeDescription = Fake.GenerateRandomText();
-
-            var fakeResponse = new List<Inspection>()
-            {
-                { new Inspection()
-                    {
-                        Id = fakeId,
-                        LocationDescription = fakeDescription
-                    }}
-            };
-
-            fakeAsbestosService = new Mock<IAsbestosService>();
-            fakeAsbestosService
-                .Setup(m => m.GetInspection(It.IsAny<string>()))
-                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeResponse));
-
-            controller = new AsbestosController(fakeAsbestosService.Object, 
-                                                    fakeControllerLogger.Object,
-                                                    fakeActionsLogger.Object);
         }
 
         [Fact]
         public async Task return_200_for_valid_request()
         {
+            var fakeResponse = Fake.GenerateInspection(fakeId, fakeDescription);
+            controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = await controller.GetInspection(fakeId.ToString());
+
             Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
         }
 
@@ -64,7 +50,9 @@ namespace UnitTests.Controllers
         [InlineData("12 456")]
         public async Task return_400_for_invalid_request(string propertyId)
         {
+            controller = SetupControllerWithSimpleService();
             var response = await controller.GetInspection(propertyId);
+
             Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
 
@@ -72,20 +60,16 @@ namespace UnitTests.Controllers
         public async Task return_404_if_request_is_successful_but_no_results()
         {
             var fakeEmptyResponse = new List<Inspection>();
-            var fakeCustomAsbestosService = new Mock<IAsbestosService>();
-            fakeAsbestosService
-                .Setup(m => m.GetInspection(It.IsAny<string>()))
-                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeEmptyResponse));
-
-            var CustomController = new AsbestosController(fakeCustomAsbestosService.Object, fakeControllerLogger.Object,
-                                                    fakeActionsLogger.Object);
-            var response = await CustomController.GetInspection(fakeId.ToString());
+            controller = SetupControllerWithServiceReturningFakeObject(fakeEmptyResponse);
+            var response = await controller.GetInspection(fakeId.ToString());
             Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
+            var fakeResponse = Fake.GenerateInspection(fakeId, fakeDescription);
+            controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = JObject.FromObject((await controller.GetInspection(fakeId.ToString())).Value);
             var responseId = response["results"][0]["Id"];
             var responseLocationDescription = response["results"][0]["LocationDescription"];
@@ -102,6 +86,7 @@ namespace UnitTests.Controllers
         [InlineData("12 456")]
         public async Task return_error_message_if_inspectionid_is_not_valid(string propertyId)
         {
+            controller = SetupControllerWithSimpleService();
             var response = JObject.FromObject((await controller.GetInspection(propertyId)).Value);
             var userMessage = response["errors"].First["userMessage"].ToString();
             var developerMessage = response["errors"].First["developerMessage"].ToString();
@@ -116,6 +101,8 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task response_has_the_valid_format_if_request_successful()
         {
+            var fakeResponse = Fake.GenerateInspection(fakeId, fakeDescription);
+            controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = JObject.FromObject((await controller.GetInspection(fakeId.ToString())).Value);
             Assert.NotNull(response["results"]);
         }
@@ -128,8 +115,23 @@ namespace UnitTests.Controllers
         [InlineData("12 456")]
         public async Task response_has_the_valid_format_if_request_unsuccessful(string propertyId)
         {
+            controller = SetupControllerWithSimpleService();
             var response = JObject.FromObject((await controller.GetInspection(propertyId)).Value);
             Assert.NotNull(response["errors"]);
+        }
+
+        private AsbestosController SetupControllerWithSimpleService()
+        {
+            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+                                          fakeActionsLogger.Object);
+        }
+
+        private AsbestosController SetupControllerWithServiceReturningFakeObject(IEnumerable<Inspection> fakeResponse)
+        {
+            fakeAsbestosService.Setup(m => m.GetInspection(It.IsAny<string>()))
+                               .Returns(Task.FromResult(fakeResponse));
+            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+                                          fakeActionsLogger.Object);
         }
     }
 }

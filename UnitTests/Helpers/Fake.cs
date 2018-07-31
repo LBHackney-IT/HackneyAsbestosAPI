@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Bogus;
+using LBHAsbestosAPI.Entities;
 
 namespace UnitTests.Helpers
 {
@@ -21,6 +23,18 @@ namespace UnitTests.Helpers
         public static string GenerateRandomText()
         {
             return random.Lorem.Sentence(6);
+        }
+
+        public static IEnumerable<Inspection> GenerateInspection(int fakeId,
+                                                                string fakeDescription)
+        {
+            return new List<Inspection>()
+            {
+                { new Inspection()
+                    {
+                        Id = fakeId,
+                        LocationDescription = fakeDescription
+                    }}};
         }
     }
 }
