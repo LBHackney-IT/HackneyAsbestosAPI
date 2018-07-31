@@ -36,5 +36,23 @@ namespace UnitTests.Helpers
                         LocationDescription = fakeDescription
                     }}};
         }
+
+        public static Floor GenerateFloor(int fakeId, string fakeDescription)
+        {
+            return new Floor()
+            {
+                Id = fakeId,
+                Description = fakeDescription
+            };   
+        }
+
+        public static Room GenerateRoom(int fakeId, string fakeDescription)
+        {
+            return new Room()
+            {
+                Id = fakeId,
+                Description = fakeDescription
+            };
+        }
     }
 }

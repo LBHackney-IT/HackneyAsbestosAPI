@@ -96,16 +96,6 @@ namespace UnitTests.Controllers
             Assert.Equal(expectedDeveloperMessage, developerMessage);
         }
 
-        [Fact]
-        public async Task response_has_the_valid_format_if_request_successful()
-        {
-            var fakeResponse = Fake.GenerateFloor(fakeId, fakeDescription);
-            controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
-            var response = JObject.FromObject((await controller.GetFloor(fakeId.ToString())).Value);
-
-            Assert.NotNull(response["results"]);
-        }
-
         [Theory]
         [InlineData("abc")]
         [InlineData("1234 56")]
