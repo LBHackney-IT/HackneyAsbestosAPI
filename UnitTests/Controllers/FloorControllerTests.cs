@@ -34,7 +34,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task return_200_for_valid_request()
         {
-            var fakeResponse = GenerateFakeFloor();
+            var fakeResponse = Fake.GenerateFloor(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = await controller.GetFloor(fakeId.ToString());
 
@@ -66,7 +66,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
-            var fakeResponse = GenerateFakeFloor();
+            var fakeResponse = Fake.GenerateFloor(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = JObject.FromObject((await controller.GetFloor(
                 fakeId.ToString())).Value);
@@ -99,7 +99,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task response_has_the_valid_format_if_request_successful()
         {
-            var fakeResponse = GenerateFakeFloor();
+            var fakeResponse = Fake.GenerateFloor(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = JObject.FromObject((await controller.GetFloor(fakeId.ToString())).Value);
 
@@ -131,15 +131,6 @@ namespace UnitTests.Controllers
                                .Returns(Task.FromResult(fakeResponse));
             return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
                                           fakeActionsLogger.Object);
-        }
-
-        private Floor GenerateFakeFloor()
-        {
-            return new Floor()
-            {
-                Id = fakeId,
-                Description = fakeDescription
-            };   
         }
     }
 }
