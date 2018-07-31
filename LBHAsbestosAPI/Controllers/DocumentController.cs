@@ -74,7 +74,7 @@ namespace LBHAsbestosAPI.Controllers
                 var userMessage = "Cannot find file";
 
                 return new ErrorResponseBuilder().BuildErrorResponse(
-                userMessage, developerMessage, 404);
+                    userMessage, developerMessage, 404);
             }
             catch (Exception ex)
             {

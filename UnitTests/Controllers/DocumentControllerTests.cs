@@ -76,7 +76,7 @@ namespace UnitTests.Controllers
             controller = SetupControllerWithFakeSimpleService();
             var response = JObject.FromObject((((JsonResult)await PickDocumentControllerEndpoint(
                                                     randomPick, fileId))).Value);
-
+            
             var userMessage = response["errors"].First["userMessage"].ToString();
             var developerMessage = response["errors"].First["developerMessage"].ToString();
 
