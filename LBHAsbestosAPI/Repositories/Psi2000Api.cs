@@ -35,7 +35,7 @@ namespace LBHAsbestosAPI.Repositories
             await EnsureSuccessLogin();
 
             var baseAddress = new Uri(inspectionUri + "?filter=(UPRN=\"" + propertyId + "\")");
-            var responseData = GetResponseData(baseAddress);
+            var responseData = GetResponseMessage(baseAddress);
 
             return JsonConvert.DeserializeObject<InspectionResponse>(responseData);
         }
@@ -45,7 +45,7 @@ namespace LBHAsbestosAPI.Repositories
             await EnsureSuccessLogin();
 
             var baseAddress = new Uri(roomUri + roomId);
-            var responseData = GetResponseData(baseAddress);
+            var responseData = GetResponseMessage(baseAddress);
 
             return JsonConvert.DeserializeObject<RoomResponse>(responseData);
         }
@@ -55,7 +55,7 @@ namespace LBHAsbestosAPI.Repositories
             await EnsureSuccessLogin();
 
             var baseAddress = new Uri(floorUri + floorId);
-            var responseData = GetResponseData(baseAddress);
+            var responseData = GetResponseMessage(baseAddress);
 
             return JsonConvert.DeserializeObject<FloorResponse>(responseData);
         }
@@ -78,12 +78,12 @@ namespace LBHAsbestosAPI.Repositories
             return GetResponseStream(baseAddress);
         }
 
-        private string GetResponseData(Uri baseAddress)
+        private string GetResponseMessage(Uri baseAddress)
         {
             using (var handler = new HttpClientHandler { CookieContainer = SetupCookie(baseAddress) })
             using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
             {
-                HttpResponseMessage responseMessage = client.GetAsync(baseAddress).Result;
+                var responseMessage = client.GetAsync(baseAddress).Result;
                 responseMessage.EnsureSuccessStatusCode();
 
                 var responseData = responseMessage.Content.ReadAsStringAsync().Result;
@@ -206,8 +206,8 @@ namespace LBHAsbestosAPI.Repositories
             _logger.LogInformation("Login successful");
             return true;
         }
-
     }
+
     public class InvalidLoginException : Exception { }
 }
 
