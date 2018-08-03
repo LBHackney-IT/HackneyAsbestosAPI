@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using NLog.Extensions.Logging;
-
 using NLog.Web;
 
 namespace LBHAsbestosAPI
@@ -19,7 +18,6 @@ namespace LBHAsbestosAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            //TestStatus.IsRunningTests = false;
         }
 
         public IConfiguration Configuration { get; }
@@ -42,24 +40,33 @@ namespace LBHAsbestosAPI
                 c.IncludeXmlComments(xmlPath);
             });
 
-			services.AddCustomServices();
+            if (TestStatus.IsRunningIntegrationTests)
+            {
+                services.AddCustomTestServices();
+            }
+            else
+            {
+                services.AddCustomServices();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {         
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-			loggerFactory.AddNLog();
-			app.AddNLogWeb();
-
-            if (!TestStatus.IsRunningTests)
+            loggerFactory.AddNLog();
+            app.AddNLogWeb();
+			
+            if (!TestStatus.IsRunningIntegrationTests)
             {
                 env.ConfigureNLog("NLog.config");
             }
+            loggerFactory.AddNLog();
+
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI( cw =>

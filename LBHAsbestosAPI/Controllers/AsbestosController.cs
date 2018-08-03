@@ -28,7 +28,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <summary>
         /// Gets a list of inspections for a particular property id
         /// </summary>
-        /// <param name="propertyId">A numeric string that identifies a property</param>
+        /// <param name="propertyId">A string that identifies a property</param>
         /// <returns>A list of inspections matching the specified property id</returns>
         /// <response code="200">Returns the list of inspections</response>
         /// <response code="404">If the property id does not return any inspections</response>
@@ -77,7 +77,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <summary>
         /// Gets a room for a particular room id
         /// </summary>
-        /// <param name="roomId">A numeric string that identifies a room</param>
+        /// <param name="roomId">A string that identifies a room</param>
         /// <returns>A room matching the specified room id</returns>
         /// <response code="200">Returns a room</response>
         /// <response code="404">If the room id does not return any room</response>
@@ -126,7 +126,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <summary>
         /// Gets a floor for a particular floor id
         /// </summary>
-        /// <param name="floorId">A numeric string that identifies a floor</param>
+        /// <param name="floorId">A string that identifies a floor</param>
         /// <returns>A floor matching the specified floor id</returns>
         /// <response code="200">Returns a floor</response>
         /// <response code="404">If the floor id does not return any floor</response>

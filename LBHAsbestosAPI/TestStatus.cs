@@ -3,6 +3,6 @@ namespace LBHAsbestosAPI
 {
     public class TestStatus
     {
-        public static bool IsRunningTests;
+        public static bool IsRunningIntegrationTests;
     }
 }

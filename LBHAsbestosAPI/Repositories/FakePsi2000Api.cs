@@ -6,7 +6,7 @@ using LBHAsbestosAPI.Interfaces;
 
 namespace LBHAsbestosAPI.Repositories
 {
-    public class FakePSI2000Api : IPsi2000Api
+    public class FakePsi2000Api : IPsi2000Api
     {
         static int triggerExceptionIdLength = 4;
         static int nullResponseIdLength = 5;
