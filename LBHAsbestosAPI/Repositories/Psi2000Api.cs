@@ -65,7 +65,7 @@ namespace LBHAsbestosAPI.Repositories
             await EnsureSuccessLogin();
 
             var baseAddress = new Uri(elementUri + elementId);
-            var responseData = GetResponseData(baseAddress);
+            var responseData = GetResponseMessage(baseAddress);
 
             return JsonConvert.DeserializeObject<ElementResponse>(responseData);
         }
