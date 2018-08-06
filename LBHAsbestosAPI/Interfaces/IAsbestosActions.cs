@@ -9,8 +9,9 @@ namespace LBHAsbestosAPI.Actions
 {
     public interface IAsbestosActions
     {
-        Task<Floor> GetFloor(string floorId);
         Task<IEnumerable<Inspection>> GetInspection(string propertyId);
+        Task<Floor> GetFloor(string floorId);
         Task<Room> GetRoom(string roomId);
+        Task<Element> GetElement(string elementId);
     }
 }

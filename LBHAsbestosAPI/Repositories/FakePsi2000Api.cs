@@ -11,11 +11,6 @@ namespace LBHAsbestosAPI.Repositories
         static int triggerExceptionIdLength = 4;
         static int nullResponseIdLength = 5;
 
-        public IEnumerable<Element> GetElement(int elementId)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<InspectionResponse> GetInspections(string propertyId)
         {
             if (propertyId.Length == triggerExceptionIdLength)
@@ -101,6 +96,34 @@ namespace LBHAsbestosAPI.Repositories
             }
 
             return Task.FromResult(fakeFloorResponse);
+        }
+
+        public Task<ElementResponse> GetElement(string elementId)
+        {
+            if (elementId.Length == triggerExceptionIdLength)
+            {
+                throw new TestExceptionInFakePSI();
+            }
+
+            var fakeElementResponse = new ElementResponse()
+            {
+                Success = true
+            };
+
+            if (elementId.Length == nullResponseIdLength)
+            {
+                fakeElementResponse.Data = null;
+            }
+            else
+            {
+                fakeElementResponse.Data = new Element()
+                {
+                    Id = 3434,
+                    Description = "First Floor"
+                };
+            }
+
+            return Task.FromResult(fakeElementResponse);
         }
 
         public Task<bool> Login()

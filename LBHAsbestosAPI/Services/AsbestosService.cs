@@ -18,11 +18,6 @@ namespace LBHAsbestosAPI.Services
             _api = api;
         }
 
-        public Task<IEnumerable<Element>> GetElements(int elementId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<Inspection>> GetInspection(string propertyId)
         {
             _logger.LogInformation($"Calling GetInspections() with {propertyId}");
@@ -43,6 +38,13 @@ namespace LBHAsbestosAPI.Services
             _logger.LogInformation($"Calling GetFloor with {floorId}");
             var response = await _api.GetFloor(floorId);
             return response.Data;
+        }
+
+        public async Task<Element> GetElement(string elementId)
+        {
+            _logger.LogInformation($"Calling GetElement with {elementId}");
+            var response = await _api.GetElement(elementId);
+            return response.Data; 
         }
     }
 }

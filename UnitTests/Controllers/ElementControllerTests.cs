@@ -12,7 +12,7 @@ using Xunit;
 
 namespace UnitTests.Controllers
 {
-    public class RoomControllerTests
+    public class ElementControllerTests
     {
         Mock<ILoggerAdapter<AsbestosActions>> fakeActionsLogger;
         Mock<ILoggerAdapter<AsbestosController>> fakeControllerLogger;
@@ -21,7 +21,7 @@ namespace UnitTests.Controllers
         int fakeId;
         string fakeDescription;
 
-        public RoomControllerTests()
+        public ElementControllerTests()
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
@@ -34,9 +34,9 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task return_200_for_valid_request()
         {
-            var fakeResponse = Fake.GenerateRoom(fakeId, fakeDescription);
+            var fakeResponse = Fake.GenerateElement(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
-            var response = await controller.GetRoom(fakeId.ToString());
+            var response = await controller.GetElement(fakeId.ToString());
 
             Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
         }
@@ -46,10 +46,10 @@ namespace UnitTests.Controllers
         [InlineData("1234 56")]
         [InlineData("A123456")]
         [InlineData("1!23456")]
-        public async Task return_400_for_invalid_request(string roomId)
+        public async Task return_400_for_invalid_request(string elementId)
         {
             controller = SetupControllerWithSimpleService();
-            var response = await controller.GetRoom(roomId);
+            var response = await controller.GetElement(elementId);
 
             Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -57,9 +57,9 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task return_404_if_request_is_successful_but_no_results()
         {
-            Room fakeEmptyResponse = null;
+            Element fakeEmptyResponse = null;
             controller = SetupControllerWithServiceReturningFakeObject(fakeEmptyResponse);
-            var response = await controller.GetRoom(fakeId.ToString());
+            var response = await controller.GetElement(fakeId.ToString());
 
             Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
@@ -67,10 +67,10 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
-            var fakeResponse = Fake.GenerateRoom(fakeId, fakeDescription);
+            var fakeResponse = Fake.GenerateElement(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
 
-            var response = JObject.FromObject((await controller.GetRoom(fakeId.ToString())).Value);
+            var response = JObject.FromObject((await controller.GetElement(fakeId.ToString())).Value);
             var responseId = response["results"]["Id"].Value<int>();
             var responseDescription = response["results"]["Description"];
 
@@ -83,31 +83,18 @@ namespace UnitTests.Controllers
         [InlineData("1234 56")]
         [InlineData("123A56")]
         [InlineData("1!23456")]
-        public async Task return_error_message_if_roomid_is_not_valid(string roomId)
+        public async Task return_error_message_if_elementid_is_not_valid(string elementId)
         {
             controller = SetupControllerWithSimpleService();
-            var response = JObject.FromObject((await controller.GetRoom(roomId)).Value);
+            var response = JObject.FromObject((await controller.GetElement(elementId)).Value);
 
             var userMessage = response["errors"].First["userMessage"].ToString();
             var developerMessage = response["errors"].First["developerMessage"].ToString();
-            var expectedUserMessage = "Please provide a valid room id";
-            var expectedDeveloperMessage = "Invalid parameter - roomId";
+            var expectedUserMessage = "Please provide a valid element id";
+            var expectedDeveloperMessage = "Invalid parameter - elementId";
 
             Assert.Equal(expectedUserMessage, userMessage);
             Assert.Equal(expectedDeveloperMessage, developerMessage);
-        }
-
-        [Theory]
-        [InlineData("abc")]
-        [InlineData("1234 56")]
-        [InlineData("123A56")]
-        [InlineData("1!23456")]
-        public async Task response_has_the_valid_format_if_request_unsuccessful(string roomId)
-        {
-            controller = SetupControllerWithSimpleService();
-            var response = JObject.FromObject((await controller.GetRoom(roomId)).Value);
-
-            Assert.NotNull(response["errors"]);
         }
 
         private AsbestosController SetupControllerWithSimpleService()
@@ -116,12 +103,13 @@ namespace UnitTests.Controllers
                                           fakeActionsLogger.Object);
         }
 
-        private AsbestosController SetupControllerWithServiceReturningFakeObject(Room fakeResponse)
+        private AsbestosController SetupControllerWithServiceReturningFakeObject(Element fakeResponse)
         {
-            fakeAsbestosService.Setup(m => m.GetRoom(It.IsAny<string>()))
+            fakeAsbestosService.Setup(m => m.GetElement(It.IsAny<string>()))
                                .Returns(Task.FromResult(fakeResponse));
             return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
                                           fakeActionsLogger.Object);
         }
     }
 }
+

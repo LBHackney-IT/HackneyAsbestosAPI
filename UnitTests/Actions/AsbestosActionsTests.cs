@@ -70,5 +70,20 @@ namespace UnitTests.Actions
 
             Assert.True(response is Floor);
         }
+
+        [Fact]
+        public async Task return_type_should_be_element()
+        {
+            var fakeResponse = new Element();
+
+            fakeAsbestosService
+                .Setup(m => m.GetElement(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeResponse));
+
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+            var response = await asbestosAction.GetElement(fakeId);
+
+            Assert.True(response is Element);
+        }
     }
 }

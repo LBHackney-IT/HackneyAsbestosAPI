@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LBHAsbestosAPI;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 using LBHAsbestosAPI.Repositories;
@@ -102,6 +103,31 @@ namespace UnitTests.Services
 
             asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
             responseData = await asbestosService.GetRoom(fakeId.ToString());
+
+            Assert.Equal(fakeId, responseData.Id);
+            Assert.Equal(fakeDescription, responseData.Description);
+        }
+
+        [Fact]
+        public async Task can_access_element_data_from_response()
+        {
+            Element responseData;
+            var fakeRepository = new Mock<IPsi2000Api>();
+            var fakeElementResponse = new ElementResponse()
+            {
+                Data = new Element()
+                {
+                    Id = fakeId,
+                    Description = fakeDescription
+                }
+            };
+
+            fakeRepository
+                .Setup(m => m.GetElement(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeElementResponse));
+
+            asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
+            responseData = await asbestosService.GetElement("random string");
 
             Assert.Equal(fakeId, responseData.Id);
             Assert.Equal(fakeDescription, responseData.Description);

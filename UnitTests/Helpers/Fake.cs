@@ -54,5 +54,14 @@ namespace UnitTests.Helpers
                 Description = fakeDescription
             };
         }
+
+        public static Element GenerateElement(int fakeId, string fakeDescription)
+        {
+            return new Element()
+            {
+                Id = fakeId,
+                Description = fakeDescription
+            };
+        }
     }
 }
