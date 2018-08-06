@@ -73,6 +73,37 @@ GET /v1/room/
 
 ### List floor details
 
-TODO
+Returns a floor matching a floor id.
+
+```
+GET /v1/floor/
+```
+### Parameters
+
+- floorId (required)
+
+### Response
+
+```json
+{
+  "results": {
+    "Id": 12345,
+    "Description": "Fifth",
+    "PropertyId": 12345,
+    "OrderId": null,
+    "Uprn": "00000000",
+    "IsInspected": true,
+    "IsDoesContainAsbestos": false,
+    "IsDidContainAsbestos": false,
+    "IsAnyToDos": false,
+    "CreatedBy": "TEST",
+    "ModifiedBy": null,
+    "DateOfModification": null,
+    "DateOfCreation": "2018-01-25T10:20:56.66+00:00",
+    "IsActive": true,
+    "IsLiableToAsbestos": false
+  }
+}
+```
 
 
