@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Controllers;
@@ -53,7 +54,7 @@ namespace UnitTests.Controllers
             controller = SetupControllerWithFakeSimpleService();
             var response = (JsonResult)await PickDocumentControllerEndpoint(randomPick, fileId);
 
-            Assert.Equal(400, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
@@ -63,7 +64,7 @@ namespace UnitTests.Controllers
             controller = SetupControllerWithServiceReturningFileResponse(emptyFileResponse);
             var response = (JsonResult)await PickDocumentControllerEndpoint(randomPick, fakeId.ToString());
 
-            Assert.Equal(404, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Theory]

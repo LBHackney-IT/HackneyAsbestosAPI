@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Builders;
@@ -23,31 +24,67 @@ namespace LBHAsbestosAPI.Controllers
             _loggerActions = loggerActions;
         }
 
+        // GET properties
+        /// <summary>
+        /// Gets an photo for a particular photo id
+        /// </summary>
+        /// <param name="photoId">A string that identifies an photo</param>
+        /// <returns>A photo matching the specified photo id</returns>
+        /// <response code="200">Returns a photo</response>
+        /// <response code="404">If the photo id does not return any result</response>
+        /// <response code="400">If the photo id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response> 
         [HttpGet("photo/{photoId}")]
         public async Task<IActionResult> getPhoto(string photoId)
         {
-            //throw new NotImplementedException();
             return await documentResponseHelper(photoId, FileType.photo);
         }
 
+        // GET properties
+        /// <summary>
+        /// Gets an photo for a particular main photo id
+        /// </summary>
+        /// <param name="mainPhotoId">A string that identifies an photo</param>
+        /// <returns>A photo matching the specified main photo id</returns>
+        /// <response code="200">Returns a photo</response>
+        /// <response code="404">If the main photo id does not return any result</response>
+        /// <response code="400">If the photo id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response> 
         [HttpGet("mainphoto/{mainPhotoId}")]
         public async Task<IActionResult> getMainPhoto(string mainPhotoId)
         {
-            //throw new NotImplementedException();
             return await documentResponseHelper(mainPhotoId, FileType.mainPhoto);
         }
 
+        // GET properties
+        /// <summary>
+        /// Gets an report for a particular report id
+        /// </summary>
+        /// <param name="reportId">A string that identifies an report id</param>
+        /// <returns>A report in pdf format matching the specified report id</returns>
+        /// <response code="200">Returns a report</response>
+        /// <response code="404">If the report id does not return any result</response>
+        /// <response code="400">If the report id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response> 
         [HttpGet("report/{reportId}")]
         public async Task<IActionResult> getReport(string reportId)
         {
-            //throw new NotImplementedException();
             return await documentResponseHelper(reportId, FileType.report);
         }
 
+        // GET properties
+        /// <summary>
+        /// Gets an report for a particular drawing id
+        /// </summary>
+        /// <param name="drawingId">A string that identifies a drawing id</param>
+        /// <returns>An image matching the specified drawing id</returns>
+        /// <response code="200">Returns an image</response>
+        /// <response code="404">If the drawing id does not return any result</response>
+        /// <response code="400">If the drawing id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response> 
         [HttpGet("drawing/{drawingId}")]
         public async Task<IActionResult> getDrawing(string drawingId)
         {
-            //throw new NotImplementedException();
             return await documentResponseHelper(drawingId, FileType.drawing);
         }
 
@@ -63,7 +100,7 @@ namespace LBHAsbestosAPI.Controllers
                     var userMessage = "Please provide a valid file id";
 
                     return new ErrorResponseBuilder().BuildErrorResponse(
-                        userMessage, developerMessage, 400);
+                        userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
                 }
                 var response = await _asbestosActions.GetFile(fileId, fileType);
                 return File(response.Data, response.ContentType);
@@ -74,7 +111,7 @@ namespace LBHAsbestosAPI.Controllers
                 var userMessage = "Cannot find file";
 
                 return new ErrorResponseBuilder().BuildErrorResponse(
-                    userMessage, developerMessage, 404);
+                    userMessage, developerMessage, (int)HttpStatusCode.NotFound);
             }
             catch (Exception ex)
             {
