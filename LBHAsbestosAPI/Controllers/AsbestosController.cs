@@ -175,7 +175,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <summary>
         /// Gets an element for a particular element id
         /// </summary>
-        /// <param name="elementId">A numeric string that identifies an element</param>
+        /// <param name="elementId">A string that identifies an element</param>
         /// <returns>An element matching the specified element id</returns>
         /// <response code="200">Returns an element</response>
         /// <response code="404">If the element id does not return any element</response>
