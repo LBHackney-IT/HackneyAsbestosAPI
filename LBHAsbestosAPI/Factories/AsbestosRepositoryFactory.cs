@@ -8,7 +8,7 @@ namespace LBHAsbestosAPI.Factories
     {
         public static IPsi2000Api Build() 
         {
-            return new FakePSI2000Api();
+            return new FakePsi2000Api();
         }
     }
 }

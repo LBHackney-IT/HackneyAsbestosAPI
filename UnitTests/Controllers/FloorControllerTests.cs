@@ -7,8 +7,8 @@ using LBHAsbestosAPI.Interfaces;
 using Moq;
 using Newtonsoft.Json.Linq;
 using Xunit;
-using Bogus;
 using UnitTests.Helpers;
+using System.Net;
 
 namespace UnitTests.Controllers
 {
@@ -17,40 +17,28 @@ namespace UnitTests.Controllers
         Mock<ILoggerAdapter<AsbestosActions>> fakeActionsLogger;
         Mock<ILoggerAdapter<AsbestosController>> fakeControllerLogger;
         Mock<IAsbestosService> fakeAsbestosService;
-        readonly AsbestosController controller;
+        AsbestosController controller;
         int fakeId;
         string fakeDescription;
-
 
         public FloorControllerTests()
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
+            fakeAsbestosService = new Mock<IAsbestosService>();
 
             fakeId = Fake.GenerateRandomId(5);
             fakeDescription = Fake.GenerateRandomText();
-
-            var fakeResponse = new Floor()
-            {
-                Id = fakeId,
-                Description = fakeDescription
-            };
-
-            fakeAsbestosService = new Mock<IAsbestosService>();
-            fakeAsbestosService
-                .Setup(m => m.GetFloor(It.IsAny<string>()))
-                .Returns(Task.FromResult(fakeResponse));
-
-            controller = new AsbestosController(fakeAsbestosService.Object,
-                                                    fakeControllerLogger.Object,
-                                                    fakeActionsLogger.Object);
         }
 
         [Fact]
         public async Task return_200_for_valid_request()
         {
+            var fakeResponse = Fake.GenerateFloor(fakeId, fakeDescription);
+            controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = await controller.GetFloor(fakeId.ToString());
-            Assert.Equal(200, response.StatusCode);
+
+            Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
         }
 
         [Theory]
@@ -60,32 +48,28 @@ namespace UnitTests.Controllers
         [InlineData("1!23456")]
         public async Task return_400_for_invalid_request(string floorId)
         {
+            controller = SetupControllerWithSimpleService();
             var response = await controller.GetFloor(floorId);
-            Assert.Equal(400, response.StatusCode);
+            Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
 
         [Fact]
         public async Task return_404_if_request_is_successful_but_no_results()
         {
             Floor fakeEmptyResponse = null;
+            controller = SetupControllerWithServiceReturningFakeObject(fakeEmptyResponse);
 
-            var fakeCustomAsbestosService = new Mock<IAsbestosService>();
-            fakeCustomAsbestosService
-                .Setup(m => m.GetFloor(It.IsAny<string>()))
-                .Returns(Task.FromResult(fakeEmptyResponse));
-
-            var customController = new AsbestosController(fakeCustomAsbestosService.Object,
-                                                        fakeControllerLogger.Object,
-                                                           fakeActionsLogger.Object);
-            var response = await customController.GetFloor(fakeId.ToString());
-            Assert.Equal(404, response.StatusCode);
+            var response = await controller.GetFloor(fakeId.ToString());
+            Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
 
         [Fact]
         public async Task response_has_valid_content_if_request_successful()
         {
+            var fakeResponse = Fake.GenerateFloor(fakeId, fakeDescription);
+            controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = JObject.FromObject((await controller.GetFloor(
-                Fake.GenerateRandomId(5).ToString())).Value);
+                fakeId.ToString())).Value);
             var responseId = response["results"]["Id"].Value<int>();
             var responseDescription = response["results"]["Description"];
 
@@ -100,6 +84,7 @@ namespace UnitTests.Controllers
         [InlineData("1!23456")]
         public async Task return_error_message_if_floorid_is_not_valid(string floorId)
         {
+            controller = SetupControllerWithSimpleService(); 
             var response = JObject.FromObject((await controller.GetFloor(floorId)).Value);
             var userMessage = response["errors"].First["userMessage"].ToString();
             var developerMessage = response["errors"].First["developerMessage"].ToString();
@@ -111,13 +96,6 @@ namespace UnitTests.Controllers
             Assert.Equal(expectedDeveloperMessage, developerMessage);
         }
 
-        [Fact]
-        public async Task response_has_the_valid_format_if_request_successful()
-        {
-            var response = JObject.FromObject((await controller.GetFloor(fakeId.ToString())).Value);
-            Assert.NotNull(response["results"]);
-        }
-
         [Theory]
         [InlineData("abc")]
         [InlineData("1234 56")]
@@ -125,8 +103,24 @@ namespace UnitTests.Controllers
         [InlineData("1!23456")]
         public async Task response_has_the_valid_format_if_request_unsuccessful(string floorId)
         {
+            controller = SetupControllerWithSimpleService();
             var response = JObject.FromObject((await controller.GetFloor(floorId)).Value);
+
             Assert.NotNull(response["errors"]);
+        }
+
+        private AsbestosController SetupControllerWithSimpleService()
+        {
+            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+                                          fakeActionsLogger.Object);
+        }
+
+        private AsbestosController SetupControllerWithServiceReturningFakeObject(Floor fakeResponse)
+        {
+            fakeAsbestosService.Setup(m => m.GetFloor(It.IsAny<string>()))
+                               .Returns(Task.FromResult(fakeResponse));
+            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+                                          fakeActionsLogger.Object);
         }
     }
 }

@@ -21,7 +21,6 @@ namespace UnitTests.Integration
         readonly HttpClient _client;
         string _baseUri;
 
-
         public RoomIntegrationTests()
         {
             _server = new TestServer(new WebHostBuilder()
