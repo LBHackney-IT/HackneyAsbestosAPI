@@ -69,7 +69,17 @@ namespace LBHAsbestosAPI.Repositories
 
             return JsonConvert.DeserializeObject<ElementResponse>(responseData);
         }
-            
+         
+        public async Task<DocumentResponse> GetDocument(string inspectionId, string fileType)
+        {
+            await EnsureSuccessLogin();
+
+            var baseAddress = new Uri(documentUri + fileType + $"?filter=(UPRN=\"{ inspectionId }\")");
+            var responseData = GetResponseMessage(baseAddress);
+
+            return JsonConvert.DeserializeObject<DocumentResponse>(responseData);
+        }
+
         public async Task<FileResponse> GetFile(string fileId, string fileType)
         {
             await EnsureSuccessLogin();
