@@ -12,14 +12,14 @@ namespace LBHAsbestosAPI.Controllers
 	[Route("api/v1/")]
 	public class DataController : Controller
     {
-		IAsbestosService _asbestosService;
+	    IAsbestosService _asbestosService;
         ILoggerAdapter<AsbestosActions> _loggerActions;
         protected readonly ILoggerAdapter<DataController> _logger;
 
         public DataController(IAsbestosService asbestosService, ILoggerAdapter<DataController> logger,
                                   ILoggerAdapter<AsbestosActions> loggerActions)
         {
-			_asbestosService = asbestosService;
+            _asbestosService = asbestosService;
             _logger = logger;
             _loggerActions = loggerActions;
         }
