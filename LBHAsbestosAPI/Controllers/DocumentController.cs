@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LBHAsbestosAPI.Controllers
 {
-    [Route("api/v1/documents")]
+    [Route("api/v1/document")]
     public class DocumentController : Controller
     {
         IAsbestosService _asbestosService;
@@ -35,9 +35,15 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="400">If the photo id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
         [HttpGet("photo/{photoId}")]
-        public async Task<IActionResult> getPhoto(string photoId)
+        public async Task<IActionResult> GetPhoto(string photoId)
         {
             return await documentResponseHelper(photoId, FileType.photo);
+        }
+
+        [HttpGet("photo")]
+        public async Task<IActionResult> GetPhotoByInspectionId(string inspectionId)
+        {
+            throw new NotImplementedException();
         }
 
         // GET properties
@@ -56,6 +62,12 @@ namespace LBHAsbestosAPI.Controllers
             return await documentResponseHelper(mainPhotoId, FileType.mainPhoto);
         }
 
+        [HttpGet("mainphoto")]
+        public async Task<IActionResult> GetMainPhotoByInspectionId(string inspectionId)
+        {
+            throw new NotImplementedException();
+        }
+
         // GET properties
         /// <summary>
         /// Gets an report for a particular report id
@@ -72,6 +84,12 @@ namespace LBHAsbestosAPI.Controllers
             return await documentResponseHelper(reportId, FileType.report);
         }
 
+        [HttpGet("report")]
+        public async Task<IActionResult> GetReportByInspectionId(string inspectionId)
+        {
+            throw new NotImplementedException();
+        }
+
         // GET properties
         /// <summary>
         /// Gets an report for a particular drawing id
@@ -86,6 +104,12 @@ namespace LBHAsbestosAPI.Controllers
         public async Task<IActionResult> getDrawing(string drawingId)
         {
             return await documentResponseHelper(drawingId, FileType.drawing);
+        }
+
+        [HttpGet("drawing")]
+        public async Task<IActionResult> GetDrawingByInspectionId(string inspectionId)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task<IActionResult> documentResponseHelper(string fileId, string fileType)
