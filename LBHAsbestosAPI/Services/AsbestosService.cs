@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Factories;
@@ -45,6 +46,11 @@ namespace LBHAsbestosAPI.Services
             _logger.LogInformation($"Calling GetElement with {elementId}");
             var response = await _api.GetElement(elementId);
             return response.Data; 
+        }
+
+        public async Task<FileResponse> GetFile(string fileId, string fileType)
+        {
+                return await _api.GetFile(fileId, fileType);
         }
     }
 }

@@ -69,13 +69,23 @@ namespace LBHAsbestosAPI.Actions
             }
             return element;
         }
+
+        public async Task<FileResponse> GetFile(string fileId, string fileType)
+        {
+
+            var file = await _asbestosService.GetFile(fileId, fileType);
+
+            if (file.Data == null)
+            {
+                throw new MissingFileException();
+            }
+            return file;
+        }
 	}
 
     public class MissingInspectionException : Exception { }
-
     public class MissingRoomException : Exception { }
-
     public class MissingFloorException : Exception { }
-
     public class MissingElementException : Exception { }
+    public class MissingFileException : Exception { }
 }

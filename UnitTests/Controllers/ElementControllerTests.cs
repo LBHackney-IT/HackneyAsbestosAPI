@@ -15,16 +15,16 @@ namespace UnitTests.Controllers
     public class ElementControllerTests
     {
         Mock<ILoggerAdapter<AsbestosActions>> fakeActionsLogger;
-        Mock<ILoggerAdapter<AsbestosController>> fakeControllerLogger;
+        Mock<ILoggerAdapter<DataController>> fakeControllerLogger;
         Mock<IAsbestosService> fakeAsbestosService;
-        AsbestosController controller;
+        DataController controller;
         int fakeId;
         string fakeDescription;
 
         public ElementControllerTests()
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
-            fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
+            fakeControllerLogger = new Mock<ILoggerAdapter<DataController>>();
             fakeAsbestosService = new Mock<IAsbestosService>();
 
             fakeId = Fake.GenerateRandomId(6);
@@ -97,17 +97,17 @@ namespace UnitTests.Controllers
             Assert.Equal(expectedDeveloperMessage, developerMessage);
         }
 
-        private AsbestosController SetupControllerWithSimpleService()
+        private DataController SetupControllerWithSimpleService()
         {
-            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+            return new DataController(fakeAsbestosService.Object, fakeControllerLogger.Object,
                                           fakeActionsLogger.Object);
         }
 
-        private AsbestosController SetupControllerWithServiceReturningFakeObject(Element fakeResponse)
+        private DataController SetupControllerWithServiceReturningFakeObject(Element fakeResponse)
         {
             fakeAsbestosService.Setup(m => m.GetElement(It.IsAny<string>()))
                                .Returns(Task.FromResult(fakeResponse));
-            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+            return new DataController(fakeAsbestosService.Object, fakeControllerLogger.Object,
                                           fakeActionsLogger.Object);
         }
     }

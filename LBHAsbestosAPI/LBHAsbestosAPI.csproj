@@ -46,6 +46,8 @@
     <Compile Remove="Controllers\ApiErrorMessage.cs" />
     <Compile Remove="Logging\LoggerFactory.cs" />
     <Compile Remove="Actions\IAsbestosActions.cs" />
+    <Compile Remove="Controllers\ControllerSetup.cs" />
+    <Compile Remove="Controllers\ControllerSetup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="NLog.config" />

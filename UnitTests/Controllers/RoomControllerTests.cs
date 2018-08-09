@@ -15,16 +15,17 @@ namespace UnitTests.Controllers
     public class RoomControllerTests
     {
         Mock<ILoggerAdapter<AsbestosActions>> fakeActionsLogger;
-        Mock<ILoggerAdapter<AsbestosController>> fakeControllerLogger;
+        Mock<ILoggerAdapter<DataController>> fakeControllerLogger;
         Mock<IAsbestosService> fakeAsbestosService;
-        AsbestosController controller;
+        DataController controller;
+
         int fakeId;
         string fakeDescription;
 
         public RoomControllerTests()
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
-            fakeControllerLogger = new Mock<ILoggerAdapter<AsbestosController>>();
+            fakeControllerLogger = new Mock<ILoggerAdapter<DataController>>();
             fakeAsbestosService = new Mock<IAsbestosService>();
 
             fakeId = Fake.GenerateRandomId(6);
@@ -110,17 +111,17 @@ namespace UnitTests.Controllers
             Assert.NotNull(response["errors"]);
         }
 
-        private AsbestosController SetupControllerWithSimpleService()
+        private DataController SetupControllerWithSimpleService()
         {
-            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+            return new DataController(fakeAsbestosService.Object, fakeControllerLogger.Object,
                                           fakeActionsLogger.Object);
         }
 
-        private AsbestosController SetupControllerWithServiceReturningFakeObject(Room fakeResponse)
+        private DataController SetupControllerWithServiceReturningFakeObject(Room fakeResponse)
         {
             fakeAsbestosService.Setup(m => m.GetRoom(It.IsAny<string>()))
                                .Returns(Task.FromResult(fakeResponse));
-            return new AsbestosController(fakeAsbestosService.Object, fakeControllerLogger.Object,
+            return new DataController(fakeAsbestosService.Object, fakeControllerLogger.Object,
                                           fakeActionsLogger.Object);
         }
     }

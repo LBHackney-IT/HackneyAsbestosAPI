@@ -34,7 +34,9 @@ namespace UnitTests.Helpers
                     {
                         Id = fakeId,
                         LocationDescription = fakeDescription
-                    }}};
+                    }
+                }
+            };
         }
 
         public static Floor GenerateFloor(int fakeId, string fakeDescription)
@@ -61,6 +63,22 @@ namespace UnitTests.Helpers
             {
                 Id = fakeId,
                 Description = fakeDescription
+            };
+        }
+
+        public static FileResponse GenerateFakeFile(string contentType)
+        {
+            Random randomNumber = new Random();
+            int randomFileSize = randomNumber.Next(60, 1024);
+
+            Byte[] fileData = new byte[randomFileSize];
+            randomNumber.NextBytes(fileData);
+
+            return new FileResponse()
+            {
+                ContentType = contentType,
+                Size = randomFileSize,
+                Data = fileData
             };
         }
     }
