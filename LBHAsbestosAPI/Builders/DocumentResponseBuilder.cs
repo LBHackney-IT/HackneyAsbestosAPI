@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LBHAsbestosAPI.Builders
 {
-    public class InspectionResponseBuilder : ErrorResponseBuilder
+    public class DocumentResponseBuilder : ErrorResponseBuilder
     {
-        public JsonResult BuildSuccessResponse(IEnumerable<Inspection> response)
+        public JsonResult BuildSuccessResponse(IEnumerable<Document> response)
         {
-            var successResult = new Dictionary<string, IEnumerable<Inspection>>()
+            var successResult = new Dictionary<string, IEnumerable<Document>>()
             {
                 { "results", response }
             };

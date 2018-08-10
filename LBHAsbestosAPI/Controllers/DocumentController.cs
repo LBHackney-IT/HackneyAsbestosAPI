@@ -37,13 +37,13 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("photo/{photoId}")]
         public async Task<IActionResult> GetPhoto(string photoId)
         {
-            return await documentResponseHelper(photoId, FileType.photo);
+            return await FileResponseHelper(photoId, FileType.photo);
         }
 
         [HttpGet("photo")]
-        public async Task<JsonResult> GetPhotoByInspectionId(string inspectionId)
+        public async Task<JsonResult> GetPhotoByPropertyId(string propertyId)
         {
-            throw new NotImplementedException();
+            return await DocumentResponseHelper(propertyId, FileType.photo);
         }
 
         // GET properties
@@ -59,13 +59,13 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("mainphoto/{mainPhotoId}")]
         public async Task<IActionResult> GetMainPhoto(string mainPhotoId)
         {
-            return await documentResponseHelper(mainPhotoId, FileType.mainPhoto);
+            return await FileResponseHelper(mainPhotoId, FileType.mainPhoto);
         }
 
         [HttpGet("mainphoto")]
-        public async Task<JsonResult> GetMainPhotoByInspectionId(string inspectionId)
+        public async Task<JsonResult> GetMainPhotoByPropertyId(string propertyId)
         {
-            throw new NotImplementedException();
+            return await DocumentResponseHelper(propertyId, FileType.mainPhoto);
         }
 
         // GET properties
@@ -81,13 +81,13 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("report/{reportId}")]
         public async Task<IActionResult> GetReport(string reportId)
         {
-            return await documentResponseHelper(reportId, FileType.report);
+            return await FileResponseHelper(reportId, FileType.report);
         }
 
         [HttpGet("report")]
-        public async Task<JsonResult> GetReportByInspectionId(string inspectionId)
+        public async Task<JsonResult> GetReportByPropertyId(string propertyId)
         {
-            throw new NotImplementedException();
+            return await DocumentResponseHelper(propertyId, FileType.report);
         }
 
         // GET properties
@@ -103,19 +103,18 @@ namespace LBHAsbestosAPI.Controllers
         [HttpGet("drawing/{drawingId}")]
         public async Task<IActionResult> GetDrawing(string drawingId)
         {
-            return await documentResponseHelper(drawingId, FileType.drawing);
+            return await FileResponseHelper(drawingId, FileType.drawing);
         }
 
         [HttpGet("drawing")]
-        public async Task<JsonResult> GetDrawingByInspectionId(string inspectionId)
+        public async Task<JsonResult> GetDrawingByPropertyId(string propertyId)
         {
-            throw new NotImplementedException();
+            return await DocumentResponseHelper(propertyId, FileType.drawing);
         }
 
-        private async Task<IActionResult> documentResponseHelper(string fileId, string fileType)
+        private async Task<IActionResult> FileResponseHelper(string fileId, string fileType)
         {
             var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
-
             try
             {
                 if (!IdValidator.ValidateId(fileId))
@@ -139,6 +138,39 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (Exception ex)
             {
+                var userMessage = "We had some problems processing your request";
+                return new ErrorResponseBuilder().BuildErrorResponseFromException(
+                    ex, userMessage);
+            }
+        }
+
+        private async Task<JsonResult> DocumentResponseHelper(string propertyId, string fileType)
+        {
+            var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
+            try
+            {
+                if (!IdValidator.ValidatePropertyId(propertyId))
+                {
+                    var developerMessage = $"Invalid parameter - propertyId";
+                    var userMessage = "Please provide a valid file property id";
+
+                    return new ErrorResponseBuilder().BuildErrorResponse(
+                        userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                }
+                var response = await _asbestosActions.GetDocument(propertyId, fileType);
+                return new DocumentResponseBuilder().BuildSuccessResponse(response);
+            }
+            catch (MissingDocumentException ex)
+            {
+                var developerMessage = ex.Message;
+                var userMessage = "Cannot find document";
+
+                return new ErrorResponseBuilder().BuildErrorResponse(
+                    userMessage, developerMessage, (int)HttpStatusCode.NotFound);
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
                 var userMessage = "We had some problems processing your request";
                 return new ErrorResponseBuilder().BuildErrorResponseFromException(
                     ex, userMessage);

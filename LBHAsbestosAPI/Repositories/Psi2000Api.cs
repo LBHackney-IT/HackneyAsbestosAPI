@@ -14,10 +14,10 @@ namespace LBHAsbestosAPI.Repositories
     public class Psi2000Api : IPsi2000Api
     {
         static Cookie cookie;
-        static string baseUri = Environment.GetEnvironmentVariable("PSI_TEST_BASE_URI");
+        static string baseUri = Environment.GetEnvironmentVariable("PSI_BASE_URI");
         static string loginUri = baseUri + "login";
-        static string apiUsername = Environment.GetEnvironmentVariable("PSI_TEST_USERNAME");
-        static string apiPassword = Environment.GetEnvironmentVariable("PSI_TEST_PASSWORD");
+        static string apiUsername = Environment.GetEnvironmentVariable("PSI_USERNAME");
+        static string apiPassword = Environment.GetEnvironmentVariable("PSI_PASSWORD");
         static string inspectionUri = baseUri + "api/inspections";
         static string roomUri = baseUri + "api/rooms/";
         static string floorUri = baseUri + "api/floors/";

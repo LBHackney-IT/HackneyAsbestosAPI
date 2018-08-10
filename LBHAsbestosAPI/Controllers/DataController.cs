@@ -69,6 +69,7 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (Exception ex)
             {
+                var a = ex.Message;
                 var userMessage = "We had some problems processing your request";
                 return responseBuilder.BuildErrorResponseFromException(ex, userMessage);
             }
