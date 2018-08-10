@@ -149,10 +149,18 @@ namespace LBHAsbestosAPI.Controllers
             var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
             try
             {
+                if (propertyId == null) 
+                {
+                    var developerMessage = $"Missing parameter - propertyId";
+                    var userMessage = "Please provide a valid property id";
+
+                    return new ErrorResponseBuilder().BuildErrorResponse(
+                        userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                }
                 if (!IdValidator.ValidatePropertyId(propertyId))
                 {
                     var developerMessage = $"Invalid parameter - propertyId";
-                    var userMessage = "Please provide a valid file property id";
+                    var userMessage = "Please provide a valid property id";
 
                     return new ErrorResponseBuilder().BuildErrorResponse(
                         userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
@@ -170,7 +178,6 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (Exception ex)
             {
-                var a = ex.Message;
                 var userMessage = "We had some problems processing your request";
                 return new ErrorResponseBuilder().BuildErrorResponseFromException(
                     ex, userMessage);
