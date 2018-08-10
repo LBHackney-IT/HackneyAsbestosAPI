@@ -70,6 +70,11 @@ namespace LBHAsbestosAPI.Actions
             return element;
         }
 
+        public async Task<DocumentResponse> GetDocument(string inspectionId, string fileType)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<FileResponse> GetFile(string fileId, string fileType)
         {
 

@@ -48,9 +48,14 @@ namespace LBHAsbestosAPI.Services
             return response.Data; 
         }
 
+        public async Task<IEnumerable<Document>> GetDocument(string inspectionId, string fileType)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<FileResponse> GetFile(string fileId, string fileType)
         {
-                return await _api.GetFile(fileId, fileType);
+            return await _api.GetFile(fileId, fileType);
         }
     }
 }
