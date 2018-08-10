@@ -34,7 +34,7 @@ namespace LBHAsbestosAPI.Repositories
         {
             await EnsureSuccessLogin();
 
-            var baseAddress = new Uri(inspectionUri + "?filter=(UPRN=\"" + propertyId + "\")");
+            var baseAddress = new Uri(inspectionUri + $"?filter=(UPRN=\"{ propertyId }\")");
             var responseData = GetResponseMessage(baseAddress);
 
             return JsonConvert.DeserializeObject<InspectionResponse>(responseData);

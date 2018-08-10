@@ -41,7 +41,7 @@ namespace LBHAsbestosAPI.Controllers
         }
 
         [HttpGet("photo")]
-        public async Task<IActionResult> GetPhotoByInspectionId(string inspectionId)
+        public async Task<JsonResult> GetPhotoByInspectionId(string inspectionId)
         {
             throw new NotImplementedException();
         }
@@ -57,13 +57,13 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="400">If the photo id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
         [HttpGet("mainphoto/{mainPhotoId}")]
-        public async Task<IActionResult> getMainPhoto(string mainPhotoId)
+        public async Task<IActionResult> GetMainPhoto(string mainPhotoId)
         {
             return await documentResponseHelper(mainPhotoId, FileType.mainPhoto);
         }
 
         [HttpGet("mainphoto")]
-        public async Task<IActionResult> GetMainPhotoByInspectionId(string inspectionId)
+        public async Task<JsonResult> GetMainPhotoByInspectionId(string inspectionId)
         {
             throw new NotImplementedException();
         }
@@ -79,13 +79,13 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="400">If the report id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
         [HttpGet("report/{reportId}")]
-        public async Task<IActionResult> getReport(string reportId)
+        public async Task<IActionResult> GetReport(string reportId)
         {
             return await documentResponseHelper(reportId, FileType.report);
         }
 
         [HttpGet("report")]
-        public async Task<IActionResult> GetReportByInspectionId(string inspectionId)
+        public async Task<JsonResult> GetReportByInspectionId(string inspectionId)
         {
             throw new NotImplementedException();
         }
@@ -101,13 +101,13 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="400">If the drawing id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
         [HttpGet("drawing/{drawingId}")]
-        public async Task<IActionResult> getDrawing(string drawingId)
+        public async Task<IActionResult> GetDrawing(string drawingId)
         {
             return await documentResponseHelper(drawingId, FileType.drawing);
         }
 
         [HttpGet("drawing")]
-        public async Task<IActionResult> GetDrawingByInspectionId(string inspectionId)
+        public async Task<JsonResult> GetDrawingByInspectionId(string inspectionId)
         {
             throw new NotImplementedException();
         }
