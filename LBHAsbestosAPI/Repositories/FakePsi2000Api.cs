@@ -153,7 +153,7 @@ namespace LBHAsbestosAPI.Repositories
             });
         }
 
-        public Task<FileResponse> GetFile(string fileId, string fileType)
+        public Task<FileContainer> GetFile(string fileId, string fileType)
         {
             if (fileId == triggerExceptionId)
             {
@@ -161,13 +161,13 @@ namespace LBHAsbestosAPI.Repositories
             }
             if (fileId == nullResponseId)
             {
-                return Task.FromResult(new FileResponse()
+                return Task.FromResult(new FileContainer()
                 {
                     Data = null
                 });
             }
 
-            return Task.FromResult(new FileResponse()
+            return Task.FromResult(new FileContainer()
             {
                 ContentType = "image/jpeg",
                 Size = 54,

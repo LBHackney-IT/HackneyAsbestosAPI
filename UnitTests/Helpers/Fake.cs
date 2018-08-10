@@ -80,7 +80,7 @@ namespace UnitTests.Helpers
             };
         }
 
-        public static FileResponse GenerateFakeFile(string contentType)
+        public static FileContainer GenerateFakeFile(string contentType)
         {
             Random randomNumber = new Random();
             int randomFileSize = randomNumber.Next(60, 1024);
@@ -88,7 +88,7 @@ namespace UnitTests.Helpers
             Byte[] fileData = new byte[randomFileSize];
             randomNumber.NextBytes(fileData);
 
-            return new FileResponse()
+            return new FileContainer()
             {
                 ContentType = contentType,
                 Size = randomFileSize,
