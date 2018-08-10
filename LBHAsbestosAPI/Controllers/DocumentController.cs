@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LBHAsbestosAPI.Controllers
 {
-    [Route("api/v1/documents")]
+    [Route("api/v1/document")]
     public class DocumentController : Controller
     {
         IAsbestosService _asbestosService;
