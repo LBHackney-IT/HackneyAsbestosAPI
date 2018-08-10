@@ -74,10 +74,10 @@ namespace UnitTests.Controllers
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = JObject.FromObject((await controller.GetPhotoByPropertyId(fakeId.ToString())).Value);
             var responseId = response["results"][0]["Id"];
-            var responseLocationDescription = response["results"][0]["LocationDescription"];
+            var responseDescription = response["results"][0]["Description"];
 
             Assert.Equal(fakeId, responseId);
-            Assert.Equal(fakeDescription, responseLocationDescription);
+            Assert.Equal(fakeDescription, responseDescription);
         }
 
         [Theory]
@@ -143,10 +143,10 @@ namespace UnitTests.Controllers
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = JObject.FromObject((await controller.GetMainPhotoByPropertyId(fakeId.ToString())).Value);
             var responseId = response["results"][0]["Id"];
-            var responseLocationDescription = response["results"][0]["LocationDescription"];
+            var responseDescription = response["results"][0]["Description"];
 
             Assert.Equal(fakeId, responseId);
-            Assert.Equal(fakeDescription, responseLocationDescription);
+            Assert.Equal(fakeDescription, responseDescription);
         }
 
         [Theory]
@@ -212,10 +212,10 @@ namespace UnitTests.Controllers
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = JObject.FromObject((await controller.GetDrawingByPropertyId(fakeId.ToString())).Value);
             var responseId = response["results"][0]["Id"];
-            var responseLocationDescription = response["results"][0]["LocationDescription"];
+            var responseDescription = response["results"][0]["Description"];
 
             Assert.Equal(fakeId, responseId);
-            Assert.Equal(fakeDescription, responseLocationDescription);
+            Assert.Equal(fakeDescription, responseDescription);
         }
 
         [Theory]
@@ -281,10 +281,10 @@ namespace UnitTests.Controllers
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
             var response = JObject.FromObject((await controller.GetReportByPropertyId(fakeId.ToString())).Value);
             var responseId = response["results"][0]["Id"];
-            var responseLocationDescription = response["results"][0]["LocationDescription"];
+            var responseDescription = response["results"][0]["Description"];
 
             Assert.Equal(fakeId, responseId);
-            Assert.Equal(fakeDescription, responseLocationDescription);
+            Assert.Equal(fakeDescription, responseDescription);
         }
 
         [Theory]

@@ -92,8 +92,8 @@ namespace UnitTests.Controllers
             var userMessage = response["errors"].First["userMessage"].ToString();
             var developerMessage = response["errors"].First["developerMessage"].ToString();
 
-            var expectedUserMessage = "Please provide a valid inspection id";
-            var expectedDeveloperMessage = "Invalid parameter - inspectionId";
+            var expectedUserMessage = "Please provide a valid property id";
+            var expectedDeveloperMessage = "Invalid parameter - propertyId";
 
             Assert.Equal(expectedUserMessage, userMessage);
             Assert.Equal(expectedDeveloperMessage, developerMessage);
