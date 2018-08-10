@@ -13,7 +13,7 @@ using Xunit;
 
 namespace UnitTests.Controllers
 {
-    public class DocumentControllerTests
+    public class DocumentFileControllerTests
     {
         Mock<ILoggerAdapter<AsbestosActions>> fakeActionsLogger;
         Mock<ILoggerAdapter<DocumentController>> fakeControllerLogger;
@@ -23,7 +23,7 @@ namespace UnitTests.Controllers
         Random random;
         int randomPick;
 
-        public DocumentControllerTests()
+        public DocumentFileControllerTests()
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeControllerLogger = new Mock<ILoggerAdapter<DocumentController>>();
@@ -112,16 +112,16 @@ namespace UnitTests.Controllers
             switch (pick)
             {
                 case 0:
-                    response = await controller.getPhoto(documentId);
+                    response = await controller.GetPhoto(documentId);
                     break;
                 case 1:
-                    response = await controller.getReport(documentId);
+                    response = await controller.GetReport(documentId);
                     break;
                 case 2:
-                    response = await controller.getDrawing(documentId);
+                    response = await controller.GetDrawing(documentId);
                     break;
                 case 3:
-                    response = await controller.getMainPhoto(documentId);
+                    response = await controller.GetMainPhoto(documentId);
                     break;
             }
 
