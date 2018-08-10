@@ -50,7 +50,10 @@ namespace LBHAsbestosAPI.Services
 
         public async Task<IEnumerable<Document>> GetDocument(string inspectionId, string fileType)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Calling GetDocument() with {inspectionId}");
+            var response = await _api.GetDocument(inspectionId, fileType);
+            var responseInspections = response.Data;
+            return responseInspections;
         }
 
         public async Task<FileContainer> GetFile(string fileId, string fileType)
