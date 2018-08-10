@@ -85,5 +85,35 @@ namespace UnitTests.Actions
 
             Assert.True(response is Element);
         }
+
+        [Fact]
+        public async Task return_type_should_be_list_of_documents()
+        {
+            var fakeResponse = Fake.GenerateDocument(123, null);
+
+            fakeAsbestosService
+                .Setup(m => m.GetDocument(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeResponse));
+
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+            var response = await asbestosAction.GetDocument(fakeId, null);
+
+            Assert.True(response is List<Document>);
+        }
+
+        [Fact]
+        public async Task return_type_should_be_file_container()
+        {
+            var fakeResponse = Fake.GenerateFakeFile(null);
+
+            fakeAsbestosService
+                .Setup(m => m.GetFile(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeResponse));
+
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+            var response = await asbestosAction.GetFile(fakeId, null);
+
+            Assert.True(response is FileContainer);
+        }
     }
 }

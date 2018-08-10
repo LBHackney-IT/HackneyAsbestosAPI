@@ -132,5 +132,33 @@ namespace UnitTests.Services
             Assert.Equal(fakeId, responseData.Id);
             Assert.Equal(fakeDescription, responseData.Description);
         }
+
+        [Fact]
+        public async Task can_access_document_data_from_response()
+        {
+            IEnumerable<Document> responseData;
+
+            var fakeRepository = new Mock<IPsi2000Api>();
+            var fakeInspectionResponse = new DocumentResponse()
+            {
+                Data = new List<Document>()
+            };
+
+            fakeInspectionResponse.Data.Add(new Document()
+            {
+                Id = fakeId,
+                Description = fakeDescription
+            });
+
+            fakeRepository
+                .Setup(m => m.GetDocument(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeInspectionResponse));
+
+            asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
+            responseData = await asbestosService.GetDocument(fakeId.ToString(), "");
+
+            Assert.Equal(fakeId, responseData.ElementAt(0).Id);
+            Assert.Equal(fakeDescription, responseData.ElementAt(0).Description);
+        }
     }
 }

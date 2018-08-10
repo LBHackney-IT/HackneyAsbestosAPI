@@ -70,12 +70,12 @@ namespace LBHAsbestosAPI.Actions
             return element;
         }
 
-        public async Task<DocumentResponse> GetDocument(string inspectionId, string fileType)
+        public async Task<IEnumerable<Document>> GetDocument(string inspectionId, string fileType)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<FileResponse> GetFile(string fileId, string fileType)
+        public async Task<FileContainer> GetFile(string fileId, string fileType)
         {
 
             var file = await _asbestosService.GetFile(fileId, fileType);
