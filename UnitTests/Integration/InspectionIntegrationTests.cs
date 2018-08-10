@@ -20,6 +20,8 @@ namespace UnitTests.Integration
         readonly TestServer server;
         readonly HttpClient client;
         string baseUri;
+        static string triggerExceptionId = "999999";
+        static string triggerNotFoundId = "888888";
 
         public InspectionIntegrationTests()
         {
@@ -52,16 +54,14 @@ namespace UnitTests.Integration
         [Fact]
         public async Task return_404_if_request_is_successful_but_no_results()
         {
-            var randomBadId = Fake.GenerateRandomId(5);
-            var result = await client.GetAsync(baseUri + randomBadId);
+            var result = await client.GetAsync(baseUri + triggerNotFoundId);
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
         [Fact]
         public async Task return_500_when_internal_server_error()
         {
-            var randomBadId = Fake.GenerateRandomId(4);
-            var result = await client.GetAsync(baseUri + randomBadId);
+            var result = await client.GetAsync(baseUri + triggerExceptionId);
             Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 

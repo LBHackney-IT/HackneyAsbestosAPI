@@ -41,13 +41,13 @@ namespace LBHAsbestosAPI.Controllers
 
             try
             {
-                _logger.LogInformation($"Calling InspectionIdValidator() with {propertyId}");
+                _logger.LogInformation($"Calling ValidatePropertyId() with {propertyId}");
 
                 if (!IdValidator.ValidatePropertyId(propertyId))
                 {
                     _logger.LogError("propertyId has not passed validation");
-                    var developerMessage = "Invalid parameter - inspectionId";
-                    var userMessage = "Please provide a valid inspection id";
+                    var developerMessage = "Invalid parameter - propertyId";
+                    var userMessage = "Please provide a valid property id";
 
                     return responseBuilder.BuildErrorResponse(
                         userMessage, developerMessage, 400);
@@ -69,7 +69,6 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (Exception ex)
             {
-                var a = ex.Message;
                 var userMessage = "We had some problems processing your request";
                 return responseBuilder.BuildErrorResponseFromException(ex, userMessage);
             }
@@ -92,7 +91,7 @@ namespace LBHAsbestosAPI.Controllers
 
             try
             {
-                _logger.LogInformation($"Calling IdValidator() with {roomId}");
+                _logger.LogInformation($"Calling ValidateId() with {roomId}");
 
                 if (!IdValidator.ValidateId(roomId))
                 {
@@ -142,7 +141,7 @@ namespace LBHAsbestosAPI.Controllers
 
             try
             {
-                _logger.LogInformation($"Calling IdValidator() with {floorId}");
+                _logger.LogInformation($"Calling ValidateId() with {floorId}");
 
                 if (!IdValidator.ValidateId(floorId))
                 {
@@ -191,7 +190,7 @@ namespace LBHAsbestosAPI.Controllers
             try
             {
                 var responseBuilder = new ElementResponseBuilder();
-                _logger.LogInformation($"Calling IdValidator() with {elementId}");
+                _logger.LogInformation($"Calling ValidateId() with {elementId}");
 
                 if (!IdValidator.ValidateId(elementId))
                 {
