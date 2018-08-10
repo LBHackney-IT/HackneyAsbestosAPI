@@ -60,7 +60,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task return_404_for_valid_request_but_no_results()
         {
-            var emptyFileResponse = new FileResponse();
+            var emptyFileResponse = new FileContainer();
             controller = SetupControllerWithServiceReturningFileResponse(emptyFileResponse);
             var response = (JsonResult)await PickDocumentControllerEndpoint(randomPick, fakeId.ToString());
 
@@ -95,7 +95,7 @@ namespace UnitTests.Controllers
                                             fakeActionsLogger.Object);
         }
 
-        private DocumentController SetupControllerWithServiceReturningFileResponse(FileResponse file)
+        private DocumentController SetupControllerWithServiceReturningFileResponse(FileContainer file)
         {
             fakeAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService.Setup(m => m.GetFile(It.IsAny<string>(), It.IsAny<string>()))

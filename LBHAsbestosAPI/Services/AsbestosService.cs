@@ -53,7 +53,7 @@ namespace LBHAsbestosAPI.Services
             throw new NotImplementedException();
         }
 
-        public async Task<FileResponse> GetFile(string fileId, string fileType)
+        public async Task<FileContainer> GetFile(string fileId, string fileType)
         {
             return await _api.GetFile(fileId, fileType);
         }

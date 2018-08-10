@@ -48,6 +48,7 @@
     <Compile Remove="Actions\IAsbestosActions.cs" />
     <Compile Remove="Controllers\ControllerSetup.cs" />
     <Compile Remove="Controllers\ControllerSetup.cs" />
+    <Compile Remove="Entities\Unnamed.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="NLog.config" />

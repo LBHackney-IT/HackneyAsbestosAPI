@@ -80,7 +80,7 @@ namespace LBHAsbestosAPI.Repositories
             return JsonConvert.DeserializeObject<DocumentResponse>(responseData);
         }
 
-        public async Task<FileResponse> GetFile(string fileId, string fileType)
+        public async Task<FileContainer> GetFile(string fileId, string fileType)
         {
             await EnsureSuccessLogin();
 
@@ -101,7 +101,7 @@ namespace LBHAsbestosAPI.Repositories
             }
         }
 
-        private FileResponse GetResponseStream(Uri baseAddress)
+        private FileContainer GetResponseStream(Uri baseAddress)
         {
             using (var handler = new HttpClientHandler { CookieContainer = SetupCookie(baseAddress) })
             using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
@@ -112,7 +112,7 @@ namespace LBHAsbestosAPI.Repositories
                 {
                     response.Result.EnsureSuccessStatusCode();
 
-                    var file = new FileResponse
+                    var file = new FileContainer
                     {
                         ContentType = response.Result.Content.Headers.ContentType.ToString(),
                         Size = response.Result.Content.Headers.ContentLength,
@@ -124,7 +124,7 @@ namespace LBHAsbestosAPI.Repositories
                 {
                     if (response.Result.StatusCode == HttpStatusCode.NotFound)
                     {
-                        return new FileResponse();
+                        return new FileContainer();
                     }
                     throw;
                 }
