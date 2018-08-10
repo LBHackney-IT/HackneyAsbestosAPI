@@ -66,6 +66,20 @@ namespace UnitTests.Helpers
             };
         }
 
+        public static IEnumerable<Document> GenerateDocument(int fakeId,
+                                                                string fakeDescription)
+        {
+            return new List<Document>()
+            {
+                { new Document()
+                    {
+                        Id = fakeId,
+                        Description = fakeDescription
+                    }
+                }
+            };
+        }
+
         public static FileResponse GenerateFakeFile(string contentType)
         {
             Random randomNumber = new Random();
