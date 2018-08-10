@@ -70,14 +70,14 @@ namespace LBHAsbestosAPI.Actions
             return element;
         }
 
-        public async Task<IEnumerable<Document>> GetDocument(string inspectionId, string fileType)
+        public async Task<IEnumerable<Document>> GetDocument(string propertyId, string fileType)
         {
-            _logger.LogInformation($"Calling GetInspection() with {inspectionId}");
-            var lDocument = await _asbestosService.GetDocument(inspectionId, fileType);
+            _logger.LogInformation($"Calling GetInspection() with {propertyId}");
+            var lDocument = await _asbestosService.GetDocument(propertyId, fileType);
 
             if (lDocument.Any() == false)
             {
-                _logger.LogError($"No Documents returned for {inspectionId}");
+                _logger.LogError($"No Documents returned for {propertyId}");
                 throw new MissingDocumentException();
             }
             return lDocument;

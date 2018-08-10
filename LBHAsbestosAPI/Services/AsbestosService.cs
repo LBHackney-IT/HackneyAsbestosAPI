@@ -48,10 +48,10 @@ namespace LBHAsbestosAPI.Services
             return response.Data; 
         }
 
-        public async Task<IEnumerable<Document>> GetDocument(string inspectionId, string fileType)
+        public async Task<IEnumerable<Document>> GetDocument(string propertyId, string fileType)
         {
-            _logger.LogInformation($"Calling GetDocument() with {inspectionId}");
-            var response = await _api.GetDocument(inspectionId, fileType);
+            _logger.LogInformation($"Calling GetDocument() with {propertyId}");
+            var response = await _api.GetDocument(propertyId, fileType);
             var responseInspections = response.Data;
             return responseInspections;
         }

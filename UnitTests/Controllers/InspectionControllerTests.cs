@@ -85,7 +85,7 @@ namespace UnitTests.Controllers
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_error_message_if_inspectionid_is_not_valid(string propertyId)
+        public async Task return_error_message_if_propertyid_is_not_valid(string propertyId)
         {
             controller = SetupControllerWithSimpleService();
             var response = JObject.FromObject((await controller.GetInspection(propertyId)).Value);

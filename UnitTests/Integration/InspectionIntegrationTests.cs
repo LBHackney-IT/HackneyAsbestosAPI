@@ -43,9 +43,9 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_400_for_invalid_request(string inspectionId)
+        public async Task return_400_for_invalid_request(string propertyId)
         {
-            var result = await client.GetAsync(baseUri + inspectionId);
+            var result = await client.GetAsync(baseUri + propertyId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
@@ -104,20 +104,20 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_valid_json_for_invalid_requests(string inspectionId)
+        public async Task return_valid_json_for_invalid_requests(string propertyId)
         {
             var json = new StringBuilder();
             json.Append("{");
             json.Append("\"errors\":");
             json.Append("[");
             json.Append("{");
-            json.Append("\"userMessage\":\"Please provide a valid inspection id\",");
-            json.Append("\"developerMessage\":\"Invalid parameter - inspectionId\"");
+            json.Append("\"userMessage\":\"Please provide a valid property id\",");
+            json.Append("\"developerMessage\":\"Invalid parameter - propertyId\"");
             json.Append("}");
             json.Append("]");
             json.Append("}");
 
-            var result = await client.GetAsync(baseUri + inspectionId);
+            var result = await client.GetAsync(baseUri + propertyId);
             var resultString = await result.Content.ReadAsStringAsync();
             Assert.Equal(json.ToString(), resultString);
         }

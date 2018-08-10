@@ -31,9 +31,9 @@ namespace UnitTests.Integration
             baseUri = "api/v1/document/";
         }
          
-        #region photo by inspectionId endpoint
+        #region photo by propertyId endpoint
         [Fact]
-        public async Task return_200_for_valid_photoByInspectionId_request()
+        public async Task return_200_for_valid_photoBypropertyId_request()
         {
             var randomId = Fake.GenerateRandomId(6);
             var result = await client.GetAsync(baseUri + "photo?" + randomId);
@@ -46,28 +46,28 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_400_for_invalid_photoByInspectionId_request(string inspectionId)
+        public async Task return_400_for_invalid_photoBypropertyId_request(string propertyId)
         {
-            var result = await client.GetAsync(baseUri + "photo?" + inspectionId);
+            var result = await client.GetAsync(baseUri + "photo?" + propertyId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_404_if_photoByInspectionId_request_is_successful_but_no_results()
+        public async Task return_404_if_photoBypropertyId_request_is_successful_but_no_results()
         {
             var result = await client.GetAsync(baseUri + "photo?" + triggerNotFoundId);
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_500_when_internal_server_error_in_photoByInspectionId()
+        public async Task return_500_when_internal_server_error_in_photoBypropertyId()
         {
             var result = await client.GetAsync(baseUri + "photo?" + triggerExceptionId);
             Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_valid_json_for_valid_photoByInspectionId_requests()
+        public async Task return_valid_json_for_valid_photoBypropertyId_requests()
         {
             var randomId = Fake.GenerateRandomId(6);
             var result = await client.GetStringAsync(baseUri + "photo?" + randomId);
@@ -82,28 +82,28 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_valid_json_for_invalid_photoByInspectionId_requests(string inspectionId)
+        public async Task return_valid_json_for_invalid_photoBypropertyId_requests(string propertyId)
         {
             var json = new StringBuilder();
             json.Append("{");
             json.Append("\"errors\":");
             json.Append("[");
             json.Append("{");
-            json.Append("\"userMessage\":\"Please provide a valid inspection id\",");
-            json.Append("\"developerMessage\":\"Invalid parameter - inspectionId\"");
+            json.Append("\"userMessage\":\"Please provide a valid property id\",");
+            json.Append("\"developerMessage\":\"Invalid parameter - propertyId\"");
             json.Append("}");
             json.Append("]");
             json.Append("}");
 
-            var result = await client.GetAsync(baseUri + "photo?" + inspectionId);
+            var result = await client.GetAsync(baseUri + "photo?" + propertyId);
             var resultString = await result.Content.ReadAsStringAsync();
             Assert.Equal(json.ToString(), resultString);
         }
         #endregion
 
-        #region mainphoto by inspectionid
+        #region mainphoto by propertyid
         [Fact]
-        public async Task return_200_for_valid_main_photoByInspectionId_request()
+        public async Task return_200_for_valid_main_photoBypropertyId_request()
         {
             var randomId = Fake.GenerateRandomId(6);
             var result = await client.GetAsync(baseUri + "mainphoto?" + randomId);
@@ -116,28 +116,28 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_400_for_invalid_main_photoByInspectionId_request(string inspectionId)
+        public async Task return_400_for_invalid_main_photoBypropertyId_request(string propertyId)
         {
-            var result = await client.GetAsync(baseUri + "mainphoto?" + inspectionId);
+            var result = await client.GetAsync(baseUri + "mainphoto?" + propertyId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_404_if_main_photoByInspectionId_request_is_successful_but_no_results()
+        public async Task return_404_if_main_photoBypropertyId_request_is_successful_but_no_results()
         {
             var result = await client.GetAsync(baseUri + "mainphoto?" + triggerNotFoundId);
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_500_when_internal_server_error_in_main_photoByInspectionId()
+        public async Task return_500_when_internal_server_error_in_main_photoBypropertyId()
         {
             var result = await client.GetAsync(baseUri + "mainphoto?" + triggerExceptionId);
             Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_valid_json_for_valid_main_photoByInspectionId_requests()
+        public async Task return_valid_json_for_valid_main_photoBypropertyId_requests()
         {
             var randomId = Fake.GenerateRandomId(6);
             var result = await client.GetStringAsync(baseUri + "mainphoto?" + randomId);
@@ -152,29 +152,29 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_valid_json_for_invalid_main_photoByInspectionId_requests(string inspectionId)
+        public async Task return_valid_json_for_invalid_main_photoBypropertyId_requests(string propertyId)
         {
             var json = new StringBuilder();
             json.Append("{");
             json.Append("\"errors\":");
             json.Append("[");
             json.Append("{");
-            json.Append("\"userMessage\":\"Please provide a valid inspection id\",");
-            json.Append("\"developerMessage\":\"Invalid parameter - inspectionId\"");
+            json.Append("\"userMessage\":\"Please provide a valid property id\",");
+            json.Append("\"developerMessage\":\"Invalid parameter - propertyId\"");
             json.Append("}");
             json.Append("]");
             json.Append("}");
 
-            var result = await client.GetAsync(baseUri + "mainphoto?" + inspectionId);
+            var result = await client.GetAsync(baseUri + "mainphoto?" + propertyId);
             var resultString = await result.Content.ReadAsStringAsync();
             Assert.Equal(json.ToString(), resultString);
         }
 
         #endregion
 
-        #region report by inspectionid
+        #region report by propertyid
         [Fact]
-        public async Task return_200_for_valid_reportByInspectionId_request()
+        public async Task return_200_for_valid_reportBypropertyId_request()
         {
             var randomId = Fake.GenerateRandomId(6);
             var result = await client.GetAsync(baseUri + "report?" + randomId);
@@ -187,28 +187,28 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_400_for_invalid_drawingByInspectionId_request(string inspectionId)
+        public async Task return_400_for_invalid_drawingBypropertyId_request(string propertyId)
         {
-            var result = await client.GetAsync(baseUri + "report?" + inspectionId);
+            var result = await client.GetAsync(baseUri + "report?" + propertyId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_404_if_reportByInspectionId_request_is_successful_but_no_results()
+        public async Task return_404_if_reportBypropertyId_request_is_successful_but_no_results()
         {
             var result = await client.GetAsync(baseUri + "report?" + triggerNotFoundId);
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_500_when_internal_server_error_in_reportByInspectionId()
+        public async Task return_500_when_internal_server_error_in_reportBypropertyId()
         {
             var result = await client.GetAsync(baseUri + "report?" + triggerExceptionId);
             Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_valid_json_for_valid_reportByInspectionId_requests()
+        public async Task return_valid_json_for_valid_reportBypropertyId_requests()
         {
             var randomId = Fake.GenerateRandomId(6);
             var result = await client.GetStringAsync(baseUri + "report?" + randomId);
@@ -223,28 +223,28 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_valid_json_for_invalid_reportByInspectionId_requests(string inspectionId)
+        public async Task return_valid_json_for_invalid_reportBypropertyId_requests(string propertyId)
         {
             var json = new StringBuilder();
             json.Append("{");
             json.Append("\"errors\":");
             json.Append("[");
             json.Append("{");
-            json.Append("\"userMessage\":\"Please provide a valid inspection id\",");
-            json.Append("\"developerMessage\":\"Invalid parameter - inspectionId\"");
+            json.Append("\"userMessage\":\"Please provide a valid property id\",");
+            json.Append("\"developerMessage\":\"Invalid parameter - propertyId\"");
             json.Append("}");
             json.Append("]");
             json.Append("}");
 
-            var result = await client.GetAsync(baseUri + "report?" + inspectionId);
+            var result = await client.GetAsync(baseUri + "report?" + propertyId);
             var resultString = await result.Content.ReadAsStringAsync();
             Assert.Equal(json.ToString(), resultString);
         }
 #endregion
 
-        #region drawing by inspectionid
+        #region drawing by propertyid
         [Fact]
-        public async Task return_200_for_valid_drawingByInspectionId_request()
+        public async Task return_200_for_valid_drawingBypropertyId_request()
         {
             var randomId = Fake.GenerateRandomId(6);
             var result = await client.GetAsync(baseUri + "drawing?" + randomId);
@@ -257,28 +257,28 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_400_for_invalid_reportByInspectionId_request(string inspectionId)
+        public async Task return_400_for_invalid_reportBypropertyId_request(string propertyId)
         {
-            var result = await client.GetAsync(baseUri + "drawing?" + inspectionId);
+            var result = await client.GetAsync(baseUri + "drawing?" + propertyId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_404_if_drawingByInspectionId_request_is_successful_but_no_results()
+        public async Task return_404_if_drawingBypropertyId_request_is_successful_but_no_results()
         {
             var result = await client.GetAsync(baseUri + "drawing?" + triggerNotFoundId);
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_500_when_internal_server_error_in_drawingByInspectionId()
+        public async Task return_500_when_internal_server_error_in_drawingBypropertyId()
         {
             var result = await client.GetAsync(baseUri + "drawing?" + triggerExceptionId);
             Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_valid_json_for_valid_drawingByInspectionId_requests()
+        public async Task return_valid_json_for_valid_drawingBypropertyId_requests()
         {
             var randomId = Fake.GenerateRandomId(6);
             var result = await client.GetStringAsync(baseUri + "drawing?" + randomId);
@@ -293,20 +293,20 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_valid_json_for_invalid_drawingByInspectionId_requests(string inspectionId)
+        public async Task return_valid_json_for_invalid_drawingBypropertyId_requests(string propertyId)
         {
             var json = new StringBuilder();
             json.Append("{");
             json.Append("\"errors\":");
             json.Append("[");
             json.Append("{");
-            json.Append("\"userMessage\":\"Please provide a valid inspection id\",");
-            json.Append("\"developerMessage\":\"Invalid parameter - inspectionId\"");
+            json.Append("\"userMessage\":\"Please provide a valid property id\",");
+            json.Append("\"developerMessage\":\"Invalid parameter - propertyId\"");
             json.Append("}");
             json.Append("]");
             json.Append("}");
 
-            var result = await client.GetAsync(baseUri + "drawing?" + inspectionId);
+            var result = await client.GetAsync(baseUri + "drawing?" + propertyId);
             var resultString = await result.Content.ReadAsStringAsync();
             Assert.Equal(json.ToString(), resultString);
         }
