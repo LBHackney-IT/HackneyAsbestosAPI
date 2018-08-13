@@ -31,7 +31,6 @@ namespace LBHAsbestosAPI.Controllers
         /// <param name="photoId">PSI2000 photo id</param>
         /// <returns>A photo matching the specified photo id</returns>
         /// <response code="200">Returns a photo</response>
-        /// <response code="404">Photo not found for given id</response>
         /// <response code="400">Id is not valid</response>   
         /// <response code="500">Internal server error</response> 
         [HttpGet("photo/{photoId}")]
@@ -40,6 +39,16 @@ namespace LBHAsbestosAPI.Controllers
             return await FileResponseHelper(photoId, FileType.photo);
         }
 
+        // GET properties
+        /// <summary>
+        /// Gets a list of documents related to a photo for a propertyId
+        /// </summary>
+        /// <param name="propertyId">A string that identifies an property</param>
+        /// <returns>A list of documents related to a photo</returns>
+        /// <response code="200">Returns a list of documents</response>
+        /// <response code="404">If the property id does not return any result</response>
+        /// <response code="400">If the property id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response> 
         [HttpGet("photo")]
         public async Task<JsonResult> GetPhotoByPropertyId(string propertyId)
         {
@@ -62,6 +71,16 @@ namespace LBHAsbestosAPI.Controllers
             return await FileResponseHelper(mainPhotoId, FileType.mainPhoto);
         }
 
+        // GET properties
+        /// <summary>
+        /// Gets a list of documents related to a main photo for a propertyId
+        /// </summary>
+        /// <param name="propertyId">A string that identifies an property</param>
+        /// <returns>A list of documents related to a main photo</returns>
+        /// <response code="200">Returns a list of documents</response>
+        /// <response code="404">If the property id does not return any result</response>
+        /// <response code="400">If the property id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response> 
         [HttpGet("mainphoto")]
         public async Task<JsonResult> GetMainPhotoByPropertyId(string propertyId)
         {
@@ -84,6 +103,16 @@ namespace LBHAsbestosAPI.Controllers
             return await FileResponseHelper(reportId, FileType.report);
         }
 
+        // GET properties
+        /// <summary>
+        /// Gets a list of documents related to a report for a propertyId
+        /// </summary>
+        /// <param name="propertyId">A string that identifies an property</param>
+        /// <returns>A list of documents related to a report</returns>
+        /// <response code="200">Returns a list of documents</response>
+        /// <response code="404">If the property id does not return any result</response>
+        /// <response code="400">If the property id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response> 
         [HttpGet("report")]
         public async Task<JsonResult> GetReportByPropertyId(string propertyId)
         {
@@ -106,6 +135,16 @@ namespace LBHAsbestosAPI.Controllers
             return await FileResponseHelper(drawingId, FileType.drawing);
         }
 
+        // GET properties
+        /// <summary>
+        /// Gets a list of documents related to a drawing for a propertyId
+        /// </summary>
+        /// <param name="propertyId">A string that identifies an property</param>
+        /// <returns>A list of documents related to a drawing</returns>
+        /// <response code="200">Returns a list of documents</response>
+        /// <response code="404">If the property id does not return any result</response>
+        /// <response code="400">If the property id is not valid</response>   
+        /// <response code="500">If any errors are encountered</response> 
         [HttpGet("drawing")]
         public async Task<JsonResult> GetDrawingByPropertyId(string propertyId)
         {
@@ -151,8 +190,8 @@ namespace LBHAsbestosAPI.Controllers
             {
                 if (propertyId == null) 
                 {
-                    var developerMessage = $"Missing parameter - propertyId";
-                    var userMessage = "Please provide a valid property id";
+                    var developerMessage = $"Missing parameter - propertyId or file id";
+                    var userMessage = "Please provide a valid property id or file id";
 
                     return new ErrorResponseBuilder().BuildErrorResponse(
                         userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
