@@ -42,6 +42,19 @@ namespace UnitTests.Actions
         }
 
         [Fact]
+        public async Task get_inspection_throws_expected_custom_exeption()
+        {
+            var fakeEmptyResponse = new List<Inspection>();
+            fakeAsbestosService
+                .Setup(m => m.GetInspection(It.IsAny<string>()))
+                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeEmptyResponse));
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+
+            await Assert.ThrowsAsync<MissingInspectionException>(
+                async () => await asbestosAction.GetInspection(fakeId)); 
+        }
+
+        [Fact]
         public async Task return_type_should_be_room()
         {
             var fakeResponse = new Room();
@@ -54,6 +67,19 @@ namespace UnitTests.Actions
             var response = await asbestosAction.GetRoom(fakeId);
 
             Assert.True(response is Room);
+        }
+
+        [Fact]
+        public async Task get_room_throws_expected_custom_exeption()
+        {
+            Room fakeEmptyResponse = null;
+            fakeAsbestosService
+                .Setup(m => m.GetRoom(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeEmptyResponse));
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+
+            await Assert.ThrowsAsync<MissingRoomException>(
+                async () => await asbestosAction.GetRoom(fakeId));
         }
 
         [Fact]
@@ -72,6 +98,19 @@ namespace UnitTests.Actions
         }
 
         [Fact]
+        public async Task get_floor_throws_expected_custom_exeption()
+        {
+            Floor fakeEmptyResponse = null;
+            fakeAsbestosService
+                .Setup(m => m.GetFloor(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeEmptyResponse));
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+
+            await Assert.ThrowsAsync<MissingFloorException>(
+                async () => await asbestosAction.GetFloor(fakeId));
+        }
+
+        [Fact]
         public async Task return_type_should_be_element()
         {
             var fakeResponse = new Element();
@@ -84,6 +123,19 @@ namespace UnitTests.Actions
             var response = await asbestosAction.GetElement(fakeId);
 
             Assert.True(response is Element);
+        }
+
+        [Fact]
+        public async Task get_element_throws_expected_custom_exeption()
+        {
+            Element fakeEmptyResponse = null;
+            fakeAsbestosService
+                .Setup(m => m.GetElement(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeEmptyResponse));
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+
+            await Assert.ThrowsAsync<MissingElementException>(
+                async () => await asbestosAction.GetElement(fakeId));
         }
 
         [Fact]
@@ -102,6 +154,19 @@ namespace UnitTests.Actions
         }
 
         [Fact]
+        public async Task get_document_throws_expected_custom_exeption()
+        {
+            var fakeEmptyResponse = new List<Document>();
+            fakeAsbestosService
+                .Setup(m => m.GetDocument(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult<IEnumerable<Document>>(fakeEmptyResponse));
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+
+            await Assert.ThrowsAsync<MissingDocumentException>(
+                async () => await asbestosAction.GetDocument(fakeId, null));
+        }
+
+        [Fact]
         public async Task return_type_should_be_file_container()
         {
             var fakeResponse = Fake.GenerateFakeFile(null);
@@ -114,6 +179,19 @@ namespace UnitTests.Actions
             var response = await asbestosAction.GetFile(fakeId, null);
 
             Assert.True(response is FileContainer);
+        }
+
+        [Fact]
+        public async Task get_file_throws_expected_custom_exeption()
+        {
+            var fakeEmptyResponse = new FileContainer();
+            fakeAsbestosService
+                .Setup(m => m.GetFile(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeEmptyResponse));
+            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
+
+            await Assert.ThrowsAsync<MissingFileException>(
+                async () => await asbestosAction.GetFile(fakeId, null));
         }
     }
 }
