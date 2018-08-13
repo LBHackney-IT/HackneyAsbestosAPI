@@ -28,10 +28,25 @@ namespace LBHAsbestosAPI
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                string subtitle;
+                if (environment == "Development")
+                {
+                    subtitle = " - Dev";
+                }
+                else if (environment == "Live")
+                {
+                    subtitle = " - Live";
+                }
+                else
+                {
+                    subtitle = $"{environment}";
+                }
+
                 c.SwaggerDoc("v1", new Info
                 {
                     Version = "v1",
-                    Title = "LBH Abestos API",
+                    Title = "LBH Abestos API - " + subtitle,
                     TermsOfService = "None"
                 });
 
