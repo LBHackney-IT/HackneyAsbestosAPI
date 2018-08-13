@@ -49,6 +49,9 @@
     <Compile Remove="Controllers\ControllerSetup.cs" />
     <Compile Remove="Controllers\ControllerSetup.cs" />
     <Compile Remove="Entities\Unnamed.cs" />
+    <Compile Remove="Builders\DocumentResponseBuilder.cs" />
+    <Compile Remove="Builders\InspectionResponseBuilder.cs" />
+    <Compile Remove="Builders\RoomResponseBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="NLog.config" />

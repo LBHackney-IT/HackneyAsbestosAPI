@@ -162,7 +162,7 @@ namespace LBHAsbestosAPI.Controllers
                     var developerMessage = $"Invalid parameter - fileId";
                     var userMessage = "Please provide a valid file id";
 
-                    return new ErrorResponseBuilder().BuildErrorResponse(
+                    return ResponseBuilder.BuildErrorResponse(
                         userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
                 }
                 var response = await _asbestosActions.GetFile(fileId, fileType);
@@ -173,13 +173,13 @@ namespace LBHAsbestosAPI.Controllers
                 var developerMessage = ex.Message;
                 var userMessage = "Cannot find file";
 
-                return new ErrorResponseBuilder().BuildErrorResponse(
+                return ResponseBuilder.BuildErrorResponse(
                     userMessage, developerMessage, (int)HttpStatusCode.NotFound);
             }
             catch (Exception ex)
             {
                 var userMessage = "We had some problems processing your request";
-                return new ErrorResponseBuilder().BuildErrorResponseFromException(
+                return ResponseBuilder.BuildErrorResponseFromException(
                     ex, userMessage);
             }
         }
@@ -194,7 +194,7 @@ namespace LBHAsbestosAPI.Controllers
                     var developerMessage = $"Missing parameter - propertyId or file id";
                     var userMessage = "Please provide a valid property id or file id";
 
-                    return new ErrorResponseBuilder().BuildErrorResponse(
+                    return ResponseBuilder.BuildErrorResponse(
                         userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
                 }
                 if (!IdValidator.ValidatePropertyId(propertyId))
@@ -202,24 +202,24 @@ namespace LBHAsbestosAPI.Controllers
                     var developerMessage = $"Invalid parameter - propertyId";
                     var userMessage = "Please provide a valid property id";
 
-                    return new ErrorResponseBuilder().BuildErrorResponse(
+                    return ResponseBuilder.BuildErrorResponse(
                         userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
                 }
                 var response = await _asbestosActions.GetDocument(propertyId, fileType);
-                return new DocumentResponseBuilder().BuildSuccessResponse(response);
+                return ResponseBuilder.BuildSuccessResponse(response);
             }
             catch (MissingDocumentException ex)
             {
                 var developerMessage = ex.Message;
                 var userMessage = "Cannot find document";
 
-                return new ErrorResponseBuilder().BuildErrorResponse(
+                return ResponseBuilder.BuildErrorResponse(
                     userMessage, developerMessage, (int)HttpStatusCode.NotFound);
             }
             catch (Exception ex)
             {
                 var userMessage = "We had some problems processing your request";
-                return new ErrorResponseBuilder().BuildErrorResponseFromException(
+                return ResponseBuilder.BuildErrorResponseFromException(
                     ex, userMessage);
             }
         }
