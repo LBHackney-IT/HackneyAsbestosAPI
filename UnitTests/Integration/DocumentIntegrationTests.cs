@@ -89,7 +89,7 @@ namespace UnitTests.Integration
             json.Append("\"errors\":");
             json.Append("[");
             json.Append("{");
-            json.Append("\"userMessage\":\"Please provide a valid Property id\",");
+            json.Append("\"userMessage\":\"Please provide a valid property id\",");
             json.Append("\"developerMessage\":\"Invalid parameter - propertyId\"");
             json.Append("}");
             json.Append("]");
