@@ -26,14 +26,14 @@ namespace LBHAsbestosAPI.Controllers
   
         // GET properties
         /// <summary>
-        /// Gets a list of inspections for a particular property id
+        /// Returns a list of inspections
         /// </summary>
-        /// <param name="propertyId">A string that identifies a property</param>
-        /// <returns>A list of inspections matching the specified property id</returns>
-        /// <response code="200">Returns the list of inspections</response>
-        /// <response code="404">If the property id does not return any inspections</response>
-        /// <response code="400">If the inspection id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response>  	
+        /// <param name="propertyId">Universal Housing property Id</param>
+        /// <returns>A list of inspections</returns>
+        /// <response code="200">Returns a list of inspections</response>
+        /// <response code="404">No inspections found</response>
+        /// <response code="400">Property id is not valid</response>   
+        /// <response code="500">Internal server error</response>  	
         [HttpGet("inspection/{propertyId}")]
         public async Task<JsonResult> GetInspection(string propertyId)
 		{ 
@@ -76,14 +76,14 @@ namespace LBHAsbestosAPI.Controllers
 
         // GET properties
         /// <summary>
-        /// Gets a room for a particular room id
+        /// Returns room information
         /// </summary>
-        /// <param name="roomId">A string that identifies a room</param>
-        /// <returns>A room matching the specified room id</returns>
+        /// <param name="roomId">PSI2000 room id</param>
+        /// <returns>Returns room information</returns>
         /// <response code="200">Returns a room</response>
-        /// <response code="404">If the room id does not return any room</response>
-        /// <response code="400">If the room id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">No rooms found</response>
+        /// <response code="400">Room id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("room/{roomId}")]
         public async Task<JsonResult> GetRoom(string roomId)
         {
@@ -126,14 +126,14 @@ namespace LBHAsbestosAPI.Controllers
 
         // GET properties
         /// <summary>
-        /// Gets a floor for a particular floor id
+        /// Returns floor information
         /// </summary>
-        /// <param name="floorId">A string that identifies a floor</param>
-        /// <returns>A floor matching the specified floor id</returns>
+        /// <param name="floorId">PSI2000 floor id</param>
+        /// <returns>Returns floor information</returns>
         /// <response code="200">Returns a floor</response>
-        /// <response code="404">If the floor id does not return any floor</response>
-        /// <response code="400">If the floor id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">No floors found</response>
+        /// <response code="400">Floor id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("floor/{floorId}")]
         public async Task<JsonResult> GetFloor(string floorId)
         {
@@ -176,14 +176,14 @@ namespace LBHAsbestosAPI.Controllers
 
         // GET properties
         /// <summary>
-        /// Gets an element for a particular element id
+        /// Returns element information
         /// </summary>
-        /// <param name="elementId">A string that identifies an element</param>
-        /// <returns>An element matching the specified element id</returns>
+        /// <param name="elementId">PSI2000 element id</param>
+        /// <returns>Returns element information</returns>
         /// <response code="200">Returns an element</response>
-        /// <response code="404">If the element id does not return any element</response>
-        /// <response code="400">If the element id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">No elements found</response>
+        /// <response code="400">Element id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("element/{elementId}")]
         public async Task<JsonResult> GetElement(string elementId)
         {

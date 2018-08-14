@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LBHAsbestosAPI.Controllers
 {
-    [Route("api/v1/documents")]
+    [Route("api/v1/document")]
     public class DocumentController : Controller
     {
         IAsbestosService _asbestosService;
@@ -26,14 +26,14 @@ namespace LBHAsbestosAPI.Controllers
 
         // GET properties
         /// <summary>
-        /// Gets an photo for a particular photo id
+        /// Returns a photo
         /// </summary>
-        /// <param name="photoId">A string that identifies an photo</param>
+        /// <param name="photoId">PSI2000 photo id</param>
         /// <returns>A photo matching the specified photo id</returns>
         /// <response code="200">Returns a photo</response>
-        /// <response code="404">If the photo id does not return any result</response>
-        /// <response code="400">If the photo id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">Photo not found for given id</response>
+        /// <response code="400">Id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("photo/{photoId}")]
         public async Task<IActionResult> getPhoto(string photoId)
         {
@@ -42,14 +42,14 @@ namespace LBHAsbestosAPI.Controllers
 
         // GET properties
         /// <summary>
-        /// Gets an photo for a particular main photo id
+        /// Returns a photo
         /// </summary>
-        /// <param name="mainPhotoId">A string that identifies an photo</param>
+        /// <param name="mainPhotoId">PSI2000 main photo id</param>
         /// <returns>A photo matching the specified main photo id</returns>
         /// <response code="200">Returns a photo</response>
-        /// <response code="404">If the main photo id does not return any result</response>
-        /// <response code="400">If the photo id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">Photo not found for given id</response>
+        /// <response code="400">Id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("mainphoto/{mainPhotoId}")]
         public async Task<IActionResult> getMainPhoto(string mainPhotoId)
         {
@@ -58,14 +58,14 @@ namespace LBHAsbestosAPI.Controllers
 
         // GET properties
         /// <summary>
-        /// Gets an report for a particular report id
+        /// Returns a report in pdf format
         /// </summary>
-        /// <param name="reportId">A string that identifies an report id</param>
-        /// <returns>A report in pdf format matching the specified report id</returns>
+        /// <param name="reportId">PSI2000 report id</param>
+        /// <returns>A report matching the specified report id</returns>
         /// <response code="200">Returns a report</response>
-        /// <response code="404">If the report id does not return any result</response>
-        /// <response code="400">If the report id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">Report not found for given id</response>
+        /// <response code="400">Id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("report/{reportId}")]
         public async Task<IActionResult> getReport(string reportId)
         {
@@ -74,14 +74,14 @@ namespace LBHAsbestosAPI.Controllers
 
         // GET properties
         /// <summary>
-        /// Gets an report for a particular drawing id
+        /// Returns a drawing
         /// </summary>
-        /// <param name="drawingId">A string that identifies a drawing id</param>
-        /// <returns>An image matching the specified drawing id</returns>
-        /// <response code="200">Returns an image</response>
-        /// <response code="404">If the drawing id does not return any result</response>
-        /// <response code="400">If the drawing id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <param name="drawingId">PSI2000 drawing id</param>
+        /// <returns>A drawing matching the specified drawing id</returns>
+        /// <response code="200">Returns a drawing</response>
+        /// <response code="404">Drawing not found for given id</response>
+        /// <response code="400">Id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("drawing/{drawingId}")]
         public async Task<IActionResult> getDrawing(string drawingId)
         {
