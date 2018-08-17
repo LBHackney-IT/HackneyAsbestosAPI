@@ -30,54 +30,54 @@ namespace LBHAsbestosAPI.Repositories
             _logger = logger;
         }
 
-        public async Task<InspectionResponse> GetInspections(string propertyId)
+        public async Task<Response<IEnumerable<Inspection>>> GetInspections(string propertyId)
         {
             await EnsureSuccessLogin();
 
             var baseAddress = new Uri(inspectionUri + $"?filter=(UPRN=\"{ propertyId }\")");
             var responseData = GetResponseMessage(baseAddress);
 
-            return JsonConvert.DeserializeObject<InspectionResponse>(responseData);
+            return JsonConvert.DeserializeObject<Response<IEnumerable<Inspection>>>(responseData);
         }
 
-        public async Task<RoomResponse> GetRoom(string roomId)
+        public async Task<Response<Room>> GetRoom(string roomId)
         {
             await EnsureSuccessLogin();
 
             var baseAddress = new Uri(roomUri + roomId);
             var responseData = GetResponseMessage(baseAddress);
 
-            return JsonConvert.DeserializeObject<RoomResponse>(responseData);
+            return JsonConvert.DeserializeObject<Response<Room>>(responseData);
         }
 
-        public async Task<FloorResponse> GetFloor(string floorId)
+        public async Task<Response<Floor>> GetFloor(string floorId)
         {
             await EnsureSuccessLogin();
 
             var baseAddress = new Uri(floorUri + floorId);
             var responseData = GetResponseMessage(baseAddress);
 
-            return JsonConvert.DeserializeObject<FloorResponse>(responseData);
+            return JsonConvert.DeserializeObject<Response<Floor>>(responseData);
         }
 
-        public async Task<ElementResponse> GetElement(string elementId)
+        public async Task<Response<Element>> GetElement(string elementId)
         {
             await EnsureSuccessLogin();
 
             var baseAddress = new Uri(elementUri + elementId);
             var responseData = GetResponseMessage(baseAddress);
 
-            return JsonConvert.DeserializeObject<ElementResponse>(responseData);
+            return JsonConvert.DeserializeObject<Response<Element>>(responseData);
         }
          
-        public async Task<DocumentResponse> GetDocument(string inspectionId, string fileType)
+        public async Task<Response<IEnumerable<Document>>> GetDocument(string inspectionId, string fileType)
         {
             await EnsureSuccessLogin();
 
             var baseAddress = new Uri(documentUri + fileType + $"?filter=(UPRN=\"{ inspectionId }\")");
             var responseData = GetResponseMessage(baseAddress);
 
-            return JsonConvert.DeserializeObject<DocumentResponse>(responseData);
+            return JsonConvert.DeserializeObject<Response<IEnumerable<Document>>>(responseData);
         }
 
         public async Task<FileContainer> GetFile(string fileId, string fileType)
@@ -87,6 +87,7 @@ namespace LBHAsbestosAPI.Repositories
             var baseAddress = new Uri(documentUri + fileType + "/" + fileId);
             return GetResponseStream(baseAddress);
         }
+
 
         private string GetResponseMessage(Uri baseAddress)
         {
@@ -182,7 +183,7 @@ namespace LBHAsbestosAPI.Repositories
                             "\",\"Password\":\"" + apiPassword +
                             "\"}", Encoding.UTF8, "application/json"));
 
-                    var response = JsonConvert.DeserializeObject<Response>(
+                    var response = JsonConvert.DeserializeObject<LoginResponse>(
                                     await httpResponse.Content.ReadAsStringAsync());
 
                     if (!response.Success)
@@ -216,6 +217,14 @@ namespace LBHAsbestosAPI.Repositories
             _logger.LogInformation("Login successful");
             return true;
         }
+    }
+
+    public static class FileType
+    {
+        public const string photo = "photo";
+        public const string report = "reports";
+        public const string drawing = "maindrawing";
+        public const string mainPhoto = "mainphoto";
     }
 
     public class InvalidLoginException : Exception { }

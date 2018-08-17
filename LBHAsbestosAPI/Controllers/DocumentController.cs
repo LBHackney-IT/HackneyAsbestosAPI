@@ -189,7 +189,7 @@ namespace LBHAsbestosAPI.Controllers
             var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
             try
             {
-                if (propertyId == null) 
+                if (propertyId == null)
                 {
                     var developerMessage = $"Missing parameter - propertyId or file id";
                     var userMessage = "Please provide a valid property id or file id";
@@ -223,13 +223,5 @@ namespace LBHAsbestosAPI.Controllers
                     ex, userMessage);
             }
         }
-    }
-
-    public static class FileType
-    {
-        public const string photo = "photo";
-        public const string report = "reports";
-        public const string drawing = "maindrawing";
-        public const string mainPhoto = "mainphoto";
     }
 }

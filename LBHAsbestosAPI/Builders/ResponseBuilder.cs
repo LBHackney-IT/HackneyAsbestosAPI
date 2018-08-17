@@ -56,9 +56,7 @@ namespace LBHAsbestosAPI.Builders
                 developerMessage = ex.StackTrace;
             }
 
-            var responseBuilder = new ErrorResponseBuilder();
-            return responseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, 500);
+            return BuildErrorResponse(userMessage, developerMessage, 500);
         }
     }
 }

@@ -11,13 +11,11 @@
     
   <ItemGroup>
     <Folder Include="wwwroot\" />
-    <Folder Include="Dtos\" />
     <Folder Include="Entities\" />
     <Folder Include="Actions\" />
     <Folder Include="Services\" />
     <Folder Include="Repositories\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="DtoBuilders\" />
     <Folder Include="Extension\" />
     <Folder Include="Validators\" />
     <Folder Include="Models\" />
@@ -52,6 +50,10 @@
     <Compile Remove="Builders\DocumentResponseBuilder.cs" />
     <Compile Remove="Builders\InspectionResponseBuilder.cs" />
     <Compile Remove="Builders\RoomResponseBuilder.cs" />
+    <Compile Remove="Entities\DocumentResponse.cs" />
+    <Compile Remove="Builders\ElementResponseBuilder.cs" />
+    <Compile Remove="Builders\ErrorResponseBuilder.cs" />
+    <Compile Remove="Builders\FloorResponseBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="NLog.config" />
