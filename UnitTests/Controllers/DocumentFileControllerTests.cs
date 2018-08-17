@@ -82,7 +82,7 @@ namespace UnitTests.Controllers
             var developerMessage = response["errors"].First["developerMessage"].ToString();
 
             var expectedUserMessage = "Please provide a valid file id";
-            var expectedDeveloperMessage = "Invalid parameter - fileId";
+            var expectedDeveloperMessage = "Invalid parameter - file id";
 
             Assert.Equal(expectedUserMessage, userMessage);
             Assert.Equal(expectedDeveloperMessage, developerMessage);
