@@ -1,5 +1,5 @@
 ﻿using System;
-namespace LBHAsbestosAPI.Entities
+namespace LBHAsbestosAPI.Models
 {
     public class FileContainer
     {

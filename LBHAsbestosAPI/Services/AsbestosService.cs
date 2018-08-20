@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Factories;
 using LBHAsbestosAPI.Interfaces;
+using LBHAsbestosAPI.Models;
 
 namespace LBHAsbestosAPI.Services
 {

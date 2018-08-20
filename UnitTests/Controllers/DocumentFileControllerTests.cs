@@ -5,6 +5,7 @@ using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Controllers;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
+using LBHAsbestosAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Newtonsoft.Json.Linq;

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using LBHAsbestosAPI.Actions;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
+using LBHAsbestosAPI.Models;
 using Moq;
 using UnitTests.Helpers;
 using Xunit;

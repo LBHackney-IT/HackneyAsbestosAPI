@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
+using LBHAsbestosAPI.Models;
 
 namespace LBHAsbestosAPI.Repositories
 {

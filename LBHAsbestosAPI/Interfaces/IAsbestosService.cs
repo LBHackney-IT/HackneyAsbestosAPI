@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
+using LBHAsbestosAPI.Models;
 
 namespace LBHAsbestosAPI.Interfaces
 {

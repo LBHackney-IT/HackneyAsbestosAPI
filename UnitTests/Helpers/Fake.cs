@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Bogus;
 using LBHAsbestosAPI.Entities;
+using LBHAsbestosAPI.Models;
 
 namespace UnitTests.Helpers
 {

@@ -224,4 +224,13 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
     }
+
+    public static class FileType
+    {
+        public const string photo = "photo";
+        public const string report = "reports";
+        public const string drawing = "maindrawing";
+        public const string mainPhoto = "mainphoto";
+    }
+
 }

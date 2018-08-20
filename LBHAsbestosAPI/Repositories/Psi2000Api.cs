@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
+using LBHAsbestosAPI.Models;
 using Newtonsoft.Json;
 
 namespace LBHAsbestosAPI.Repositories
@@ -217,14 +218,6 @@ namespace LBHAsbestosAPI.Repositories
             _logger.LogInformation("Login successful");
             return true;
         }
-    }
-
-    public static class FileType
-    {
-        public const string photo = "photo";
-        public const string report = "reports";
-        public const string drawing = "maindrawing";
-        public const string mainPhoto = "mainphoto";
     }
 
     public class InvalidLoginException : Exception { }
