@@ -6,7 +6,7 @@ API to retrieve asbestos information from Hackney's properties.
 Returns a list of inspections matching a Universal Housing property id.
 
 ```
-GET /v1/inspection/
+GET /v1/inspection/[propertyId]
 ```
 
 ### Parameters
@@ -40,7 +40,7 @@ GET /v1/inspection/
 Returns a room matching a room id.
 
 ```
-GET /v1/room/
+GET /v1/room/[roomId]
 ```
 ### Parameters
 
@@ -76,7 +76,7 @@ GET /v1/room/
 Returns a floor matching a floor id.
 
 ```
-GET /v1/floor/
+GET /v1/floor/[roomId]
 ```
 ### Parameters
 
@@ -112,7 +112,7 @@ GET /v1/floor/
 Returns an element matching an element id.
 
 ```
-GET /v1/element/
+GET /v1/element/[elementId]
 ```
 ### Parameters
 
@@ -150,7 +150,7 @@ GET /v1/element/
 Returns a photo matching a photo id
 
 ```
-GET /v1/document/photo/
+GET /v1/document/photo/[photoId]
 ```
 ### Parameters
 
@@ -167,7 +167,7 @@ Returns a list of documents about photos for a Universal Housing property id.
 The id of each of the documents returned corresponds to a photo id.
 
 ```
-GET /v1/document/photo/:propertyId
+GET /v1/document/photo?propertyid=[propertyId]
 ```
 ### Parameters
 
@@ -203,7 +203,7 @@ GET /v1/document/photo/:propertyId
 Returns a main photo matching a main photo id
 
 ```
-GET /v1/document/mainphoto/
+GET /v1/document/mainphoto/[mainPhotoId]
 ```
 ### Parameters
 
@@ -220,7 +220,7 @@ Returns a list of documents about main photos for a Universal Housing property i
 The id of each of the documents returned corresponds to a main photo id.
 
 ```
-GET /v1/document/mainphoto/:propertyId
+GET /v1/document/mainphoto?propertyid=[propertyId]
 ```
 ### Parameters
 
@@ -256,7 +256,7 @@ GET /v1/document/mainphoto/:propertyId
 Returns a drawing matching a drawing id
 
 ```
-GET /v1/document/drawing/
+GET /v1/document/drawing/[drawingId]
 ```
 ### Parameters
 
@@ -273,7 +273,7 @@ Returns a list of documents about drawings for a Universal Housing property id.
 The id of each of the documents returned corresponds to a drawing id.
 
 ```
-GET /v1/document/drawing/:propertyId
+GET /v1/document/drawing?propertyid=[propertyId]
 ```
 ### Parameters
 
@@ -309,7 +309,7 @@ GET /v1/document/drawing/:propertyId
 Returns a report matching a report id
 
 ```
-GET /v1/document/report/
+GET /v1/document/report/[reportId]
 ```
 ### Parameters
 
@@ -326,7 +326,7 @@ Returns a list of documents about reports for a Universal Housing property id.
 The id of each of the documents returned corresponds to a report id.
 
 ```
-GET /v1/document/report/:propertyId
+GET /v1/document/report?propertyid=[propertyId]
 ```
 ### Parameters
 
