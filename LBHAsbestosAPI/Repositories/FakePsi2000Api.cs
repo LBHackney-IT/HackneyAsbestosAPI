@@ -11,14 +11,14 @@ namespace LBHAsbestosAPI.Repositories
         static string triggerExceptionId = "999999";
         static string nullResponseId = "888888";
 
-        public Task<InspectionResponse> GetInspections(string propertyId)
+        public Task<Response<IEnumerable<Inspection>>> GetInspections(string propertyId)
         {
             if (propertyId == triggerExceptionId)
             {
                 throw new TestExceptionInFakePSI();
             }
 
-            var fakeInspectionresponse = new InspectionResponse()
+            var fakeInspectionresponse = new Response<IEnumerable<Inspection>>()
             {
                 Success = true
             };
@@ -42,14 +42,14 @@ namespace LBHAsbestosAPI.Repositories
             return Task.FromResult(fakeInspectionresponse);
         }
 
-        public Task<RoomResponse> GetRoom(string roomId)
+        public Task<Response<Room>> GetRoom(string roomId)
         {
             if (roomId == triggerExceptionId)
             {
                 throw new TestExceptionInFakePSI();
             }
 
-            var fakeRoomResponse = new RoomResponse()
+            var fakeRoomResponse = new Response<Room>()
             {
                 Success = true
             };
@@ -70,14 +70,14 @@ namespace LBHAsbestosAPI.Repositories
             return Task.FromResult(fakeRoomResponse);
         }
 
-        public Task<FloorResponse> GetFloor(string floorId)
+        public Task<Response<Floor>> GetFloor(string floorId)
         {
             if (floorId == triggerExceptionId)
             {
                 throw new TestExceptionInFakePSI();
             }
 
-            var fakeFloorResponse = new FloorResponse()
+            var fakeFloorResponse = new Response<Floor>()
             {
                 Success = true
             };
@@ -98,14 +98,14 @@ namespace LBHAsbestosAPI.Repositories
             return Task.FromResult(fakeFloorResponse);
         }
 
-        public Task<ElementResponse> GetElement(string elementId)
+        public Task<Response<Element>> GetElement(string elementId)
         {
             if (elementId == triggerExceptionId)
             {
                 throw new TestExceptionInFakePSI();
             }
 
-            var fakeElementResponse = new ElementResponse()
+            var fakeElementResponse = new Response<Element>()
             {
                 Success = true
             };
@@ -126,7 +126,7 @@ namespace LBHAsbestosAPI.Repositories
             return Task.FromResult(fakeElementResponse);
         }
 
-        public Task<DocumentResponse> GetDocument(string inspectionId, string fileType)
+        public Task<Response<IEnumerable<Document>>> GetDocument(string inspectionId, string fileType)
         {
             if (inspectionId == triggerExceptionId)
             {
@@ -134,13 +134,13 @@ namespace LBHAsbestosAPI.Repositories
             }
             if (inspectionId == nullResponseId)
             {
-                return Task.FromResult(new DocumentResponse()
+                return Task.FromResult(new Response<IEnumerable<Document>>()
                 {
                     Data = new List<Document>()
                 });
             }
 
-            return Task.FromResult(new DocumentResponse()
+            return Task.FromResult(new Response<IEnumerable<Document>>()
             {
                 Data = new List<Document>()
                 {

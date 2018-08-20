@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LBHAsbestosAPI;
 using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Interfaces;
 using LBHAsbestosAPI.Repositories;
@@ -36,16 +35,17 @@ namespace UnitTests.Services
             IEnumerable<Inspection> responseData;
 
             var fakeRepository = new Mock<IPsi2000Api>();
-            var fakeInspectionResponse = new InspectionResponse()
+            var fakeInspectionResponse = new Response<IEnumerable<Inspection>>()
             {
                 Data = new List<Inspection>()
+                {
+                    new Inspection()
+                    {
+                        Id = fakeId,
+                        LocationDescription = fakeDescription
+                    }
+                }
             };
-
-            fakeInspectionResponse.Data.Add(new Inspection()
-            {
-                Id = fakeId,
-                LocationDescription = fakeDescription
-            });
 
             fakeRepository
                 .Setup(m => m.GetInspections(It.IsAny<string>()))
@@ -63,7 +63,7 @@ namespace UnitTests.Services
         {
             Floor responseData;
             var fakeRepository = new Mock<IPsi2000Api>();
-            var fakeFloorResponse = new FloorResponse()
+            var fakeFloorResponse = new Response<Floor>()
             {
                 Data = new Floor()
                 {
@@ -88,7 +88,7 @@ namespace UnitTests.Services
         {
             Room responseData;
             var fakeRepository = new Mock<IPsi2000Api>();
-            var fakeRoomResponse = new RoomResponse()
+            var fakeRoomResponse = new Response<Room>()
             {
                 Data = new Room()
                 {
@@ -113,7 +113,7 @@ namespace UnitTests.Services
         {
             Element responseData;
             var fakeRepository = new Mock<IPsi2000Api>();
-            var fakeElementResponse = new ElementResponse()
+            var fakeElementResponse = new Response<Element>()
             {
                 Data = new Element()
                 {
@@ -139,16 +139,17 @@ namespace UnitTests.Services
             IEnumerable<Document> responseData;
 
             var fakeRepository = new Mock<IPsi2000Api>();
-            var fakeInspectionResponse = new DocumentResponse()
+            var fakeInspectionResponse = new Response<IEnumerable<Document>>()
             {
-                Data = new List<Document>()
+                Data = new List<Document>
+                {
+                    new Document()
+                    {
+                        Id = fakeId,
+                        Description = fakeDescription
+                    }
+                }
             };
-
-            fakeInspectionResponse.Data.Add(new Document()
-            {
-                Id = fakeId,
-                Description = fakeDescription
-            });
 
             fakeRepository
                 .Setup(m => m.GetDocument(It.IsAny<string>(), It.IsAny<string>()))

@@ -7,10 +7,10 @@ namespace LBHAsbestosAPI.Interfaces
     public interface IPsi2000Api
     {
         Task<Response<IEnumerable<Inspection>>> GetInspections(string propertyId);
-        Task<RoomResponse> GetRoom(string roomId);
-        Task<FloorResponse> GetFloor(string floorId);
-        Task<ElementResponse> GetElement(string elementId);
-        Task<DocumentResponse> GetDocument(string propertyId, string fileType);
+        Task<Response<Room>> GetRoom(string roomId);
+        Task<Response<Floor>> GetFloor(string floorId);
+        Task<Response<Element>> GetElement(string elementId);
+        Task<Response<IEnumerable<Document>>> GetDocument(string propertyId, string fileType);
         Task<FileContainer> GetFile(string fileId, string fileType);
     }
 }
