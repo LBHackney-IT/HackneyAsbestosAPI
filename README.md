@@ -3,10 +3,10 @@ API to retrieve asbestos information from Hackney's properties.
 
 ## List inspections for a property
 
-Returns a list of inspections matching a property id.
+Returns a list of inspections matching a Universal Housing property id.
 
 ```
-GET /v1/inspection/
+GET /v1/inspection/[propertyId]
 ```
 
 ### Parameters
@@ -35,12 +35,12 @@ GET /v1/inspection/
 ```
 
 
-### List room details
+## List room details
 
 Returns a room matching a room id.
 
 ```
-GET /v1/room/
+GET /v1/room/[roomId]
 ```
 ### Parameters
 
@@ -71,12 +71,12 @@ GET /v1/room/
 }
 ```
 
-### List floor details
+## List floor details
 
 Returns a floor matching a floor id.
 
 ```
-GET /v1/floor/
+GET /v1/floor/[roomId]
 ```
 ### Parameters
 
@@ -87,23 +87,272 @@ GET /v1/floor/
 ```json
 {
   "results": {
-    "Id": 12345,
-    "Description": "Fifth",
-    "PropertyId": 12345,
-    "OrderId": null,
-    "Uprn": "00000000",
-    "IsInspected": true,
-    "IsDoesContainAsbestos": false,
-    "IsDidContainAsbestos": false,
-    "IsAnyToDos": false,
-    "CreatedBy": "TEST",
-    "ModifiedBy": null,
-    "DateOfModification": null,
-    "DateOfCreation": "2018-01-25T10:20:56.66+00:00",
-    "IsActive": true,
-    "IsLiableToAsbestos": false
+    "id": 12345,
+    "description": "Fifth",
+    "propertyId": 12345,
+    "orderId": null,
+    "uprn": "00000000",
+    "isInspected": true,
+    "isDoesContainAsbestos": false,
+    "isDidContainAsbestos": false,
+    "isAnyToDos": false,
+    "createdBy": "TEST",
+    "modifiedBy": null,
+    "dateOfModification": null,
+    "dateOfCreation": "2018-01-25T10:20:56.66+00:00",
+    "isActive": true,
+    "isLiableToAsbestos": false
   }
 }
 ```
 
 
+## List element details
+
+Returns an element matching an element id.
+
+```
+GET /v1/element/[elementId]
+```
+### Parameters
+
+- elementId (required)
+
+### Response
+
+```json
+{
+  "results": {
+    "id": 12345,
+    "roomId": 123456,
+    "description": "Air Conditioning Unit",
+    "propertyId": 000001,
+    "orderId": null,
+    "uprn": "00000001",
+    "isInspected": true,
+    "isDoesContainAsbestos": false,
+    "isDidContainAsbestos": false,
+    "isAnyToDos": false,
+    "createdBy": "JOHN",
+    "modifiedBy": null,
+    "dateOfModification": null,
+    "dateOfCreation": "2018-01-25T10:20:57.033+00:00",
+    "isActive": true,
+    "isLiableToAsbestos": false
+  }
+}
+
+```
+
+
+## Get photo
+
+Returns a photo matching a photo id
+
+```
+GET /v1/document/photo/[photoId]
+```
+### Parameters
+
+- photoId (required)
+
+### Response
+
+An image in jpeg format.
+
+
+## Get documents related to a photo
+
+Returns a list of documents about photos for a Universal Housing property id.
+The id of each of the documents returned corresponds to a photo id.
+
+```
+GET /v1/document/photo?propertyid=[propertyId]
+```
+### Parameters
+
+- propertyId (required)
+
+### Response
+
+```json
+{
+  "results": [
+    {
+      "id": 12345,
+      "reference": "0000000000-01",
+      "description": "0000000000-01",
+      "jobId": null,
+      "propertyId": 012345,
+      "uprn": "00000001",
+      "createdBy": "JOHN",
+      "modifiedBy": "MIKE",
+      "dateOfModification": "2009-09-15T14:33:55.733+00:00",
+      "dateOfCreation": "2009-09-15T14:33:55.733+00:00",
+      "isApproved": true
+    },
+    {
+      ...etc...
+    }
+  ]
+}
+```
+
+## Get main photo
+
+Returns a main photo matching a main photo id
+
+```
+GET /v1/document/mainphoto/[mainPhotoId]
+```
+### Parameters
+
+- mainPhotoId (required)
+
+### Response
+
+An image in jpeg format.
+
+
+## Get documents related to a main photo
+
+Returns a list of documents about main photos for a Universal Housing property id.
+The id of each of the documents returned corresponds to a main photo id.
+
+```
+GET /v1/document/mainphoto?propertyid=[propertyId]
+```
+### Parameters
+
+- propertyId (required)
+
+### Response
+
+```json
+{
+  "results": [
+    {
+      "id": 12345,
+      "reference": "0000000000-01",
+      "description": "0000000000-01",
+      "jobId": null,
+      "propertyId": 012345,
+      "uprn": "00000001",
+      "createdBy": "JOHN",
+      "modifiedBy": "MIKE",
+      "dateOfModification": "2009-09-15T14:33:55.733+00:00",
+      "dateOfCreation": "2009-09-15T14:33:55.733+00:00",
+      "isApproved": true
+    },
+    {
+      ...etc...
+    }
+  ]
+}
+```
+
+## Get drawing
+
+Returns a drawing matching a drawing id
+
+```
+GET /v1/document/drawing/[drawingId]
+```
+### Parameters
+
+- drawingId (required)
+
+### Response
+
+A floor plan in pdf or jpeg format.
+
+
+## Get documents related to a drawing
+
+Returns a list of documents about drawings for a Universal Housing property id.
+The id of each of the documents returned corresponds to a drawing id.
+
+```
+GET /v1/document/drawing?propertyid=[propertyId]
+```
+### Parameters
+
+- propertyId (required)
+
+### Response
+
+```json
+{
+  "results": [
+    {
+      "id": 12345,
+      "reference": "0000000000-01",
+      "description": "0000000000-01",
+      "jobId": null,
+      "propertyId": 012345,
+      "uprn": "00000001",
+      "createdBy": "JOHN",
+      "modifiedBy": "MIKE",
+      "dateOfModification": "2009-09-15T14:33:55.733+00:00",
+      "dateOfCreation": "2009-09-15T14:33:55.733+00:00",
+      "isApproved": true
+    },
+    {
+      ...etc...
+    }
+  ]
+}
+```
+
+## Get report
+
+Returns a report matching a report id
+
+```
+GET /v1/document/report/[reportId]
+```
+### Parameters
+
+- reportId (required)
+
+### Response
+
+A report in pdf format.
+
+
+## Get documents related to a report
+
+Returns a list of documents about reports for a Universal Housing property id.
+The id of each of the documents returned corresponds to a report id.
+
+```
+GET /v1/document/report?propertyid=[propertyId]
+```
+### Parameters
+
+- propertyId (required)
+
+### Response
+
+```json
+{
+  "results": [
+    {
+      "id": 12345,
+      "reference": "0000000000-01",
+      "description": "0000000000-01",
+      "jobId": null,
+      "propertyId": 012345,
+      "uprn": "00000001",
+      "createdBy": "JOHN",
+      "modifiedBy": "MIKE",
+      "dateOfModification": "2009-09-15T14:33:55.733+00:00",
+      "dateOfCreation": "2009-09-15T14:33:55.733+00:00",
+      "isApproved": true
+    },
+    {
+      ...etc...
+    }
+  ]
+}
+```
