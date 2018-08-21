@@ -34,7 +34,7 @@ namespace LBHAsbestosAPI.Repositories
         {
             await EnsureSuccessLogin();
 
-            var baseAddress = new Uri(inspectionUri + "?filter=(UPRN=\"" + propertyId + "\")");
+            var baseAddress = new Uri(inspectionUri + $"?filter=(UPRN=\"{ propertyId }\")");
             var responseData = GetResponseMessage(baseAddress);
 
             return JsonConvert.DeserializeObject<InspectionResponse>(responseData);
@@ -69,8 +69,18 @@ namespace LBHAsbestosAPI.Repositories
 
             return JsonConvert.DeserializeObject<ElementResponse>(responseData);
         }
-            
-        public async Task<FileResponse> GetFile(string fileId, string fileType)
+         
+        public async Task<DocumentResponse> GetDocument(string inspectionId, string fileType)
+        {
+            await EnsureSuccessLogin();
+
+            var baseAddress = new Uri(documentUri + fileType + $"?filter=(UPRN=\"{ inspectionId }\")");
+            var responseData = GetResponseMessage(baseAddress);
+
+            return JsonConvert.DeserializeObject<DocumentResponse>(responseData);
+        }
+
+        public async Task<FileContainer> GetFile(string fileId, string fileType)
         {
             await EnsureSuccessLogin();
 
@@ -91,7 +101,7 @@ namespace LBHAsbestosAPI.Repositories
             }
         }
 
-        private FileResponse GetResponseStream(Uri baseAddress)
+        private FileContainer GetResponseStream(Uri baseAddress)
         {
             using (var handler = new HttpClientHandler { CookieContainer = SetupCookie(baseAddress) })
             using (var client = new HttpClient(handler) { BaseAddress = baseAddress })
@@ -102,7 +112,7 @@ namespace LBHAsbestosAPI.Repositories
                 {
                     response.Result.EnsureSuccessStatusCode();
 
-                    var file = new FileResponse
+                    var file = new FileContainer
                     {
                         ContentType = response.Result.Content.Headers.ContentType.ToString(),
                         Size = response.Result.Content.Headers.ContentLength,
@@ -114,7 +124,7 @@ namespace LBHAsbestosAPI.Repositories
                 {
                     if (response.Result.StatusCode == HttpStatusCode.NotFound)
                     {
-                        return new FileResponse();
+                        return new FileContainer();
                     }
                     throw;
                 }

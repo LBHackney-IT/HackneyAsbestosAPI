@@ -8,12 +8,12 @@ namespace LBHAsbestosAPI.Repositories
 {
     public class FakePsi2000Api : IPsi2000Api
     {
-        static int triggerExceptionIdLength = 4;
-        static int nullResponseIdLength = 5;
+        static string triggerExceptionId = "999999";
+        static string nullResponseId = "888888";
 
         public Task<InspectionResponse> GetInspections(string propertyId)
         {
-            if (propertyId.Length == triggerExceptionIdLength)
+            if (propertyId == triggerExceptionId)
             {
                 throw new TestExceptionInFakePSI();
             }
@@ -23,7 +23,7 @@ namespace LBHAsbestosAPI.Repositories
                 Success = true
             };
 
-            if (propertyId.Length == nullResponseIdLength)
+            if (propertyId == nullResponseId)
             {
                 fakeInspectionresponse.Data = new List<Inspection>();
             }
@@ -44,7 +44,7 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<RoomResponse> GetRoom(string roomId)
         {
-            if (roomId.Length == triggerExceptionIdLength)
+            if (roomId == triggerExceptionId)
             {
                 throw new TestExceptionInFakePSI();
             }
@@ -54,7 +54,7 @@ namespace LBHAsbestosAPI.Repositories
                 Success = true
             };
 
-            if (roomId.Length == nullResponseIdLength)
+            if (roomId == nullResponseId)
             {
                 fakeRoomResponse.Data = null;
             }
@@ -72,7 +72,7 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<FloorResponse> GetFloor(string floorId)
         {
-            if (floorId.Length == triggerExceptionIdLength)
+            if (floorId == triggerExceptionId)
             {
                 throw new TestExceptionInFakePSI();
             }
@@ -82,7 +82,7 @@ namespace LBHAsbestosAPI.Repositories
                 Success = true
             };
 
-            if (floorId.Length == nullResponseIdLength)
+            if (floorId == nullResponseId)
             {
                 fakeFloorResponse.Data = null;
             }
@@ -100,7 +100,7 @@ namespace LBHAsbestosAPI.Repositories
 
         public Task<ElementResponse> GetElement(string elementId)
         {
-            if (elementId.Length == triggerExceptionIdLength)
+            if (elementId == triggerExceptionId)
             {
                 throw new TestExceptionInFakePSI();
             }
@@ -110,7 +110,7 @@ namespace LBHAsbestosAPI.Repositories
                 Success = true
             };
 
-            if (elementId.Length == nullResponseIdLength)
+            if (elementId == nullResponseId)
             {
                 fakeElementResponse.Data = null;
             }
@@ -126,9 +126,53 @@ namespace LBHAsbestosAPI.Repositories
             return Task.FromResult(fakeElementResponse);
         }
 
-        public Task<FileResponse> GetFile(string fileId, string fileType)
+        public Task<DocumentResponse> GetDocument(string inspectionId, string fileType)
         {
-            throw new NotImplementedException();
+            if (inspectionId == triggerExceptionId)
+            {
+                throw new TestExceptionInFakePSI();
+            }
+            if (inspectionId == nullResponseId)
+            {
+                return Task.FromResult(new DocumentResponse()
+                {
+                    Data = new List<Document>()
+                });
+            }
+
+            return Task.FromResult(new DocumentResponse()
+            {
+                Data = new List<Document>()
+                {
+                    new Document()
+                    {
+                        Id = 4532,
+                        Description = "A picture"
+                    }
+                }
+            });
+        }
+
+        public Task<FileContainer> GetFile(string fileId, string fileType)
+        {
+            if (fileId == triggerExceptionId)
+            {
+                throw new TestExceptionInFakePSI();
+            }
+            if (fileId == nullResponseId)
+            {
+                return Task.FromResult(new FileContainer()
+                {
+                    Data = null
+                });
+            }
+
+            return Task.FromResult(new FileContainer()
+            {
+                ContentType = "image/jpeg",
+                Size = 54,
+                Data = new byte[54]
+            });
         }
     }
 

@@ -70,7 +70,20 @@ namespace LBHAsbestosAPI.Actions
             return element;
         }
 
-        public async Task<FileResponse> GetFile(string fileId, string fileType)
+        public async Task<IEnumerable<Document>> GetDocument(string inspectionId, string fileType)
+        {
+            _logger.LogInformation($"Calling GetInspection() with {inspectionId}");
+            var lDocument = await _asbestosService.GetDocument(inspectionId, fileType);
+
+            if (lDocument.Any() == false)
+            {
+                _logger.LogError($"No Documents returned for {inspectionId}");
+                throw new MissingDocumentException();
+            }
+            return lDocument;
+        }
+
+        public async Task<FileContainer> GetFile(string fileId, string fileType)
         {
 
             var file = await _asbestosService.GetFile(fileId, fileType);
@@ -87,5 +100,6 @@ namespace LBHAsbestosAPI.Actions
     public class MissingRoomException : Exception { }
     public class MissingFloorException : Exception { }
     public class MissingElementException : Exception { }
+    public class MissingDocumentException : Exception { }
     public class MissingFileException : Exception { }
 }

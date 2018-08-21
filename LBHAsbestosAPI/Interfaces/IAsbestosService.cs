@@ -11,6 +11,7 @@ namespace LBHAsbestosAPI.Interfaces
         Task<Room> GetRoom(string roomId);
         Task<Floor> GetFloor(string floorId);
         Task<Element> GetElement(string elementId);
-        Task<FileResponse> GetFile(string fileId, string fileType);
+        Task<IEnumerable<Document>> GetDocument(string propertyId, string fileType);
+        Task<FileContainer> GetFile(string fileId, string fileType);
     }
 }

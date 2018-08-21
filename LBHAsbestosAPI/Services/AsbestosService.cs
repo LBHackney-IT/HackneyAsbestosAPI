@@ -48,9 +48,17 @@ namespace LBHAsbestosAPI.Services
             return response.Data; 
         }
 
-        public async Task<FileResponse> GetFile(string fileId, string fileType)
+        public async Task<IEnumerable<Document>> GetDocument(string inspectionId, string fileType)
         {
-                return await _api.GetFile(fileId, fileType);
+            _logger.LogInformation($"Calling GetDocument() with {inspectionId}");
+            var response = await _api.GetDocument(inspectionId, fileType);
+            var responseInspections = response.Data;
+            return responseInspections;
+        }
+
+        public async Task<FileContainer> GetFile(string fileId, string fileType)
+        {
+            return await _api.GetFile(fileId, fileType);
         }
     }
 }

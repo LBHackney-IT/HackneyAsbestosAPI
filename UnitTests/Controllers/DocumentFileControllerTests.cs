@@ -13,7 +13,7 @@ using Xunit;
 
 namespace UnitTests.Controllers
 {
-    public class DocumentControllerTests
+    public class DocumentFileControllerTests
     {
         Mock<ILoggerAdapter<AsbestosActions>> fakeActionsLogger;
         Mock<ILoggerAdapter<DocumentController>> fakeControllerLogger;
@@ -23,7 +23,7 @@ namespace UnitTests.Controllers
         Random random;
         int randomPick;
 
-        public DocumentControllerTests()
+        public DocumentFileControllerTests()
         {
             fakeActionsLogger = new Mock<ILoggerAdapter<AsbestosActions>>();
             fakeControllerLogger = new Mock<ILoggerAdapter<DocumentController>>();
@@ -60,7 +60,7 @@ namespace UnitTests.Controllers
         [Fact]
         public async Task return_404_for_valid_request_but_no_results()
         {
-            var emptyFileResponse = new FileResponse();
+            var emptyFileResponse = new FileContainer();
             controller = SetupControllerWithServiceReturningFileResponse(emptyFileResponse);
             var response = (JsonResult)await PickDocumentControllerEndpoint(randomPick, fakeId.ToString());
 
@@ -82,7 +82,7 @@ namespace UnitTests.Controllers
             var developerMessage = response["errors"].First["developerMessage"].ToString();
 
             var expectedUserMessage = "Please provide a valid file id";
-            var expectedDeveloperMessage = "Invalid parameter - fileId";
+            var expectedDeveloperMessage = "Invalid parameter - file id";
 
             Assert.Equal(expectedUserMessage, userMessage);
             Assert.Equal(expectedDeveloperMessage, developerMessage);
@@ -95,7 +95,7 @@ namespace UnitTests.Controllers
                                             fakeActionsLogger.Object);
         }
 
-        private DocumentController SetupControllerWithServiceReturningFileResponse(FileResponse file)
+        private DocumentController SetupControllerWithServiceReturningFileResponse(FileContainer file)
         {
             fakeAsbestosService = new Mock<IAsbestosService>();
             fakeAsbestosService.Setup(m => m.GetFile(It.IsAny<string>(), It.IsAny<string>()))
@@ -112,16 +112,16 @@ namespace UnitTests.Controllers
             switch (pick)
             {
                 case 0:
-                    response = await controller.getPhoto(documentId);
+                    response = await controller.GetPhoto(documentId);
                     break;
                 case 1:
-                    response = await controller.getReport(documentId);
+                    response = await controller.GetReport(documentId);
                     break;
                 case 2:
-                    response = await controller.getDrawing(documentId);
+                    response = await controller.GetDrawing(documentId);
                     break;
                 case 3:
-                    response = await controller.getMainPhoto(documentId);
+                    response = await controller.GetMainPhoto(documentId);
                     break;
             }
 
