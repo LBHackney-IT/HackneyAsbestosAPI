@@ -24,34 +24,6 @@ namespace UnitTests.Actions
         }
 
         [Fact]
-        public async Task GetTodo_return_type_should_be_todo()
-        {
-            var fakeResponse = new Todo();
-
-            fakeAsbestosService
-                .Setup(m => m.GetTodo(It.IsAny<string>()))
-                .Returns(Task.FromResult(fakeResponse));
-
-            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-            var response = await asbestosAction.GetTodo(fakeId);
-
-            Assert.True(response is Todo);
-        }
-
-        [Fact]
-        public async Task GetTodo_throws_expected_custom_exeption_when_empty_response()
-        {
-            Todo fakeEmptyResponse = null;
-            fakeAsbestosService
-                .Setup(m => m.GetTodo(It.IsAny<string>()))
-                .Returns(Task.FromResult(fakeEmptyResponse));
-            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-
-            await Assert.ThrowsAsync<MissingTodoException>(
-                async () => await asbestosAction.GetTodo(fakeId));
-        }
-
-        [Fact]
         public async Task GetTodoByPropertyId_return_type_should_be_list_of_todos()
         {
             var fakeResponse = new List<Todo>

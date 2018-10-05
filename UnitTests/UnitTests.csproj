@@ -37,5 +37,9 @@
     <Compile Remove="Controllers\FloorControllerTests.cs" />
     <Compile Remove="Controllers\InspectionControllerTests.cs" />
     <Compile Remove="Controllers\RoomControllerTests.cs" />
+    <Compile Remove="Actions\AsbestosActionsTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actions\PhotosActionsTests.cs" />
   </ItemGroup>
 </Project>

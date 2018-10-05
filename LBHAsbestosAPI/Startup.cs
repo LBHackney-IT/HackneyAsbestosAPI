@@ -88,6 +88,9 @@ namespace LBHAsbestosAPI
             {
                 cw.SwaggerEndpoint("/swagger/v1/swagger.json", "LBH Abestos API v1");
             });
+
+            app.UseDeveloperExceptionPage();
+
         }
     }
 }

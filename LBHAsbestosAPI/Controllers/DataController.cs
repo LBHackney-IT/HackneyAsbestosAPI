@@ -231,7 +231,8 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="200">Returns a list of todos</response>
         /// <response code="404">No todos found</response>
         /// <response code="400">Property id is not valid</response>   
-        /// <response code="500">Internal server error</response>  
+        /// <response code="500">Internal server error</response>
+        [HttpGet("todos")]  
         public async Task<JsonResult> GetTodosByPropertyId(string propertyId)
         {
             try
