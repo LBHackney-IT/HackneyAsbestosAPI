@@ -175,6 +175,65 @@ namespace LBHAsbestosAPI.Repositories
                 Data = new byte[54]
             });
         }
+
+        public Task<Response<IEnumerable<Todo>>> GetTodosByPropertyId(string propertyId)
+        {
+            if (propertyId == triggerExceptionId)
+            {
+                throw new TestExceptionInFakePSI();
+            }
+
+            var fakeTodoResponse = new Response<IEnumerable<Todo>>()
+            {
+                Success = true
+            };
+
+            if (propertyId == nullResponseId)
+            {
+                fakeTodoResponse.Data = new List<Todo>();
+            }
+            else
+            {
+                fakeTodoResponse.Data = new List<Todo>()
+                {
+                    new Todo()
+                    {
+                        Id = 6123,
+                        LocationDescription = "Outside"
+                    }
+                };
+            }
+
+            return Task.FromResult(fakeTodoResponse);
+        }
+
+        public Task<Response<Todo>> GetTodo(string todoId)
+        {
+            if (todoId == triggerExceptionId)
+            {
+                throw new TestExceptionInFakePSI();
+            }
+
+            var fakeElementResponse = new Response<Todo>()
+            {
+                Success = true
+            };
+
+            if (todoId == nullResponseId)
+            {
+                fakeElementResponse.Data = null;
+            }
+            else
+            {
+                fakeElementResponse.Data = new Todo()
+                {
+                    Id = 1987,
+                    Description = "Bunker"
+                };
+            }
+
+            return Task.FromResult(fakeElementResponse);
+        }
     }
 
     public class TestExceptionInFakePSI : Exception { }

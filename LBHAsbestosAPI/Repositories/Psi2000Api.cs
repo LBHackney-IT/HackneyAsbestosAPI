@@ -20,10 +20,12 @@ namespace LBHAsbestosAPI.Repositories
         static string apiUsername = Environment.GetEnvironmentVariable("PSI_USERNAME");
         static string apiPassword = Environment.GetEnvironmentVariable("PSI_PASSWORD");
         static string inspectionUri = baseUri + "api/inspections";
-        public static string roomUri = baseUri + "api/rooms/";
+        static string roomUri = baseUri + "api/rooms/";
         static string floorUri = baseUri + "api/floors/";
         static string elementUri = baseUri + "api/elements/";
         static string documentUri = baseUri + "api/documents/";
+        static string todoUri = baseUri + "api/todos";
+
         ILoggerAdapter<Psi2000Api> _logger;
 
         public Psi2000Api(ILoggerAdapter<Psi2000Api> logger)
@@ -69,6 +71,26 @@ namespace LBHAsbestosAPI.Repositories
             var responseData = GetResponseMessage(baseAddress);
 
             return JsonConvert.DeserializeObject<Response<Element>>(responseData);
+        }
+
+        public async Task<Response<IEnumerable<Todo>>> GetTodosByPropertyId(string propertyId)
+        {
+            await EnsureSuccessLogin();
+
+            var baseAddress = new Uri(todoUri + $"?filter=(UPRN=\"{ propertyId }\")");
+            var responseData = GetResponseMessage(baseAddress);
+
+            return JsonConvert.DeserializeObject<Response<IEnumerable<Todo>>>(responseData);
+        }
+
+        public async Task<Response<Todo>> GetTodo(string todoId)
+        {
+            await EnsureSuccessLogin();
+
+            var baseAddress = new Uri(elementUri + '/' + todoId);
+            var responseData = GetResponseMessage(baseAddress);
+
+            return JsonConvert.DeserializeObject<Response<Todo>>(responseData); 
         }
          
         public async Task<Response<IEnumerable<Document>>> GetDocuments(string inspectionId, string fileType)

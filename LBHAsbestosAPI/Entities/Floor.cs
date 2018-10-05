@@ -7,7 +7,7 @@ namespace LBHAsbestosAPI.Entities
 		public string Description { get; set; }
 		public int PropertyId { get; set; }
 		public int? OrderId { get; set; }
-		public string Uprn { get; set; }
+        public string Uintprn { get; set; }
 		public bool IsInspected { get; set; }
 		public bool IsDoesContainAsbestos { get; set; }
 		public bool IsDidContainAsbestos { get; set; }

@@ -71,7 +71,7 @@ namespace LBHAsbestosAPI.Entities
         public int? ExposedGroup2Score { get; set; }
         public string ExposedGroup3 { get; set; }
         public int? ExposedGroup3Score { get; set; }
-        public int Uprn { get; set; }
+        public string Uprn { get; set; }
         public string OverAllAnalysisResult { get; set; }
         public string OverAllAnalysisResultScore { get; set; }
         public string RecommendationAction1 { get; set; }
@@ -82,7 +82,7 @@ namespace LBHAsbestosAPI.Entities
         public string RecommendedBy2 { get; set; }
         public string CreatedBy { get; set; }
         public string ModifiedBy { get; set; }
-        public string DateOfModification { get; set; }
+        public DateTime? DateOfModification { get; set; }
         public DateTime DateOfCreation { get; set; }
         public bool IsApproved { get; set; }
 	}

@@ -1,82 +1,84 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using LBHAsbestosAPI;
-using LBHAsbestosAPI.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using UnitTests.Helpers;
 using Xunit;
+using LBHAsbestosAPI.Entities;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using Newtonsoft.Json.Serialization;
+using System.Text;
+using UnitTests.Helpers;
 
 namespace UnitTests.Integration
 {
-    public class ElementIntegrationTests
+    public class InspectionsIntegrationTests
     {
-        readonly TestServer _server;
-        readonly HttpClient _client;
-        string _baseUri;
-        static string triggerExceptionId = "999999"; 
-        static string triggerNotFoundId = "888888"; 
+        readonly TestServer server;
+        readonly HttpClient client;
+        static string baseUri = "api/v1/inspections?propertyId=";
+        static string triggerExceptionId = "999999";
+        static string triggerNotFoundId = "888888";
 
-        public ElementIntegrationTests()
+        public InspectionsIntegrationTests()
         {
-            _server = new TestServer(new WebHostBuilder()
+            server = new TestServer(new WebHostBuilder()
                                      .UseStartup<TestStartup>());
-            _client = _server.CreateClient();
-            _baseUri = "api/v1/elements/";
+            client = server.CreateClient();
         }
 
         [Fact]
         public async Task return_200_for_valid_request()
         {
-            Random random = new Random();
             var randomId = Fake.GenerateRandomId(6);
-            var result = await _client.GetAsync(_baseUri + randomId);
+            var result = await client.GetAsync(baseUri + randomId);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
 
         [Theory]
-        [InlineData("12345678")]
+        [InlineData("12345678910")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_400_for_invalid_request(string elementId)
+        public async Task return_400_for_invalid_request(string propertyId)
         {
-            var result = await _client.GetAsync(_baseUri + elementId);
+            var result = await client.GetAsync(baseUri + propertyId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
         [Fact]
-        public async Task return_404_if_request_successful_but_no_results()
+        public async Task return_404_if_request_is_successful_but_no_results()
         {
-            var result = await _client.GetAsync(_baseUri + triggerNotFoundId);
+            var result = await client.GetAsync(baseUri + triggerNotFoundId);
             Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
         [Fact]
         public async Task return_500_when_internal_server_error()
         {
-            var result = await _client.GetAsync(_baseUri + triggerExceptionId);
+            var result = await client.GetAsync(baseUri + triggerExceptionId);
             Assert.Equal(HttpStatusCode.InternalServerError, result.StatusCode);
         }
 
         [Fact]
         public async Task return_valid_json_for_valid_requests()
         {
-            var expectedResult = new Dictionary<string, Element>()
+            var expectedResultContent = new Inspection()
             {
-                { "results", new Element()
+                Id = 655,
+                LocationDescription = "A house"
+            };
+
+            var expectedResult = new Dictionary<string, IEnumerable<Inspection>>()
+            {
+                { "results", new List<Inspection>()
                     {
-                        Id = 3434,
-                        Description = "First Floor"
-                    }
-                }
+                        {expectedResultContent}
+                    }}
             };
 
             DefaultContractResolver contractResolver = new DefaultContractResolver
@@ -89,32 +91,32 @@ namespace UnitTests.Integration
                 ContractResolver = contractResolver
             });
 
-            var fakeValidId = Fake.GenerateRandomId(6);
-            var result = await _client.GetStringAsync(_baseUri + fakeValidId);
+            var randomId = Fake.GenerateRandomId(6);
+            var result = await client.GetStringAsync(baseUri + randomId);
 
             Assert.Equal(expectedStringResult, result);
         }
 
         [Theory]
-        [InlineData("12345678")]
+        [InlineData("12345678910")]
         [InlineData("abc")]
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_valid_json_for_invalid_requests(string elementId)
+        public async Task return_valid_json_for_invalid_requests(string propertyId)
         {
             var json = new StringBuilder();
             json.Append("{");
             json.Append("\"errors\":");
             json.Append("[");
             json.Append("{");
-            json.Append("\"userMessage\":\"Please provide a valid element id\",");
-            json.Append("\"developerMessage\":\"Invalid parameter - elementId\"");
+            json.Append("\"userMessage\":\"Please provide a valid property id\",");
+            json.Append("\"developerMessage\":\"Invalid parameter - propertyId\"");
             json.Append("}");
             json.Append("]");
             json.Append("}");
 
-            var result = await _client.GetAsync(_baseUri + elementId);
+            var result = await client.GetAsync(baseUri + propertyId);
             var resultString = await result.Content.ReadAsStringAsync();
             Assert.Equal(json.ToString(), resultString);
         }

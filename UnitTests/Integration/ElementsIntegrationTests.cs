@@ -15,7 +15,7 @@ using Xunit;
 
 namespace UnitTests.Integration
 {
-    public class RoomIntegrationTests
+    public class ElementsIntegrationTests
     {
         readonly TestServer _server;
         readonly HttpClient _client;
@@ -23,17 +23,18 @@ namespace UnitTests.Integration
         static string triggerExceptionId = "999999"; 
         static string triggerNotFoundId = "888888"; 
 
-        public RoomIntegrationTests()
+        public ElementsIntegrationTests()
         {
             _server = new TestServer(new WebHostBuilder()
                                      .UseStartup<TestStartup>());
             _client = _server.CreateClient();
-            _baseUri = "api/v1/rooms/";
+            _baseUri = "api/v1/elements/";
         }
 
         [Fact]
         public async Task return_200_for_valid_request()
         {
+            Random random = new Random();
             var randomId = Fake.GenerateRandomId(6);
             var result = await _client.GetAsync(_baseUri + randomId);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
@@ -45,9 +46,9 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_400_for_invalid_request(string roomId)
+        public async Task return_400_for_invalid_request(string elementId)
         {
-            var result = await _client.GetAsync(_baseUri + roomId);
+            var result = await _client.GetAsync(_baseUri + elementId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 
@@ -68,12 +69,12 @@ namespace UnitTests.Integration
         [Fact]
         public async Task return_valid_json_for_valid_requests()
         {
-            var expectedResult = new Dictionary<string, Room>()
+            var expectedResult = new Dictionary<string, Element>()
             {
-                { "results", new Room()
+                { "results", new Element()
                     {
-                        Id = 5003,
-                        Description = "Ground Floor"
+                        Id = 3434,
+                        Description = "First Floor"
                     }
                 }
             };
@@ -88,8 +89,8 @@ namespace UnitTests.Integration
                 ContractResolver = contractResolver
             });
 
-            var randomId = Fake.GenerateRandomId(6);
-            var result = await _client.GetStringAsync(_baseUri + randomId);
+            var fakeValidId = Fake.GenerateRandomId(6);
+            var result = await _client.GetStringAsync(_baseUri + fakeValidId);
 
             Assert.Equal(expectedStringResult, result);
         }
@@ -100,20 +101,20 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_valid_json_for_invalid_requests(string roomId)
+        public async Task return_valid_json_for_invalid_requests(string elementId)
         {
             var json = new StringBuilder();
             json.Append("{");
             json.Append("\"errors\":");
             json.Append("[");
             json.Append("{");
-            json.Append("\"userMessage\":\"Please provide a valid room id\",");
-            json.Append("\"developerMessage\":\"Invalid parameter - roomId\"");
+            json.Append("\"userMessage\":\"Please provide a valid element id\",");
+            json.Append("\"developerMessage\":\"Invalid parameter - elementId\"");
             json.Append("}");
             json.Append("]");
             json.Append("}");
 
-            var result = await _client.GetAsync(_baseUri + roomId);
+            var result = await _client.GetAsync(_baseUri + elementId);
             var resultString = await result.Content.ReadAsStringAsync();
             Assert.Equal(json.ToString(), resultString);
         }

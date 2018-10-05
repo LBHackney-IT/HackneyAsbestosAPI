@@ -221,5 +221,88 @@ namespace LBHAsbestosAPI.Controllers
                 return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
             }
         }
+
+        [HttpGet("todos")]
+        public async Task<JsonResult> GetTodosByPropertyId(string propertyId)
+        {
+            try
+            {
+                _logger.LogInformation($"Calling ValidatePropertyId() with {propertyId}");
+                if (propertyId == null)
+                {
+                    var developerMessage = $"Missing parameter - propertyId";
+                    var userMessage = "Please provide a valid property id";
+
+                    return ResponseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+                if (!IdValidator.ValidatePropertyId(propertyId))
+                {
+                    _logger.LogError("propertyId has not passed validation");
+                    var developerMessage = "Invalid parameter - propertyId";
+                    var userMessage = "Please provide a valid property id";
+
+                    return ResponseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+
+                var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
+                var response = await _asbestosActions.GetTodosByPropertyId(propertyId);
+
+                return ResponseBuilder.BuildSuccessResponse(response);
+            }
+            catch (MissingTodoException ex)
+            {
+                _logger.LogError("No todos returned for propertyId");
+                var developerMessage = ex.Message;
+                var userMessage = "Cannot find todos";
+
+                return ResponseBuilder.BuildErrorResponse(
+                userMessage, developerMessage, 404);
+            }
+            catch (Exception ex)
+            {
+                var userMessage = "We had some problems processing your request";
+                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
+            }   
+        }
+
+        [HttpGet("todos/{todoId}")]
+        public async Task<JsonResult> GetTodo(string todoId)
+        {
+            try
+            {
+                _logger.LogInformation($"Calling ValidateId() with {todoId}");
+
+                if (!IdValidator.ValidateId(todoId))
+                {
+                    _logger.LogError("todoID has not passed validation");
+                    var developerMessage = "Invalid parameter - todoId";
+                    var userMessage = "Please provide a valid todo id";
+
+                    return ResponseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+
+                var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
+                var response = await _asbestosActions.GetTodo(todoId);
+
+                return ResponseBuilder.BuildSuccessResponse(response);
+            }
+            catch (MissingTodoException ex)
+            {
+                _logger.LogError("No todo returned for todoId");
+                var developerMessage = ex.Message;
+                var userMessage = "Cannot find todo";
+
+                return ResponseBuilder.BuildErrorResponse(
+                userMessage, developerMessage, 404);
+            }
+            catch (Exception ex)
+            {
+                var userMessage = "We had some problems processing your request";
+                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
+            }
+        }
     }
 }

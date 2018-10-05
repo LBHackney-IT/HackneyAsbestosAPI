@@ -15,7 +15,7 @@ using Xunit;
 
 namespace UnitTests.Integration
 {
-    public class FloorIntegrationTests
+    public class FloorsIntegrationTests
     {
         readonly TestServer _server;
         readonly HttpClient _client;
@@ -23,7 +23,7 @@ namespace UnitTests.Integration
         static string triggerExceptionId = "999999"; 
         static string triggerNotFoundId = "888888"; 
 
-        public FloorIntegrationTests()
+        public FloorsIntegrationTests()
         {
             _server = new TestServer(new WebHostBuilder()
                                      .UseStartup<TestStartup>());

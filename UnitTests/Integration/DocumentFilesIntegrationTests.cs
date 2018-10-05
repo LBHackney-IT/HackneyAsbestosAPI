@@ -15,7 +15,7 @@ using UnitTests.Helpers;
 
 namespace UnitTests.Integration
 {
-    public class DocumentFileIntegrationTests
+    public class DocumentFilesIntegrationTests
     {
         readonly TestServer server;
         readonly HttpClient client;
@@ -23,7 +23,7 @@ namespace UnitTests.Integration
         static string triggerExceptionId = "999999"; 
         static string triggerNotFoundId = "888888"; 
 
-        public DocumentFileIntegrationTests()
+        public DocumentFilesIntegrationTests()
         {
             server = new TestServer(new WebHostBuilder()
                                      .UseStartup<TestStartup>());

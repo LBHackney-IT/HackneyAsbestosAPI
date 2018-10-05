@@ -20,5 +20,7 @@ namespace LBHAsbestosAPI.Interfaces
         Task<IEnumerable<Document>> GetReportDocuments(string propertyId);
         Task<FileContainer> GetDrawing(string mainDrawingId);
         Task<IEnumerable<Document>> GetDrawingDocuments(string propertyId);
+        Task<IEnumerable<Todo>> GetTodosByPropertyId(string propertyId);
+        Task<Todo> GetTodo(string todoId);
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using LBHAsbestosAPI.Entities;
-using LBHAsbestosAPI.Factories;
 using LBHAsbestosAPI.Interfaces;
 using LBHAsbestosAPI.Models;
 using LBHAsbestosAPI.Repositories;
@@ -31,42 +29,42 @@ namespace LBHAsbestosAPI.Services
 
         public async Task<Room> GetRoom(string roomId)
         {
-            _logger.LogInformation($"Calling GetRoom with {roomId}");
+            _logger.LogInformation($"Calling GetRoom() with {roomId}");
             var response = await _api.GetRoom(roomId);
             return response.Data;
         }
 
         public async Task<Floor> GetFloor(string floorId)
         {
-            _logger.LogInformation($"Calling GetFloor with {floorId}");
+            _logger.LogInformation($"Calling GetFloor() with {floorId}");
             var response = await _api.GetFloor(floorId);
             return response.Data;
         }
 
         public async Task<Element> GetElement(string elementId)
         {
-            _logger.LogInformation($"Calling GetElement with {elementId}");
+            _logger.LogInformation($"Calling GetElement() with {elementId}");
             var response = await _api.GetElement(elementId);
             return response.Data; 
         }
 
         public async Task<FileContainer> GetPhoto(string photoID)
         {
-            _logger.LogInformation($"Calling GetPhoto with {photoID}");
+            _logger.LogInformation($"Calling GetPhoto() with {photoID}");
             var response = await _api.GetFile(photoID, FileType.photo);
             return response;
         }
 
         public async Task<IEnumerable<Document>> GetPhotoDocuments(string propertyId)
         {
-            _logger.LogInformation($"Calling GetPhotoDocuments with {propertyId}");
+            _logger.LogInformation($"Calling GetPhotoDocuments() with {propertyId}");
             var response = await GetDocument(propertyId, FileType.photo);
             return response;
         }
 
         public async Task<FileContainer> GetMainPhoto(string mainPhotoID)
         {
-            _logger.LogInformation($"Calling GetMainPhoto with {mainPhotoID}");
+            _logger.LogInformation($"Calling GetMainPhoto() with {mainPhotoID}");
             var response = await _api.GetFile(mainPhotoID, FileType.mainPhoto);
             return response;
         }
@@ -108,9 +106,25 @@ namespace LBHAsbestosAPI.Services
 
         private async Task<IEnumerable<Document>> GetDocument(string propertyId, string fileType)
         {
+            _logger.LogInformation($"Calling GetDocument() with {propertyId}");
             var response = await _api.GetDocuments(propertyId, fileType);
             var responseInspections = response.Data;
             return responseInspections;
+        }
+
+        public async Task<IEnumerable<Todo>> GetTodosByPropertyId(string propertyId)
+        {
+            _logger.LogInformation($"Calling GetTodosByPropertyId() with {propertyId}");
+            var response = await _api.GetTodosByPropertyId(propertyId);
+            var responseTodos = response.Data;
+            return responseTodos; 
+        }
+
+        public async Task<Todo> GetTodo(string todoId)
+        {
+            _logger.LogInformation($"Calling GetTodo() with {todoId}");
+            var response = await _api.GetTodo(todoId);
+            return response.Data;        
         }
     }
 }

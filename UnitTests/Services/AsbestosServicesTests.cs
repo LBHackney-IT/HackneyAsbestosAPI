@@ -54,8 +54,8 @@ namespace UnitTests.Services
             asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
             responseData = await asbestosService.GetInspection(fakeId.ToString());
 
-            Assert.Equal(fakeId, responseData.ElementAt(0).Id);
-            Assert.Equal(fakeDescription, responseData.ElementAt(0).LocationDescription);
+            Assert.Equal(fakeId, responseData.FirstOrDefault().Id);
+            Assert.Equal(fakeDescription, responseData.FirstOrDefault().LocationDescription);
         }
 
         [Fact]
@@ -139,7 +139,7 @@ namespace UnitTests.Services
             IEnumerable<Document> responseData;
 
             var fakeRepository = new Mock<IPsi2000Api>();
-            var fakeInspectionResponse = new Response<IEnumerable<Document>>()
+            var fakeDocumentResponse = new Response<IEnumerable<Document>>()
             {
                 Data = new List<Document>
                 {
@@ -153,13 +153,65 @@ namespace UnitTests.Services
 
             fakeRepository
                 .Setup(m => m.GetDocuments(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(Task.FromResult(fakeInspectionResponse));
+                .Returns(Task.FromResult(fakeDocumentResponse));
 
             asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
             responseData = await asbestosService.GetPhotoDocuments(fakeId.ToString());
 
-            Assert.Equal(fakeId, responseData.ElementAt(0).Id);
-            Assert.Equal(fakeDescription, responseData.ElementAt(0).Description);
+            Assert.Equal(fakeId, responseData.FirstOrDefault().Id);
+            Assert.Equal(fakeDescription, responseData.FirstOrDefault().Description);
+        }
+
+        [Fact]
+        public async Task can_access_todo_data_from_response()
+        {
+            var fakeRepository = new Mock<IPsi2000Api>();
+            var fakeTodoResponse = new Response<Todo>()
+            {
+                Data = new Todo
+                {
+                    Id = fakeId,
+                    Description = fakeDescription
+                }
+
+            };
+
+            fakeRepository
+                .Setup(m => m.GetTodo(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeTodoResponse));
+
+            asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
+            var responseData = await asbestosService.GetTodo(fakeId.ToString());
+
+            Assert.Equal(fakeId, responseData.Id);
+            Assert.Equal(fakeDescription, responseData.Description);
+        }
+
+        [Fact]
+        public async Task can_access_todo_data_from_GetTodoByPropertyReference_response()
+        {
+            var fakeRepository = new Mock<IPsi2000Api>();
+            var fakeTodoResponse = new Response<IEnumerable<Todo>>()
+            {
+                Data = new List<Todo>
+                {
+                    new Todo
+                    {
+                        Id = fakeId,
+                        Description = fakeDescription
+                    }
+                }
+            };
+
+            fakeRepository
+                .Setup(m => m.GetTodosByPropertyId(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeTodoResponse));
+
+            asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
+            var responseData = await asbestosService.GetTodosByPropertyId(fakeId.ToString());
+
+            Assert.Equal(fakeId, responseData.FirstOrDefault().Id);
+            Assert.Equal(fakeDescription, responseData.FirstOrDefault().Description);
         }
     }
 }
