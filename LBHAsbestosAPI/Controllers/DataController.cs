@@ -5,7 +5,6 @@ using LBHAsbestosAPI.Interfaces;
 using LBHAsbestosAPI.Builders;
 using LBHAsbestosAPI.Validators;
 using Microsoft.AspNetCore.Mvc;
-using LBHAsbestosAPI.Repositories;
 
 namespace LBHAsbestosAPI.Controllers
 {
@@ -40,7 +39,14 @@ namespace LBHAsbestosAPI.Controllers
             try
             {
                 _logger.LogInformation($"Calling ValidatePropertyId() with {propertyId}");
+                if (propertyId == null)
+                {
+                    var developerMessage = $"Missing parameter - propertyId";
+                    var userMessage = "Please provide a valid property id";
 
+                    return ResponseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
                 if (!IdValidator.ValidatePropertyId(propertyId))
                 {
                     _logger.LogError("propertyId has not passed validation");
