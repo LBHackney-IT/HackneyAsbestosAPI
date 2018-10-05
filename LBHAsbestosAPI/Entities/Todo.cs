@@ -11,7 +11,7 @@ namespace LBHAsbestosAPI.Entities
         public int? ElementId { get; set; }
         public string LocationDescription { get; set; }
         public int PropertyId { get; set; }
-        public string TodoReference { get; set; }
+        public string ToDoReference { get; set; }
         public DateTime? DateOfCompletion { get; set; }
         public bool IsCompleted { get; set; }
         public string Field1 { get; set; }

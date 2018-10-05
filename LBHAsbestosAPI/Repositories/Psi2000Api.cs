@@ -87,7 +87,7 @@ namespace LBHAsbestosAPI.Repositories
         {
             await EnsureSuccessLogin();
 
-            var baseAddress = new Uri(elementUri + '/' + todoId);
+            var baseAddress = new Uri(todoUri + '/' + todoId);
             var responseData = GetResponseMessage(baseAddress);
 
             return JsonConvert.DeserializeObject<Response<Todo>>(responseData); 
