@@ -23,16 +23,16 @@ namespace LBHAsbestosAPI.Controllers
             _loggerActions = loggerActions;
         }
   
-        // GET properties
+        // GET inspections
         /// <summary>
-        /// Gets a list of inspections for a particular property id
+        /// Returns a list of inspections
         /// </summary>
-        /// <param name="propertyId">A string that identifies a property</param>
-        /// <returns>A list of inspections matching the specified property id</returns>
-        /// <response code="200">Returns the list of inspections</response>
-        /// <response code="404">If the property id does not return any inspections</response>
-        /// <response code="400">If the inspection id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response>  	
+        /// <param name="propertyId">Universal Housing property Id</param>
+        /// <returns>A list of inspections</returns>
+        /// <response code="200">Returns a list of inspections</response>
+        /// <response code="404">No inspections found</response>
+        /// <response code="400">Property id is not valid</response>   
+        /// <response code="500">Internal server error</response>  
         [HttpGet("inspections")]
         public async Task<JsonResult> GetInspection(string propertyId)
 		{ 
@@ -78,16 +78,16 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
-        // GET properties
+        // GET room
         /// <summary>
-        /// Gets a room for a particular room id
+        /// Returns room information
         /// </summary>
-        /// <param name="roomId">A string that identifies a room</param>
-        /// <returns>A room matching the specified room id</returns>
+        /// <param name="roomId">PSI2000 room id</param>
+        /// <returns>Returns room information</returns>
         /// <response code="200">Returns a room</response>
-        /// <response code="404">If the room id does not return any room</response>
-        /// <response code="400">If the room id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">No rooms found</response>
+        /// <response code="400">Room id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("rooms/{roomId}")]
         public async Task<JsonResult> GetRoom(string roomId)
         {
@@ -126,16 +126,16 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
-        // GET properties
+        // GET floor
         /// <summary>
-        /// Gets a floor for a particular floor id
+        /// Returns floor information
         /// </summary>
-        /// <param name="floorId">A string that identifies a floor</param>
-        /// <returns>A floor matching the specified floor id</returns>
+        /// <param name="floorId">PSI2000 floor id</param>
+        /// <returns>Returns floor information</returns>
         /// <response code="200">Returns a floor</response>
-        /// <response code="404">If the floor id does not return any floor</response>
-        /// <response code="400">If the floor id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">No floor found</response>
+        /// <response code="400">floor id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("floors/{floorId}")]
         public async Task<JsonResult> GetFloor(string floorId)
         {
@@ -174,7 +174,7 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
-        // GET properties
+        // GET element
         /// <summary>
         /// Gets an element for a particular element id
         /// </summary>
@@ -222,7 +222,16 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
-        [HttpGet("todos")]
+        // GET todos by propertyId
+        /// <summary>
+        /// Returns a list of todos
+        /// </summary>
+        /// <param name="propertyId">Universal Housing property Id</param>
+        /// <returns>A list of todos</returns>
+        /// <response code="200">Returns a list of todos</response>
+        /// <response code="404">No todos found</response>
+        /// <response code="400">Property id is not valid</response>   
+        /// <response code="500">Internal server error</response>  
         public async Task<JsonResult> GetTodosByPropertyId(string propertyId)
         {
             try
@@ -267,6 +276,16 @@ namespace LBHAsbestosAPI.Controllers
             }   
         }
 
+        // GET todo
+        /// <summary>
+        /// Returns todo information
+        /// </summary>
+        /// <param name="todoId">PSI2000 todo id</param>
+        /// <returns>Returns todo information</returns>
+        /// <response code="200">Returns a todo</response>
+        /// <response code="404">No todos found</response>
+        /// <response code="400">todo id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("todos/{todoId}")]
         public async Task<JsonResult> GetTodo(string todoId)
         {

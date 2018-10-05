@@ -24,17 +24,17 @@ namespace LBHAsbestosAPI.Controllers
             _loggerActions = loggerActions;
         }
 
-        // GET properties
+        // GET photo
         /// <summary>
-        /// Gets an photo for a particular photo id
+        /// Returns a photo
         /// </summary>
-        /// <param name="photoId">A string that identifies an photo</param>
+        /// <param name="photoId">PSI2000 photo id</param>
         /// <returns>A photo matching the specified photo id</returns>
         /// <response code="200">Returns a photo</response>
-        /// <response code="404">If the photo id does not return any result</response>
-        /// <response code="400">If the photo id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("photos/{photoId:required}")]
+        /// <response code="400">Id is not valid</response>   
+        /// <response code="404">Photo not found for given id</response>
+        /// <response code="500">Internal server error</response> 
+        [HttpGet("photos/{photoId}")]
         public async Task<IActionResult> GetPhoto(string photoId)
         {
             if (!IdValidator.ValidateId(photoId))
@@ -68,16 +68,16 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
-        // GET properties
+        // GET photo documents
         /// <summary>
-        /// Gets a list of documents related to a photo for a propertyId
+        /// Gets a list of documents about photos
         /// </summary>
-        /// <param name="propertyId">A string that identifies an property</param>
-        /// <returns>A list of documents related to a photo</returns>
+        /// <param name="propertyId">Universal Housing property id</param>
+        /// <returns>A list of documents about photos matching the property id</returns>
         /// <response code="200">Returns a list of documents</response>
-        /// <response code="404">If the property id does not return any result</response>
-        /// <response code="400">If the property id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">No documents found for given id</response>
+        /// <response code="400">id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("photos")]
         public async Task<JsonResult> GetPhotoDocuments(string propertyId)
         {
@@ -120,16 +120,16 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
-        // GET properties
+        // GET main photo
         /// <summary>
-        /// Gets an photo for a particular main photo id
+        /// Returns a photo
         /// </summary>
-        /// <param name="mainPhotoId">A string that identifies an photo</param>
+        /// <param name="mainPhotoId">PSI2000 main photo id</param>
         /// <returns>A photo matching the specified main photo id</returns>
         /// <response code="200">Returns a photo</response>
-        /// <response code="404">If the main photo id does not return any result</response>
-        /// <response code="400">If the photo id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">Photo not found for given id</response>
+        /// <response code="400">Id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("mainphotos/{mainPhotoId}")]
         public async Task<IActionResult> GetMainPhoto(string mainPhotoId)
         {
@@ -164,16 +164,16 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
-        // GET properties
+        // GET main photo documents
         /// <summary>
-        /// Gets a list of documents related to a main photo for a propertyId
+        /// Gets a list of documents about main photos
         /// </summary>
-        /// <param name="propertyId">A string that identifies an property</param>
-        /// <returns>A list of documents related to a main photo</returns>
+        /// <param name="propertyId">Universal Housing property id</param>
+        /// <returns>A list of documents about main photos matching the property id</returns>
         /// <response code="200">Returns a list of documents</response>
-        /// <response code="404">If the property id does not return any result</response>
-        /// <response code="400">If the property id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">No documents found for given id</response>
+        /// <response code="400">Id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("mainphotos")]
         public async Task<JsonResult> GetMainPhotoDocuments(string propertyId)
         {
@@ -216,16 +216,16 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
-        // GET properties
+        // GET report
         /// <summary>
-        /// Gets an report for a particular report id
+        /// Returns a report in pdf format
         /// </summary>
-        /// <param name="reportId">A string that identifies an report id</param>
-        /// <returns>A report in pdf format matching the specified report id</returns>
+        /// <param name="reportId">PSI2000 report id</param>
+        /// <returns>A report matching the specified report id</returns>
         /// <response code="200">Returns a report</response>
-        /// <response code="404">If the report id does not return any result</response>
-        /// <response code="400">If the report id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">Report not found for given id</response>
+        /// <response code="400">Id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("reports/{reportId}")]
         public async Task<IActionResult> GetReport(string reportId)
         {
@@ -260,16 +260,16 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
-        // GET properties
+        // GET report documents
         /// <summary>
-        /// Gets a list of documents related to a report for a propertyId
+        /// Gets a list of documents about reports
         /// </summary>
-        /// <param name="propertyId">A string that identifies an property</param>
-        /// <returns>A list of documents related to a report</returns>
+        /// <param name="propertyId">Universal Housing property Id</param>
+        /// <returns>A list of documents about reports matching the property Id</returns>
         /// <response code="200">Returns a list of documents</response>
-        /// <response code="404">If the property id does not return any result</response>
-        /// <response code="400">If the property id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">No documents found for given id</response>
+        /// <response code="400">Id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("reports")]
         public async Task<JsonResult> GetReportDocuments(string propertyId)
         {
@@ -312,16 +312,16 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
-        // GET properties
+        // GET drawing
         /// <summary>
-        /// Gets an report for a particular main drawing id
+        /// Returns a drawing
         /// </summary>
-        /// <param name="mainDrawingId">A string that identifies a main drawing id</param>
-        /// <returns>An image matching the specified main drawing id</returns>
-        /// <response code="200">Returns an image</response>
-        /// <response code="404">If the main drawing id does not return any result</response>
-        /// <response code="400">If the main drawing id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <param name="mainDrawingId">PSI2000 main drawing id</param>
+        /// <returns>A drawing matching the specified drawing id</returns>
+        /// <response code="200">Returns a drawing</response>
+        /// <response code="404">Drawing not found for given id</response>
+        /// <response code="400">Id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("drawings/{mainDrawingId}")]
         public async Task<IActionResult> GetDrawing(string mainDrawingId)
         {
@@ -356,16 +356,16 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
-        // GET properties
+        // GET drawing documents
         /// <summary>
-        /// Gets a list of documents related to a drawing for a propertyId
+        /// Gets a list of documents about drawings
         /// </summary>
-        /// <param name="propertyId">A string that identifies an property</param>
-        /// <returns>A list of documents related to a drawing</returns>
+        /// <param name="propertyId">Universal Housing property Id</param>
+        /// <returns>A list of documents about drawings matching the property Id</returns>
         /// <response code="200">Returns a list of documents</response>
-        /// <response code="404">If the property id does not return any result</response>
-        /// <response code="400">If the property id is not valid</response>   
-        /// <response code="500">If any errors are encountered</response> 
+        /// <response code="404">No documents found for given id</response>
+        /// <response code="400">Id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
         [HttpGet("drawings")]
         public async Task<JsonResult> GetDrawingDocuments(string propertyId)
         {
