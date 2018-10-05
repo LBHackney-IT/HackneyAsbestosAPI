@@ -8,7 +8,7 @@ using LBHAsbestosAPI.Models;
 
 namespace LBHAsbestosAPI.Actions
 {
-    public class AsbestosActions : IAsbestosActions
+    public class AsbestosActions
     {
         IAsbestosService _asbestosService;
         ILoggerAdapter<AsbestosActions> _logger;
@@ -71,11 +71,19 @@ namespace LBHAsbestosAPI.Actions
             return element;
         }
 
-        public async Task<IEnumerable<Document>> GetDocument(string propertyId, string fileType)
+        public async Task<FileContainer> GetPhoto(string photoId)
         {
-            _logger.LogInformation($"Calling GetInspection() with {propertyId}");
-            var lDocument = await _asbestosService.GetDocument(propertyId, fileType);
+            var photo = await _asbestosService.GetPhoto(photoId);
+            if (photo.Data == null)
+            {
+                throw new MissingFileException();
+            }
+            return photo;
+        }
 
+        public async Task<IEnumerable<Document>> GetPhotoDocuments(string propertyId)
+        {
+            var lDocument = await _asbestosService.GetPhotoDocuments(propertyId);
             if (lDocument.Any() == false)
             {
                 _logger.LogError($"No Documents returned for {propertyId}");
@@ -84,16 +92,67 @@ namespace LBHAsbestosAPI.Actions
             return lDocument;
         }
 
-        public async Task<FileContainer> GetFile(string fileId, string fileType)
+        public async Task<FileContainer> GetMainPhoto(string mainPhotoId)
         {
-
-            var file = await _asbestosService.GetFile(fileId, fileType);
-
+            var file = await _asbestosService.GetMainPhoto(mainPhotoId);
             if (file.Data == null)
             {
                 throw new MissingFileException();
             }
             return file;
+        }
+
+        public async Task<IEnumerable<Document>> GetMainPhotoDocuments(string propertyId)
+        {
+            var lDocument = await _asbestosService.GetMainPhotoDocuments(propertyId);
+            if (lDocument.Any() == false)
+            {
+                _logger.LogError($"No Documents returned for {propertyId}");
+                throw new MissingDocumentException();
+            }
+            return lDocument;
+        }
+
+        public async Task<FileContainer> GetReport(string reportId)
+        {
+            var file = await _asbestosService.GetReport(reportId);
+            if (file.Data == null)
+            {
+                throw new MissingFileException();
+            }
+            return file;
+        }
+
+        public async Task<IEnumerable<Document>> GetReportDocuments(string propertyId)
+        {
+            var lDocument = await _asbestosService.GetReportDocuments(propertyId);
+            if (lDocument.Any() == false)
+            {
+                _logger.LogError($"No Documents returned for {propertyId}");
+                throw new MissingDocumentException();
+            }
+            return lDocument;
+        }
+
+        public async Task<FileContainer> GetDrawing(string mainDrawingId)
+        {
+            var file = await _asbestosService.GetDrawing(mainDrawingId);
+            if (file.Data == null)
+            {
+                throw new MissingFileException();
+            }
+            return file;
+        }
+
+        public async Task<IEnumerable<Document>> GetDrawingDocuments(string propertyId)
+        {
+            var lDocument = await _asbestosService.GetDrawingDocuments(propertyId);
+            if (lDocument.Any() == false)
+            {
+                _logger.LogError($"No Documents returned for {propertyId}");
+                throw new MissingDocumentException();
+            }
+            return lDocument;
         }
 	}
 

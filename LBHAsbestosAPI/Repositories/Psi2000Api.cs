@@ -20,7 +20,7 @@ namespace LBHAsbestosAPI.Repositories
         static string apiUsername = Environment.GetEnvironmentVariable("PSI_USERNAME");
         static string apiPassword = Environment.GetEnvironmentVariable("PSI_PASSWORD");
         static string inspectionUri = baseUri + "api/inspections";
-        static string roomUri = baseUri + "api/rooms/";
+        public static string roomUri = baseUri + "api/rooms/";
         static string floorUri = baseUri + "api/floors/";
         static string elementUri = baseUri + "api/elements/";
         static string documentUri = baseUri + "api/documents/";
@@ -71,7 +71,7 @@ namespace LBHAsbestosAPI.Repositories
             return JsonConvert.DeserializeObject<Response<Element>>(responseData);
         }
          
-        public async Task<Response<IEnumerable<Document>>> GetDocument(string inspectionId, string fileType)
+        public async Task<Response<IEnumerable<Document>>> GetDocuments(string inspectionId, string fileType)
         {
             await EnsureSuccessLogin();
 
@@ -88,7 +88,6 @@ namespace LBHAsbestosAPI.Repositories
             var baseAddress = new Uri(documentUri + fileType + "/" + fileId);
             return GetResponseStream(baseAddress);
         }
-
 
         private string GetResponseMessage(Uri baseAddress)
         {
@@ -144,7 +143,7 @@ namespace LBHAsbestosAPI.Repositories
         {
             if (!await LoginIfCookieIsInvalid())
             {
-                throw new InvalidLoginException();
+                throw new Psi2000ApiException();
             }
         }
 
@@ -209,10 +208,10 @@ namespace LBHAsbestosAPI.Repositories
                     cookie = new Cookie(cookieKey, cookieValue);
                     cookie.Expires = DateTime.Now.AddMinutes(19);
                 }
-                catch (HttpRequestException)
+                catch (Exception ex)
                 {
-                    _logger.LogError("Login failed");
-                    return false;
+                    _logger.LogError(ex.Message);
+                    throw new Psi2000ApiException();
                 }
             }
             _logger.LogInformation("Login successful");
@@ -220,6 +219,14 @@ namespace LBHAsbestosAPI.Repositories
         }
     }
 
-    public class InvalidLoginException : Exception { }
+    public static class FileType
+    {
+        public const string photo = "photo";
+        public const string report = "reports";
+        public const string drawing = "maindrawing";
+        public const string mainPhoto = "mainphoto";
+    }
+
+    public class Psi2000ApiException : Exception { }
 }
 

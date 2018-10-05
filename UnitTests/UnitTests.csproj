@@ -25,12 +25,17 @@
     <Folder Include="Services\" />
     <Folder Include="Actions\" />
     <Folder Include="Validation\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Integration\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Validation\RoomIdValidationTests.cs" />
     <Compile Remove="Validation\RoomIdValidationTests.cs" />
+    <Compile Remove="Controllers\DocumentContollerTests.cs" />
+    <Compile Remove="Controllers\DocumentFileControllerTests.cs" />
+    <Compile Remove="Controllers\ElementControllerTests.cs" />
+    <Compile Remove="Controllers\FloorControllerTests.cs" />
+    <Compile Remove="Controllers\InspectionControllerTests.cs" />
+    <Compile Remove="Controllers\RoomControllerTests.cs" />
   </ItemGroup>
 </Project>

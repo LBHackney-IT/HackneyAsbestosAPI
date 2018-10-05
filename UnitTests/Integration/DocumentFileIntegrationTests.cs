@@ -127,9 +127,9 @@ namespace UnitTests.Integration
         [InlineData("A1234567")]
         [InlineData("1!234567")]
         [InlineData("12 456")]
-        public async Task return_400_for_invalid_drawing_request(string drawingId)
+        public async Task return_400_for_invalid_drawing_request(string mainDrawingId)
         {
-            var result = await client.GetAsync(baseUri + "drawing/" + drawingId);
+            var result = await client.GetAsync(baseUri + "drawing/" + mainDrawingId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         }
 

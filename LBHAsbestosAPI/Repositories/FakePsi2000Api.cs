@@ -127,7 +127,7 @@ namespace LBHAsbestosAPI.Repositories
             return Task.FromResult(fakeElementResponse);
         }
 
-        public Task<Response<IEnumerable<Document>>> GetDocument(string inspectionId, string fileType)
+        public Task<Response<IEnumerable<Document>>> GetDocuments(string inspectionId, string fileType)
         {
             if (inspectionId == triggerExceptionId)
             {

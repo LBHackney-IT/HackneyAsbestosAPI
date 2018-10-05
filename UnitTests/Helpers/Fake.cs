@@ -26,8 +26,7 @@ namespace UnitTests.Helpers
             return random.Lorem.Sentence(6);
         }
 
-        public static IEnumerable<Inspection> GenerateInspection(int fakeId,
-                                                                string fakeDescription)
+        public static IEnumerable<Inspection> GenerateInspection(int fakeId, string fakeDescription)
         {
             return new List<Inspection>()
             {
@@ -67,8 +66,7 @@ namespace UnitTests.Helpers
             };
         }
 
-        public static IEnumerable<Document> GenerateDocument(int fakeId,
-                                                                string fakeDescription)
+        public static IEnumerable<Document> GenerateDocument(int fakeId, string fakeDescription)
         {
             return new List<Document>()
             {

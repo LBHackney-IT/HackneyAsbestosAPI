@@ -47,7 +47,7 @@ namespace LBHAsbestosAPI.Builders
         {
             string developerMessage;
 
-            if (ex is InvalidLoginException)
+            if (ex is Psi2000ApiException)
             {
                 developerMessage = ex.Message;
             }

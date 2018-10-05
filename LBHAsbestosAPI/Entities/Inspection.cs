@@ -8,6 +8,7 @@ namespace LBHAsbestosAPI.Entities
         public string PriorityAssessmentScore { get; set; }
         public string LocationDescription { get; set; }
         public string Quantity { get; set; }
+        public int FloorId { get; set; }
         public int RoomId { get; set; }
         public int ElementId { get; set; }
         public string Material { get; set; }

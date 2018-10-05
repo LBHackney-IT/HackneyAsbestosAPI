@@ -6,6 +6,7 @@ using LBHAsbestosAPI.Entities;
 using LBHAsbestosAPI.Factories;
 using LBHAsbestosAPI.Interfaces;
 using LBHAsbestosAPI.Models;
+using LBHAsbestosAPI.Repositories;
 
 namespace LBHAsbestosAPI.Services
 {
@@ -49,17 +50,67 @@ namespace LBHAsbestosAPI.Services
             return response.Data; 
         }
 
-        public async Task<IEnumerable<Document>> GetDocument(string propertyId, string fileType)
+        public async Task<FileContainer> GetPhoto(string photoID)
         {
-            _logger.LogInformation($"Calling GetDocument() with {propertyId}");
-            var response = await _api.GetDocument(propertyId, fileType);
-            var responseInspections = response.Data;
-            return responseInspections;
+            _logger.LogInformation($"Calling GetPhoto with {photoID}");
+            var response = await _api.GetFile(photoID, FileType.photo);
+            return response;
         }
 
-        public async Task<FileContainer> GetFile(string fileId, string fileType)
+        public async Task<IEnumerable<Document>> GetPhotoDocuments(string propertyId)
         {
-            return await _api.GetFile(fileId, fileType);
+            _logger.LogInformation($"Calling GetPhotoDocuments with {propertyId}");
+            var response = await GetDocument(propertyId, FileType.photo);
+            return response;
+        }
+
+        public async Task<FileContainer> GetMainPhoto(string mainPhotoID)
+        {
+            _logger.LogInformation($"Calling GetMainPhoto with {mainPhotoID}");
+            var response = await _api.GetFile(mainPhotoID, FileType.mainPhoto);
+            return response;
+        }
+
+        public async Task<IEnumerable<Document>> GetMainPhotoDocuments(string propertyId)
+        {
+            _logger.LogInformation($"Calling GetMainPhotoDocuments() with {propertyId}");
+            var response = await GetDocument(propertyId, FileType.mainPhoto);
+            return response;
+        }
+
+        public async Task<FileContainer> GetReport(string reportId)
+        {
+            _logger.LogInformation($"Calling GetReport() with {reportId}");
+            var response = await _api.GetFile(reportId, FileType.report);
+            return response;
+        }
+
+        public async Task<IEnumerable<Document>> GetReportDocuments(string propertyId)
+        {
+            _logger.LogInformation($"Calling GetReportDocuments() with {propertyId}");
+            var response = await GetDocument(propertyId, FileType.report);
+            return response;
+        }
+
+        public async Task<FileContainer> GetDrawing(string mainDrawingId)
+        {
+            _logger.LogInformation($"Calling GetDrawing() with {mainDrawingId}");
+            var response =  await _api.GetFile(mainDrawingId, FileType.drawing);
+            return response;
+        }
+
+        public async Task<IEnumerable<Document>> GetDrawingDocuments(string propertyId)
+        {
+            _logger.LogInformation($"Calling GetDrawingDocuments() with {propertyId}");
+            var response = await GetDocument(propertyId, FileType.drawing);
+            return response;
+        }
+
+        private async Task<IEnumerable<Document>> GetDocument(string propertyId, string fileType)
+        {
+            var response = await _api.GetDocuments(propertyId, fileType);
+            var responseInspections = response.Data;
+            return responseInspections;
         }
     }
 }

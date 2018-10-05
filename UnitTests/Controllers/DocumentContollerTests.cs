@@ -38,7 +38,7 @@ namespace UnitTests.Controllers
         {
             var fakeResponse = Fake.GenerateDocument(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
-            var response = await controller.GetPhotoByPropertyId(fakeId.ToString());
+            var response = await controller.GetPhotoDocuments(fakeId.ToString());
 
             Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
         }
@@ -52,7 +52,7 @@ namespace UnitTests.Controllers
         public async Task return_400_for_invalid_photo_request(string propertyId)
         {
             controller = SetupControllerWithSimpleService();
-            var response = await controller.GetPhotoByPropertyId(propertyId);
+            var response = await controller.GetPhotoDocuments(propertyId);
 
             Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -62,7 +62,7 @@ namespace UnitTests.Controllers
         {
             var fakeEmptyResponse = new List<Document>();
             controller = SetupControllerWithServiceReturningFakeObject(fakeEmptyResponse);
-            var response = await controller.GetPhotoByPropertyId(fakeId.ToString());
+            var response = await controller.GetPhotoDocuments(fakeId.ToString());
 
             Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
@@ -72,7 +72,7 @@ namespace UnitTests.Controllers
         {
             var fakeResponse = Fake.GenerateDocument(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
-            var response = JObject.FromObject((await controller.GetPhotoByPropertyId(fakeId.ToString())).Value);
+            var response = JObject.FromObject((await controller.GetPhotoDocuments(fakeId.ToString())).Value);
             var responseId = response["results"][0]["Id"];
             var responseDescription = response["results"][0]["Description"];
 
@@ -89,7 +89,7 @@ namespace UnitTests.Controllers
         public async Task return_error_message_if_propertyid_is_not_valid_for_photo_request(string propertyId)
         {
             controller = SetupControllerWithSimpleService();
-            var response = JObject.FromObject((await controller.GetPhotoByPropertyId(propertyId)).Value);
+            var response = JObject.FromObject((await controller.GetPhotoDocuments(propertyId)).Value);
             var userMessage = response["errors"].First["userMessage"].ToString();
             var developerMessage = response["errors"].First["developerMessage"].ToString();
 
@@ -107,7 +107,7 @@ namespace UnitTests.Controllers
         {
             var fakeResponse = Fake.GenerateDocument(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
-            var response = await controller.GetMainPhotoByPropertyId(fakeId.ToString());
+            var response = await controller.GetMainPhotoDocuments(fakeId.ToString());
 
             Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
         }
@@ -121,7 +121,7 @@ namespace UnitTests.Controllers
         public async Task return_400_for_invalid_main_photo_request(string propertyId)
         {
             controller = SetupControllerWithSimpleService();
-            var response = await controller.GetMainPhotoByPropertyId(propertyId);
+            var response = await controller.GetMainPhotoDocuments(propertyId);
 
             Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -131,7 +131,7 @@ namespace UnitTests.Controllers
         {
             var fakeEmptyResponse = new List<Document>();
             controller = SetupControllerWithServiceReturningFakeObject(fakeEmptyResponse);
-            var response = await controller.GetMainPhotoByPropertyId(fakeId.ToString());
+            var response = await controller.GetMainPhotoDocuments(fakeId.ToString());
 
             Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
@@ -141,7 +141,7 @@ namespace UnitTests.Controllers
         {
             var fakeResponse = Fake.GenerateDocument(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
-            var response = JObject.FromObject((await controller.GetMainPhotoByPropertyId(fakeId.ToString())).Value);
+            var response = JObject.FromObject((await controller.GetMainPhotoDocuments(fakeId.ToString())).Value);
             var responseId = response["results"][0]["Id"];
             var responseDescription = response["results"][0]["Description"];
 
@@ -158,7 +158,7 @@ namespace UnitTests.Controllers
         public async Task return_error_message_if_propertyid_is_not_valid_for_main_photo_request(string propertyId)
         {
             controller = SetupControllerWithSimpleService();
-            var response = JObject.FromObject((await controller.GetMainPhotoByPropertyId(propertyId)).Value);
+            var response = JObject.FromObject((await controller.GetMainPhotoDocuments(propertyId)).Value);
             var userMessage = response["errors"].First["userMessage"].ToString();
             var developerMessage = response["errors"].First["developerMessage"].ToString();
 
@@ -176,7 +176,7 @@ namespace UnitTests.Controllers
         {
             var fakeResponse = Fake.GenerateDocument(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
-            var response = await controller.GetDrawingByPropertyId(fakeId.ToString());
+            var response = await controller.GetDrawingDocuments(fakeId.ToString());
 
             Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
         }
@@ -190,7 +190,7 @@ namespace UnitTests.Controllers
         public async Task return_400_for_invalid_drawing_request(string propertyId)
         {
             controller = SetupControllerWithSimpleService();
-            var response = await controller.GetDrawingByPropertyId(propertyId);
+            var response = await controller.GetDrawingDocuments(propertyId);
 
             Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -200,7 +200,7 @@ namespace UnitTests.Controllers
         {
             var fakeEmptyResponse = new List<Document>();
             controller = SetupControllerWithServiceReturningFakeObject(fakeEmptyResponse);
-            var response = await controller.GetDrawingByPropertyId(fakeId.ToString());
+            var response = await controller.GetDrawingDocuments(fakeId.ToString());
 
             Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
@@ -210,7 +210,7 @@ namespace UnitTests.Controllers
         {
             var fakeResponse = Fake.GenerateDocument(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
-            var response = JObject.FromObject((await controller.GetDrawingByPropertyId(fakeId.ToString())).Value);
+            var response = JObject.FromObject((await controller.GetDrawingDocuments(fakeId.ToString())).Value);
             var responseId = response["results"][0]["Id"];
             var responseDescription = response["results"][0]["Description"];
 
@@ -227,7 +227,7 @@ namespace UnitTests.Controllers
         public async Task return_error_message_if_propertyid_is_not_valid_for_drawing_request(string propertyId)
         {
             controller = SetupControllerWithSimpleService();
-            var response = JObject.FromObject((await controller.GetDrawingByPropertyId(propertyId)).Value);
+            var response = JObject.FromObject((await controller.GetDrawingDocuments(propertyId)).Value);
             var userMessage = response["errors"].First["userMessage"].ToString();
             var developerMessage = response["errors"].First["developerMessage"].ToString();
 
@@ -245,7 +245,7 @@ namespace UnitTests.Controllers
         {
             var fakeResponse = Fake.GenerateDocument(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
-            var response = await controller.GetReportByPropertyId(fakeId.ToString());
+            var response = await controller.GetReportDocuments(fakeId.ToString());
 
             Assert.Equal((int)HttpStatusCode.OK, response.StatusCode);
         }
@@ -259,7 +259,7 @@ namespace UnitTests.Controllers
         public async Task return_400_for_invalid_report_request(string propertyId)
         {
             controller = SetupControllerWithSimpleService();
-            var response = await controller.GetReportByPropertyId(propertyId);
+            var response = await controller.GetReportDocuments(propertyId);
 
             Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -269,7 +269,7 @@ namespace UnitTests.Controllers
         {
             var fakeEmptyResponse = new List<Document>();
             controller = SetupControllerWithServiceReturningFakeObject(fakeEmptyResponse);
-            var response = await controller.GetReportByPropertyId(fakeId.ToString());
+            var response = await controller.GetReportDocuments(fakeId.ToString());
 
             Assert.Equal((int)HttpStatusCode.NotFound, response.StatusCode);
         }
@@ -279,7 +279,7 @@ namespace UnitTests.Controllers
         {
             var fakeResponse = Fake.GenerateDocument(fakeId, fakeDescription);
             controller = SetupControllerWithServiceReturningFakeObject(fakeResponse);
-            var response = JObject.FromObject((await controller.GetReportByPropertyId(fakeId.ToString())).Value);
+            var response = JObject.FromObject((await controller.GetReportDocuments(fakeId.ToString())).Value);
             var responseId = response["results"][0]["Id"];
             var responseDescription = response["results"][0]["Description"];
 
@@ -296,7 +296,7 @@ namespace UnitTests.Controllers
         public async Task return_error_message_if_propertyid_is_not_valid_for_report_request(string propertyId)
         {
             controller = SetupControllerWithSimpleService();
-            var response = JObject.FromObject((await controller.GetReportByPropertyId(propertyId)).Value);
+            var response = JObject.FromObject((await controller.GetReportDocuments(propertyId)).Value);
             var userMessage = response["errors"].First["userMessage"].ToString();
             var developerMessage = response["errors"].First["developerMessage"].ToString();
 

@@ -152,11 +152,11 @@ namespace UnitTests.Services
             };
 
             fakeRepository
-                .Setup(m => m.GetDocument(It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(m => m.GetDocuments(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(fakeInspectionResponse));
 
             asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
-            responseData = await asbestosService.GetDocument(fakeId.ToString(), "");
+            responseData = await asbestosService.GetPhotoDocuments(fakeId.ToString());
 
             Assert.Equal(fakeId, responseData.ElementAt(0).Id);
             Assert.Equal(fakeDescription, responseData.ElementAt(0).Description);
