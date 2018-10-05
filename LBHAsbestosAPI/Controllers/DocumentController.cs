@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LBHAsbestosAPI.Controllers
 {
-    [Route("api/v1/document")]
+    [Route("api/v1/documents")]
     public class DocumentController : Controller
     {
         IAsbestosService _asbestosService;
@@ -34,7 +34,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the photo id does not return any result</response>
         /// <response code="400">If the photo id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("photo/{photoId:required}")]
+        [HttpGet("photos/{photoId:required}")]
         public async Task<IActionResult> GetPhoto(string photoId)
         {
             if (!IdValidator.ValidateId(photoId))
@@ -78,7 +78,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the property id does not return any result</response>
         /// <response code="400">If the property id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("photo")]
+        [HttpGet("photos")]
         public async Task<JsonResult> GetPhotoDocuments(string propertyId)
         {
             if (propertyId == null)
@@ -130,7 +130,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the main photo id does not return any result</response>
         /// <response code="400">If the photo id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("mainphoto/{mainPhotoId}")]
+        [HttpGet("mainphotos/{mainPhotoId}")]
         public async Task<IActionResult> GetMainPhoto(string mainPhotoId)
         {
             if (!IdValidator.ValidateId(mainPhotoId))
@@ -174,7 +174,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the property id does not return any result</response>
         /// <response code="400">If the property id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("mainphoto")]
+        [HttpGet("mainphotos")]
         public async Task<JsonResult> GetMainPhotoDocuments(string propertyId)
         {
             if (propertyId == null)
@@ -226,7 +226,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the report id does not return any result</response>
         /// <response code="400">If the report id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("report/{reportId}")]
+        [HttpGet("reports/{reportId}")]
         public async Task<IActionResult> GetReport(string reportId)
         {
             if (!IdValidator.ValidateId(reportId))
@@ -270,7 +270,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the property id does not return any result</response>
         /// <response code="400">If the property id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("report")]
+        [HttpGet("reports")]
         public async Task<JsonResult> GetReportDocuments(string propertyId)
         {
             if (propertyId == null)
@@ -322,7 +322,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the main drawing id does not return any result</response>
         /// <response code="400">If the main drawing id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("drawing/{mainDrawingId}")]
+        [HttpGet("drawings/{mainDrawingId}")]
         public async Task<IActionResult> GetDrawing(string mainDrawingId)
         {
             if (!IdValidator.ValidateId(mainDrawingId))
@@ -366,7 +366,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the property id does not return any result</response>
         /// <response code="400">If the property id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("drawing")]
+        [HttpGet("drawings")]
         public async Task<JsonResult> GetDrawingDocuments(string propertyId)
         {
             if (propertyId == null)

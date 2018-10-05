@@ -28,7 +28,7 @@ namespace UnitTests.Integration
             server = new TestServer(new WebHostBuilder()
                                      .UseStartup<TestStartup>());
             client = server.CreateClient();
-            baseUri = "api/v1/inspection/";
+            baseUri = "api/v1/inspections?propertyId=";
         }
 
         [Fact]

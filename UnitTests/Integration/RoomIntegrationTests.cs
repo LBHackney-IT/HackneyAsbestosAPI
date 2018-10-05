@@ -28,7 +28,7 @@ namespace UnitTests.Integration
             _server = new TestServer(new WebHostBuilder()
                                      .UseStartup<TestStartup>());
             _client = _server.CreateClient();
-            _baseUri = "api/v1/room/";
+            _baseUri = "api/v1/rooms/";
         }
 
         [Fact]

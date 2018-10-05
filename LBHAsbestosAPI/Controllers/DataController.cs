@@ -34,7 +34,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the property id does not return any inspections</response>
         /// <response code="400">If the inspection id is not valid</response>   
         /// <response code="500">If any errors are encountered</response>  	
-        [HttpGet("inspection/{propertyId}")]
+        [HttpGet("inspections")]
         public async Task<JsonResult> GetInspection(string propertyId)
 		{ 
             try
@@ -82,7 +82,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the room id does not return any room</response>
         /// <response code="400">If the room id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("room/{roomId}")]
+        [HttpGet("rooms/{roomId}")]
         public async Task<JsonResult> GetRoom(string roomId)
         {
             try
@@ -130,7 +130,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the floor id does not return any floor</response>
         /// <response code="400">If the floor id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("floor/{floorId}")]
+        [HttpGet("floors/{floorId}")]
         public async Task<JsonResult> GetFloor(string floorId)
         {
             try
@@ -178,7 +178,7 @@ namespace LBHAsbestosAPI.Controllers
         /// <response code="404">If the element id does not return any element</response>
         /// <response code="400">If the element id is not valid</response>   
         /// <response code="500">If any errors are encountered</response> 
-        [HttpGet("element/{elementId}")]
+        [HttpGet("elements/{elementId}")]
         public async Task<JsonResult> GetElement(string elementId)
         {
             try
