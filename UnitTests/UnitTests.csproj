@@ -30,7 +30,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Validation\RoomIdValidationTests.cs" />
-    <Compile Remove="Validation\RoomIdValidationTests.cs" />
     <Compile Remove="Controllers\DocumentContollerTests.cs" />
     <Compile Remove="Controllers\DocumentFileControllerTests.cs" />
     <Compile Remove="Controllers\ElementControllerTests.cs" />
@@ -38,8 +37,5 @@
     <Compile Remove="Controllers\InspectionControllerTests.cs" />
     <Compile Remove="Controllers\RoomControllerTests.cs" />
     <Compile Remove="Actions\AsbestosActionsTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Actions\PhotosActionsTests.cs" />
   </ItemGroup>
 </Project>

@@ -222,6 +222,54 @@ namespace LBHAsbestosAPI.Controllers
             }
         }
 
+        // GET todo
+        /// <summary>
+        /// Returns todo information
+        /// </summary>
+        /// <param name="todoId">PSI2000 todo id</param>
+        /// <returns>Returns todo information</returns>
+        /// <response code="200">Returns a todo</response>
+        /// <response code="404">No todos found</response>
+        /// <response code="400">todo id is not valid</response>   
+        /// <response code="500">Internal server error</response> 
+        [HttpGet("todos/{todoId}")]
+        public async Task<JsonResult> GetTodo(string todoId)
+        {
+            try
+            {
+                _logger.LogInformation($"Calling ValidateId() with {todoId}");
+
+                if (!IdValidator.ValidateId(todoId))
+                {
+                    _logger.LogError("todoID has not passed validation");
+                    var developerMessage = "Invalid parameter - todoId";
+                    var userMessage = "Please provide a valid todo id";
+
+                    return ResponseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+
+                var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
+                var response = await _asbestosActions.GetTodo(todoId);
+
+                return ResponseBuilder.BuildSuccessResponse(response);
+            }
+            catch (MissingTodoException ex)
+            {
+                _logger.LogError("No todo returned for todoId");
+                var developerMessage = ex.Message;
+                var userMessage = "Cannot find todo";
+
+                return ResponseBuilder.BuildErrorResponse(
+                userMessage, developerMessage, 404);
+            }
+            catch (Exception ex)
+            {
+                var userMessage = "We had some problems processing your request";
+                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
+            }
+        }
+
         // GET todos by propertyId
         /// <summary>
         /// Returns a list of todos
@@ -275,54 +323,6 @@ namespace LBHAsbestosAPI.Controllers
                 var userMessage = "We had some problems processing your request";
                 return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
             }   
-        }
-
-        // GET todo
-        /// <summary>
-        /// Returns todo information
-        /// </summary>
-        /// <param name="todoId">PSI2000 todo id</param>
-        /// <returns>Returns todo information</returns>
-        /// <response code="200">Returns a todo</response>
-        /// <response code="404">No todos found</response>
-        /// <response code="400">todo id is not valid</response>   
-        /// <response code="500">Internal server error</response> 
-        [HttpGet("todos/{todoId}")]
-        public async Task<JsonResult> GetTodo(string todoId)
-        {
-            try
-            {
-                _logger.LogInformation($"Calling ValidateId() with {todoId}");
-
-                if (!IdValidator.ValidateId(todoId))
-                {
-                    _logger.LogError("todoID has not passed validation");
-                    var developerMessage = "Invalid parameter - todoId";
-                    var userMessage = "Please provide a valid todo id";
-
-                    return ResponseBuilder.BuildErrorResponse(
-                        userMessage, developerMessage, 400);
-                }
-
-                var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
-                var response = await _asbestosActions.GetTodo(todoId);
-
-                return ResponseBuilder.BuildSuccessResponse(response);
-            }
-            catch (MissingTodoException ex)
-            {
-                _logger.LogError("No todo returned for todoId");
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find todo";
-
-                return ResponseBuilder.BuildErrorResponse(
-                userMessage, developerMessage, 404);
-            }
-            catch (Exception ex)
-            {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
-            }
         }
     }
 }
