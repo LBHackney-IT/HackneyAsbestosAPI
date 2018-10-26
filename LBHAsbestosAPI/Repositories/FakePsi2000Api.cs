@@ -234,6 +234,37 @@ namespace LBHAsbestosAPI.Repositories
 
             return Task.FromResult(fakeElementResponse);
         }
+
+        public Task<Response<IEnumerable<Sample>>> GetSamples(string inspectionId)
+        {
+            if (inspectionId == triggerExceptionId)
+            {
+                throw new TestExceptionInFakePSI();
+            }
+
+            var fakeSamplesResponse = new Response<IEnumerable<Sample>>()
+            {
+                Success = true
+            };
+
+            if (inspectionId == nullResponseId)
+            {
+                fakeSamplesResponse.Data = new List<Sample>();
+            }
+            else
+            {
+                fakeSamplesResponse.Data = new List<Sample>()
+                {
+                    new Sample()
+                    {
+                        Id = 21234,
+                        RefferedSample = "Random sample"
+                    }
+                };
+            }
+
+            return Task.FromResult(fakeSamplesResponse);
+        }
     }
 
     public class TestExceptionInFakePSI : Exception { }

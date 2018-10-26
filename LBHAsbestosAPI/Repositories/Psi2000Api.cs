@@ -25,6 +25,7 @@ namespace LBHAsbestosAPI.Repositories
         static string elementUri = baseUri + "api/elements/";
         static string documentUri = baseUri + "api/documents/";
         static string todoUri = baseUri + "api/todos";
+        static string sampleUri = baseUri + "api/samples";
 
         ILoggerAdapter<Psi2000Api> _logger;
 
@@ -92,12 +93,22 @@ namespace LBHAsbestosAPI.Repositories
 
             return JsonConvert.DeserializeObject<Response<Todo>>(responseData); 
         }
+
+        public async Task<Response<IEnumerable<Sample>>> GetSamples(string inspectionId)
+        {
+            await EnsureSuccessLogin();
+
+            var baseAddress = new Uri(sampleUri + $"?filter=(inspectionid={ inspectionId })");
+            var responseData = GetResponseMessage(baseAddress);
+
+            return JsonConvert.DeserializeObject<Response<IEnumerable<Sample>>>(responseData);
+        }
          
         public async Task<Response<IEnumerable<Document>>> GetDocuments(string inspectionId, string fileType)
         {
             await EnsureSuccessLogin();
 
-            var baseAddress = new Uri(documentUri + fileType + $"?filter=(UPRN=\"{ inspectionId }\")");
+            var baseAddress = new Uri(documentUri + fileType + $"?filter=(UPRN={ inspectionId })");
             var responseData = GetResponseMessage(baseAddress);
 
             return JsonConvert.DeserializeObject<Response<IEnumerable<Document>>>(responseData);

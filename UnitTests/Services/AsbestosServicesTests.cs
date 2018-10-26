@@ -213,5 +213,32 @@ namespace UnitTests.Services
             Assert.Equal(fakeId, responseData.FirstOrDefault().Id);
             Assert.Equal(fakeDescription, responseData.FirstOrDefault().Description);
         }
+
+        [Fact]
+        public async Task can_access_sample_data_from_response()
+        {
+            var fakeRepository = new Mock<IPsi2000Api>();
+            var fakeTodoResponse = new Response<IEnumerable<Sample>>()
+            {
+                Data = new List<Sample>
+                {
+                    new Sample
+                    {
+                        Id = fakeId,
+                        RefferedSample = fakeDescription
+                    }
+                }
+            };
+
+            fakeRepository
+                .Setup(m => m.GetSamples(It.IsAny<string>()))
+                .Returns(Task.FromResult(fakeTodoResponse));
+
+            asbestosService = new AsbestosService(fakeRepository.Object, fakeLogger.Object);
+            var responseData = await asbestosService.GetSamples(fakeId.ToString());
+
+            Assert.Equal(fakeId, responseData.FirstOrDefault().Id);
+            Assert.Equal(fakeDescription, responseData.FirstOrDefault().RefferedSample);
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace LBHAsbestosAPI.Interfaces
         Task<Response<Element>> GetElement(string elementId);
         Task<Response<IEnumerable<Todo>>> GetTodosByPropertyId(string propertyId);
         Task<Response<Todo>> GetTodo(string todoId);
+        Task<Response<IEnumerable<Sample>>> GetSamples(string inspectionId);
         Task<Response<IEnumerable<Document>>> GetDocuments(string propertyId, string fileType);
         Task<FileContainer> GetFile(string fileId, string fileType);
     }

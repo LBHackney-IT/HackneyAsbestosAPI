@@ -324,5 +324,47 @@ namespace LBHAsbestosAPI.Controllers
                 return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
             }   
         }
+
+        // GET samples by inspectionId
+        /// <summary>
+        /// Gets the samples
+        /// </summary>
+        /// <returns>A list of samples</returns>
+        /// <param name="inspectionId">PSI2000 Inspection identifier</param>
+        /// <response code="200">Returns a list of todos</response>
+        /// <response code="400">Missing or invalid parameter</response>
+        /// <response code="500">Internal server error</response>
+        [HttpGet("samples")]
+        public async Task<JsonResult> GetSamples(string inspectionId)
+        {
+            try
+            {
+                if (inspectionId == null)
+                {
+                    var developerMessage = $"Missing parameter - inspectionId";
+                    var userMessage = "Please provide a valid inspection id";
+
+                    return ResponseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+                if (!IdValidator.ValidateId(inspectionId))
+                {
+                    var developerMessage = $"Invalid parameter - inspectionId";
+                    var userMessage = "Please provide a valid inspection id";
+
+                    return ResponseBuilder.BuildErrorResponse(
+                        userMessage, developerMessage, 400);
+                }
+                var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
+                var response = await _asbestosActions.GetSamples(inspectionId);
+
+                return ResponseBuilder.BuildSuccessResponse(response);
+            }
+            catch (Exception ex)
+            {
+                var userMessage = "We had some problems processing your request";
+                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
+            }
+        }
     }
 }

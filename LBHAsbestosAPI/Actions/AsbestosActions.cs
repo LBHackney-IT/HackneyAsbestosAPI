@@ -192,6 +192,19 @@ namespace LBHAsbestosAPI.Actions
             }
             return todo;
         }
+
+        public async Task<IEnumerable<Sample>> GetSamples(string inspectionId)
+        {
+            _logger.LogInformation($"Calling GetSamples() with {inspectionId}");
+            var samples = await _asbestosService.GetSamples(inspectionId);
+
+            if (samples == null)
+            {
+                _logger.LogError($"No samples returned for {inspectionId}");
+                throw new MissingSampleException();
+            }
+            return samples;
+        }
 	}
 
     public class MissingInspectionException : Exception { }
@@ -201,4 +214,5 @@ namespace LBHAsbestosAPI.Actions
     public class MissingDocumentException : Exception { }
     public class MissingFileException : Exception { }
     public class MissingTodoException : Exception { }
+    public class MissingSampleException : Exception { }
 }

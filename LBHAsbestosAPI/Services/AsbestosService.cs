@@ -126,5 +126,12 @@ namespace LBHAsbestosAPI.Services
             var response = await _api.GetTodo(todoId);
             return response.Data;        
         }
+
+        public async Task<IEnumerable<Sample>> GetSamples(string inspectionId)
+        {
+            _logger.LogInformation($"Calling GetSamples() with {inspectionId}");
+            var response = await _api.GetSamples(inspectionId);
+            return response.Data;           
+        }
     }
 }
