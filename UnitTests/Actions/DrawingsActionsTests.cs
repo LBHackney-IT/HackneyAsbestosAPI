@@ -64,18 +64,5 @@ namespace UnitTests.Actions
 
             Assert.True(response is List<Document>);
         }
-
-        [Fact]
-        public async Task get_drawing_documents_throws_expected_custom_exeption()
-        {
-            IEnumerable<Document> fakeResponse = new List<Document>();
-            fakeAsbestosService
-                .Setup(m => m.GetDrawingDocuments(It.IsAny<string>()))
-                .Returns(Task.FromResult(fakeResponse));
-            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-
-            await Assert.ThrowsAsync<MissingDocumentException>(
-                async () => await asbestosAction.GetDrawingDocuments(fakeId));
-        }
     }
 }

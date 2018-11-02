@@ -30,7 +30,6 @@ namespace LBHAsbestosAPI.Controllers
         /// <param name="propertyId">Universal Housing property Id</param>
         /// <returns>A list of inspections</returns>
         /// <response code="200">Returns a list of inspections</response>
-        /// <response code="404">No inspections found</response>
         /// <response code="400">Property id is not valid</response>   
         /// <response code="500">Internal server error</response>  
         [HttpGet("inspections")]
@@ -52,11 +51,6 @@ namespace LBHAsbestosAPI.Controllers
                 var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await _asbestosActions.GetInspection(propertyId);
                 return ResponseBuilder.Ok(response);
-            }
-            catch (MissingInspectionException ex)
-            {
-                _logger.LogError("No inspections returned for propertyId");
-                return ResponseBuilder.Error(404, "Cannot find inspection", ex.Message);
             }
             catch (Exception ex)
             {
@@ -221,7 +215,6 @@ namespace LBHAsbestosAPI.Controllers
         /// <param name="propertyId">Universal Housing property Id</param>
         /// <returns>A list of todos</returns>
         /// <response code="200">Returns a list of todos</response>
-        /// <response code="404">No todos found</response>
         /// <response code="400">Property id is not valid</response>   
         /// <response code="500">Internal server error</response>
         [HttpGet("todos")]  
@@ -243,10 +236,6 @@ namespace LBHAsbestosAPI.Controllers
                 var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await _asbestosActions.GetTodosByPropertyId(propertyId);
                 return ResponseBuilder.Ok(response);
-            }
-            catch (MissingTodoException ex)
-            {
-                return ResponseBuilder.Error(404, "Cannot find todos", ex.Message);
             }
             catch (Exception ex)
             {

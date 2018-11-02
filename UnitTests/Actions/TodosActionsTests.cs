@@ -40,18 +40,5 @@ namespace UnitTests.Actions
 
             Assert.True(response is List<Todo>);
         }
-
-        [Fact]
-        public async Task GetTodoByPropertyId_throws_expected_custom_exeption_when_empty_response()
-        {
-            var fakeEmptyResponse = new List<Todo>();
-            fakeAsbestosService
-                .Setup(m => m.GetTodosByPropertyId(It.IsAny<string>()))
-                .Returns(Task.FromResult<IEnumerable<Todo>>(fakeEmptyResponse));
-            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-
-            await Assert.ThrowsAsync<MissingTodoException>(
-                async () => await asbestosAction.GetTodosByPropertyId(fakeId));
-        }
     }
 }

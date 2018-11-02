@@ -66,7 +66,6 @@ namespace LBHAsbestosAPI.Controllers
         /// <returns>A list of documents about photos matching the property id</returns>
         /// <response code="200">Returns a list of documents</response>
         /// <response code="404">No documents found for given id</response>
-        /// <response code="400">id is not valid</response>   
         /// <response code="500">Internal server error</response> 
         [HttpGet("photos")]
         public async Task<JsonResult> GetPhotoDocuments(string propertyId)
@@ -85,10 +84,6 @@ namespace LBHAsbestosAPI.Controllers
                 var asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await asbestosActions.GetPhotoDocuments(propertyId);
                 return ResponseBuilder.Ok(response);
-            }
-            catch (MissingDocumentException ex)
-            {
-                return ResponseBuilder.Error(404, "", ex.Message);
             }
             catch (Exception ex)
             {
@@ -138,7 +133,6 @@ namespace LBHAsbestosAPI.Controllers
         /// <returns>A list of documents about main photos matching the property id</returns>
         /// <response code="200">Returns a list of documents</response>
         /// <response code="404">No documents found for given id</response>
-        /// <response code="400">Id is not valid</response>   
         /// <response code="500">Internal server error</response> 
         [HttpGet("mainphotos")]
         public async Task<JsonResult> GetMainPhotoDocuments(string propertyId)
@@ -161,10 +155,6 @@ namespace LBHAsbestosAPI.Controllers
                 var asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await asbestosActions.GetMainPhotoDocuments(propertyId);
                 return ResponseBuilder.Ok(response);
-            }
-            catch (MissingDocumentException ex)
-            {
-                return ResponseBuilder.Error(404, "Cannot find documents", ex.Message);
             }
             catch (Exception ex)
             {
@@ -214,7 +204,6 @@ namespace LBHAsbestosAPI.Controllers
         /// <returns>A list of documents about reports matching the property Id</returns>
         /// <response code="200">Returns a list of documents</response>
         /// <response code="404">No documents found for given id</response>
-        /// <response code="400">Id is not valid</response>   
         /// <response code="500">Internal server error</response> 
         [HttpGet("reports")]
         public async Task<JsonResult> GetReportDocuments(string propertyId)
@@ -233,13 +222,6 @@ namespace LBHAsbestosAPI.Controllers
                 var asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await asbestosActions.GetReportDocuments(propertyId);
                 return ResponseBuilder.Ok(response);
-            }
-            catch (MissingDocumentException ex)
-            {
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find documents";
-                return ResponseBuilder.Error(404,
-                    userMessage, developerMessage);
             }
             catch (Exception ex)
             {
@@ -288,7 +270,6 @@ namespace LBHAsbestosAPI.Controllers
         /// <param name="propertyId">Universal Housing property Id</param>
         /// <returns>A list of documents about drawings matching the property Id</returns>
         /// <response code="200">Returns a list of documents</response>
-        /// <response code="404">No documents found for given id</response>
         /// <response code="400">Id is not valid</response>   
         /// <response code="500">Internal server error</response> 
         [HttpGet("drawings")]
@@ -308,14 +289,6 @@ namespace LBHAsbestosAPI.Controllers
                 var asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await asbestosActions.GetDrawingDocuments(propertyId);
                 return ResponseBuilder.Ok(response);
-            }
-            catch (MissingDocumentException ex)
-            {
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find document";
-
-                return ResponseBuilder.Error(404,
-                    userMessage, developerMessage);
             }
             catch (Exception ex)
             {
