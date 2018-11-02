@@ -88,7 +88,7 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (MissingDocumentException ex)
             {
-                return ResponseBuilder.Error(400, "", ex.Message);
+                return ResponseBuilder.Error(404, "", ex.Message);
             }
             catch (Exception ex)
             {
@@ -238,7 +238,7 @@ namespace LBHAsbestosAPI.Controllers
             {
                 var developerMessage = ex.Message;
                 var userMessage = "Cannot find documents";
-                return ResponseBuilder.Error(400,
+                return ResponseBuilder.Error(404,
                     userMessage, developerMessage);
             }
             catch (Exception ex)
@@ -314,7 +314,7 @@ namespace LBHAsbestosAPI.Controllers
                 var developerMessage = ex.Message;
                 var userMessage = "Cannot find document";
 
-                return ResponseBuilder.Error(400,
+                return ResponseBuilder.Error(404,
                     userMessage, developerMessage);
             }
             catch (Exception ex)
