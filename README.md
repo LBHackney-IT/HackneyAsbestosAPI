@@ -11,8 +11,8 @@ The Asbestos API provides asbestos related information on London Borough of Hack
 
 ## Contacts
 
-## Active Maintainers
+### Active Maintainers
 Miguel Saitz, Junior Developer at London Borough of Hackney (miguel.saitz@hackney.gov.uk)
 
-## Other Contacts
+### Other Contacts
 Rashmi Shetty, Development Manager at London Borough of Hackney (rashmi.shetty@hackney.gov.uk)
