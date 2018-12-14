@@ -3,7 +3,7 @@ namespace LBHAsbestosAPI.Models
 {
     public class ApiErrorMessage
     {
-        public string userMessage { get; set; }
-        public string developerMessage { get; set; }
+        public string UserMessage { get; set; }
+        public string DeveloperMessage { get; set; }
     }
 }

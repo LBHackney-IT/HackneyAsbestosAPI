@@ -30,51 +30,31 @@ namespace LBHAsbestosAPI.Controllers
         /// <param name="propertyId">Universal Housing property Id</param>
         /// <returns>A list of inspections</returns>
         /// <response code="200">Returns a list of inspections</response>
-        /// <response code="404">No inspections found</response>
         /// <response code="400">Property id is not valid</response>   
         /// <response code="500">Internal server error</response>  
         [HttpGet("inspections")]
         public async Task<JsonResult> GetInspection(string propertyId)
-		{ 
+		{
             try
             {
                 _logger.LogInformation($"Calling ValidatePropertyId() with {propertyId}");
                 if (propertyId == null)
                 {
-                    var developerMessage = $"Missing parameter - propertyId";
-                    var userMessage = "Please provide a valid property id";
-
-                    return ResponseBuilder.BuildErrorResponse(
-                        userMessage, developerMessage, 400);
+                    return ResponseBuilder.Error(400, "Please provide a valid property id, developerMessage", "Missing parameter - propertyId");
                 }
                 if (!IdValidator.ValidatePropertyId(propertyId))
                 {
                     _logger.LogError("propertyId has not passed validation");
-                    var developerMessage = "Invalid parameter - propertyId";
-                    var userMessage = "Please provide a valid property id";
-
-                    return ResponseBuilder.BuildErrorResponse(
-                        userMessage, developerMessage, 400);
+                    return ResponseBuilder.Error(400, "Please provide a valid property id", "Invalid parameter - propertyId");
                 }
 
                 var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await _asbestosActions.GetInspection(propertyId);
-
-                return ResponseBuilder.BuildSuccessResponse(response);
-            }
-            catch (MissingInspectionException ex)
-            {
-                _logger.LogError("No inspections returned for propertyId");
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find inspection";
-
-                return ResponseBuilder.BuildErrorResponse(
-                userMessage, developerMessage, 404);
+                return ResponseBuilder.Ok(response);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -94,35 +74,24 @@ namespace LBHAsbestosAPI.Controllers
             try
             {
                 _logger.LogInformation($"Calling ValidateId() with {roomId}");
-
                 if (!IdValidator.ValidateId(roomId))
                 {
                     _logger.LogError("roomId has not passed validation");
-                    var developerMessage = "Invalid parameter - roomId";
-                    var userMessage = "Please provide a valid room id";
-
-                    return ResponseBuilder.BuildErrorResponse(
-                        userMessage, developerMessage, 400);
+                    return ResponseBuilder.Error(400, "Please provide a valid room id", "Invalid parameter - roomId");
                 }
 
                 var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await _asbestosActions.GetRoom(roomId);
-
-                return ResponseBuilder.BuildSuccessResponse(response);
+                return ResponseBuilder.Ok(response);
             }
             catch (MissingRoomException ex)
             {
                 _logger.LogError("No room returned for roomId");
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find room";
-
-                return ResponseBuilder.BuildErrorResponse(
-                userMessage, developerMessage, 404);
+                return ResponseBuilder.Error(404, "Cannot find room", ex.Message);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -142,35 +111,24 @@ namespace LBHAsbestosAPI.Controllers
             try
             {
                 _logger.LogInformation($"Calling ValidateId() with {floorId}");
-
                 if (!IdValidator.ValidateId(floorId))
                 {
                     _logger.LogError("floorId has not passed validation");
-                    var developerMessage = "Invalid parameter - floorId";
-                    var userMessage = "Please provide a valid floor id";
-
-                    return ResponseBuilder.BuildErrorResponse(
-                        userMessage, developerMessage, 400);
+                    return ResponseBuilder.Error(400, "Please provide a valid floor id", "Invalid parameter - floorId");
                 }
 
                 var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await _asbestosActions.GetFloor(floorId);
-
-                return ResponseBuilder.BuildSuccessResponse(response);
+                return ResponseBuilder.Ok(response);
             }
             catch (MissingFloorException ex)
             {
                 _logger.LogError("No floor returned for floorId");
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find floor";
-
-                return ResponseBuilder.BuildErrorResponse(
-                userMessage, developerMessage, 404);
+                return ResponseBuilder.Error(404, "Cannot find floor", ex.Message);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -190,35 +148,24 @@ namespace LBHAsbestosAPI.Controllers
             try
             {
                 _logger.LogInformation($"Calling ValidateId() with {elementId}");
-
                 if (!IdValidator.ValidateId(elementId))
                 {
                     _logger.LogError("elementId has not passed validation");
-                    var developerMessage = "Invalid parameter - elementId";
-                    var userMessage = "Please provide a valid element id";
-
-                    return ResponseBuilder.BuildErrorResponse(
-                        userMessage, developerMessage, 400);
+                    return ResponseBuilder.Error(400, "Please provide a valid element id", "Invalid parameter - elementId");
                 }
 
                 var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await _asbestosActions.GetElement(elementId);
-
-                return ResponseBuilder.BuildSuccessResponse(response);
+                return ResponseBuilder.Ok(response);
             }
             catch (MissingElementException ex)
             {
                 _logger.LogError("No element returned for elementId");
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find element";
-
-                return ResponseBuilder.BuildErrorResponse(
-                userMessage, developerMessage, 404);
+                return ResponseBuilder.Error(404, "Cannot find element", ex.Message);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -242,31 +189,22 @@ namespace LBHAsbestosAPI.Controllers
                 if (!IdValidator.ValidateId(todoId))
                 {
                     _logger.LogError("todoID has not passed validation");
-                    var developerMessage = "Invalid parameter - todoId";
-                    var userMessage = "Please provide a valid todo id";
-
-                    return ResponseBuilder.BuildErrorResponse(
-                        userMessage, developerMessage, 400);
+                    return ResponseBuilder.Error(400, "Please provide a valid todo id", "Invalid parameter - todoId");
                 }
 
                 var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await _asbestosActions.GetTodo(todoId);
-
-                return ResponseBuilder.BuildSuccessResponse(response);
+                return ResponseBuilder.Ok(response);
             }
             catch (MissingTodoException ex)
             {
                 _logger.LogError("No todo returned for todoId");
                 var developerMessage = ex.Message;
-                var userMessage = "Cannot find todo";
-
-                return ResponseBuilder.BuildErrorResponse(
-                userMessage, developerMessage, 404);
+                return ResponseBuilder.Error(404, "Cannot find todo", ex.Message);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -277,7 +215,6 @@ namespace LBHAsbestosAPI.Controllers
         /// <param name="propertyId">Universal Housing property Id</param>
         /// <returns>A list of todos</returns>
         /// <response code="200">Returns a list of todos</response>
-        /// <response code="404">No todos found</response>
         /// <response code="400">Property id is not valid</response>   
         /// <response code="500">Internal server error</response>
         [HttpGet("todos")]  
@@ -288,46 +225,27 @@ namespace LBHAsbestosAPI.Controllers
                 _logger.LogInformation($"Calling ValidatePropertyId() with {propertyId}");
                 if (propertyId == null)
                 {
-                    var developerMessage = $"Missing parameter - propertyId";
-                    var userMessage = "Please provide a valid property id";
-
-                    return ResponseBuilder.BuildErrorResponse(
-                        userMessage, developerMessage, 400);
+                    return ResponseBuilder.Error(400, "Please provide a valid property id", "Missing parameter - propertyId");
                 }
                 if (!IdValidator.ValidatePropertyId(propertyId))
                 {
                     _logger.LogError("propertyId has not passed validation");
-                    var developerMessage = "Invalid parameter - propertyId";
-                    var userMessage = "Please provide a valid property id";
-
-                    return ResponseBuilder.BuildErrorResponse(
-                        userMessage, developerMessage, 400);
+                    return ResponseBuilder.Error(400, "Please provide a valid property id", "Invalid parameter - propertyId");
                 }
 
                 var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await _asbestosActions.GetTodosByPropertyId(propertyId);
-
-                return ResponseBuilder.BuildSuccessResponse(response);
-            }
-            catch (MissingTodoException ex)
-            {
-                _logger.LogError("No todos returned for propertyId");
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find todos";
-
-                return ResponseBuilder.BuildErrorResponse(
-                userMessage, developerMessage, 404);
+                return ResponseBuilder.Ok(response);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }   
         }
 
         // GET samples by inspectionId
         /// <summary>
-        /// Gets the samples
+        /// Returns a list of samples
         /// </summary>
         /// <returns>A list of samples</returns>
         /// <param name="inspectionId">PSI2000 Inspection identifier</param>
@@ -341,29 +259,19 @@ namespace LBHAsbestosAPI.Controllers
             {
                 if (inspectionId == null)
                 {
-                    var developerMessage = $"Missing parameter - inspectionId";
-                    var userMessage = "Please provide a valid inspection id";
-
-                    return ResponseBuilder.BuildErrorResponse(
-                        userMessage, developerMessage, 400);
+                    return ResponseBuilder.Error(400, "Please provide a valid inspection id", "Missing parameter - inspectionId");
                 }
                 if (!IdValidator.ValidateId(inspectionId))
                 {
-                    var developerMessage = $"Invalid parameter - inspectionId";
-                    var userMessage = "Please provide a valid inspection id";
-
-                    return ResponseBuilder.BuildErrorResponse(
-                        userMessage, developerMessage, 400);
+                    return ResponseBuilder.Error(400, "Please provide a valid inspection id", "Invalid parameter - inspectionId");
                 }
                 var _asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await _asbestosActions.GetSamples(inspectionId);
-
-                return ResponseBuilder.BuildSuccessResponse(response);
+                return ResponseBuilder.Ok(response);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
     }

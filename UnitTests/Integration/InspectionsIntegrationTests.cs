@@ -38,6 +38,13 @@ namespace UnitTests.Integration
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         }
 
+        [Fact]
+        public async Task return_200_if_request_is_successful_but_no_results()
+        {
+            var result = await client.GetAsync(baseUri + triggerNotFoundId);
+            Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+        }
+
         [Theory]
         [InlineData("12345678910")]
         [InlineData("abc")]
@@ -48,13 +55,6 @@ namespace UnitTests.Integration
         {
             var result = await client.GetAsync(baseUri + propertyId);
             Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
-        }
-
-        [Fact]
-        public async Task return_404_if_request_is_successful_but_no_results()
-        {
-            var result = await client.GetAsync(baseUri + triggerNotFoundId);
-            Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
         }
 
         [Fact]

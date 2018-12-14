@@ -39,11 +39,7 @@ namespace LBHAsbestosAPI.Controllers
         {
             if (!IdValidator.ValidateId(photoId))
             {
-                var developerMessage = $"Invalid parameter - photoId";
-                var userMessage = "Please provide a valid photo id";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400, "Please provide a valid photo id", "Invalid parameter - photoId");
             }
 
             try
@@ -54,17 +50,11 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (MissingFileException ex)
             {
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find file";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.NotFound);
+                return ResponseBuilder.Error(404, "Cannot find file", ex.Message);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(
-                    ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -76,47 +66,28 @@ namespace LBHAsbestosAPI.Controllers
         /// <returns>A list of documents about photos matching the property id</returns>
         /// <response code="200">Returns a list of documents</response>
         /// <response code="404">No documents found for given id</response>
-        /// <response code="400">id is not valid</response>   
         /// <response code="500">Internal server error</response> 
         [HttpGet("photos")]
         public async Task<JsonResult> GetPhotoDocuments(string propertyId)
         {
             if (propertyId == null)
             {
-                var developerMessage = $"Missing parameter - propertyId";
-                var userMessage = "Please provide a valid property id";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400, "Please provide a valid property id", "Missing parameter - propertyId");
             }
             if (!IdValidator.ValidatePropertyId(propertyId))
             {
-                var developerMessage = $"Invalid parameter - propertyId";
-                var userMessage = "Please provide a valid property id";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400, "Please provide a valid property id", "Invalid parameter - propertyId");
             }
 
             try
             {
                 var asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await asbestosActions.GetPhotoDocuments(propertyId);
-                return ResponseBuilder.BuildSuccessResponse(response);
-            }
-            catch (MissingDocumentException ex)
-            {
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find document";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.NotFound);
+                return ResponseBuilder.Ok(response);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(
-                    ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -135,11 +106,7 @@ namespace LBHAsbestosAPI.Controllers
         {
             if (!IdValidator.ValidateId(mainPhotoId))
             {
-                var developerMessage = $"Invalid parameter - mainPhotoId";
-                var userMessage = "Please provide a valid main photo id";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400, "Please provide a valid main photo id", "Invalid parameter - mainPhotoId");
             }
 
             try
@@ -150,17 +117,11 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (MissingFileException ex)
             {
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find file";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.NotFound);
+                return ResponseBuilder.Error(404, "Cannot find file", ex.Message);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(
-                    ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -172,47 +133,32 @@ namespace LBHAsbestosAPI.Controllers
         /// <returns>A list of documents about main photos matching the property id</returns>
         /// <response code="200">Returns a list of documents</response>
         /// <response code="404">No documents found for given id</response>
-        /// <response code="400">Id is not valid</response>   
         /// <response code="500">Internal server error</response> 
         [HttpGet("mainphotos")]
         public async Task<JsonResult> GetMainPhotoDocuments(string propertyId)
         {
             if (propertyId == null)
             {
-                var developerMessage = $"Missing parameter - propertyId";
-                var userMessage = "Please provide a valid property id";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400, "Please provide a valid main property id", "Missing parameter - propertyId");
             }
             if (!IdValidator.ValidatePropertyId(propertyId))
             {
                 var developerMessage = $"Invalid parameter - propertyId";
                 var userMessage = "Please provide a valid property id";
 
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400,
+                    userMessage, developerMessage);
             }
 
             try
             {
                 var asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await asbestosActions.GetMainPhotoDocuments(propertyId);
-                return ResponseBuilder.BuildSuccessResponse(response);
-            }
-            catch (MissingDocumentException ex)
-            {
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find document";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.NotFound);
+                return ResponseBuilder.Ok(response);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(
-                    ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -231,11 +177,7 @@ namespace LBHAsbestosAPI.Controllers
         {
             if (!IdValidator.ValidateId(reportId))
             {
-                var developerMessage = $"Invalid parameter - reportId";
-                var userMessage = "Please provide a valid report id";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400, "Please provide a valid main report id", "Missing parameter - reportId");
             }
 
             try
@@ -246,17 +188,11 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (MissingFileException ex)
             {
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find file";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.NotFound);
+                return ResponseBuilder.Error(404, "Cannot find file", ex.Message);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(
-                    ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -268,47 +204,28 @@ namespace LBHAsbestosAPI.Controllers
         /// <returns>A list of documents about reports matching the property Id</returns>
         /// <response code="200">Returns a list of documents</response>
         /// <response code="404">No documents found for given id</response>
-        /// <response code="400">Id is not valid</response>   
         /// <response code="500">Internal server error</response> 
         [HttpGet("reports")]
         public async Task<JsonResult> GetReportDocuments(string propertyId)
         {
             if (propertyId == null)
             {
-                var developerMessage = $"Missing parameter - propertyId";
-                var userMessage = "Please provide a valid property id";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400, "Please provide a valid property id", "Missing parameter - propertyId");
             }
             if (!IdValidator.ValidatePropertyId(propertyId))
             {
-                var developerMessage = $"Invalid parameter - propertyId";
-                var userMessage = "Please provide a valid property id";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400, "Please provide a valid property id", "Invalid parameter - propertyId");
             }
 
             try
             {
                 var asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await asbestosActions.GetReportDocuments(propertyId);
-                return ResponseBuilder.BuildSuccessResponse(response);
-            }
-            catch (MissingDocumentException ex)
-            {
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find document";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.NotFound);
+                return ResponseBuilder.Ok(response);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(
-                    ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -327,11 +244,7 @@ namespace LBHAsbestosAPI.Controllers
         {
             if (!IdValidator.ValidateId(mainDrawingId))
             {
-                var developerMessage = $"Invalid parameter - mainDrawingId";
-                var userMessage = "Please provide a valid main drawing id";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400, "Please provide a valid main drawing id", "Missing parameter - mainDrawingId");
             }
 
             try
@@ -342,17 +255,11 @@ namespace LBHAsbestosAPI.Controllers
             }
             catch (MissingFileException ex)
             {
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find file";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.NotFound);
+                return ResponseBuilder.Error(404, "Cannot find file", ex.Message);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(
-                    ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
 
@@ -363,7 +270,6 @@ namespace LBHAsbestosAPI.Controllers
         /// <param name="propertyId">Universal Housing property Id</param>
         /// <returns>A list of documents about drawings matching the property Id</returns>
         /// <response code="200">Returns a list of documents</response>
-        /// <response code="404">No documents found for given id</response>
         /// <response code="400">Id is not valid</response>   
         /// <response code="500">Internal server error</response> 
         [HttpGet("drawings")]
@@ -371,40 +277,22 @@ namespace LBHAsbestosAPI.Controllers
         {
             if (propertyId == null)
             {
-                var developerMessage = $"Missing parameter - propertyId";
-                var userMessage = "Please provide a valid property id";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400, "Please provide a valid property id", "Missing parameter - propertyId");
             }
             if (!IdValidator.ValidatePropertyId(propertyId))
             {
-                var developerMessage = $"Invalid parameter - propertyId";
-                var userMessage = "Please provide a valid property id";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.BadRequest);
+                return ResponseBuilder.Error(400, "Please provide a valid property id", "Invalid parameter - propertyId");
             }
 
             try
             {
                 var asbestosActions = new AsbestosActions(_asbestosService, _loggerActions);
                 var response = await asbestosActions.GetDrawingDocuments(propertyId);
-                return ResponseBuilder.BuildSuccessResponse(response);
-            }
-            catch (MissingDocumentException ex)
-            {
-                var developerMessage = ex.Message;
-                var userMessage = "Cannot find document";
-
-                return ResponseBuilder.BuildErrorResponse(
-                    userMessage, developerMessage, (int)HttpStatusCode.NotFound);
+                return ResponseBuilder.Ok(response);
             }
             catch (Exception ex)
             {
-                var userMessage = "We had some problems processing your request";
-                return ResponseBuilder.BuildErrorResponseFromException(
-                    ex, userMessage);
+                return ResponseBuilder.Error(500, "We had some issues processing your request", ex.Message);
             }
         }
     }

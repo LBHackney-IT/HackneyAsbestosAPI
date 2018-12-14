@@ -23,12 +23,6 @@ namespace LBHAsbestosAPI.Actions
 		{
             _logger.LogInformation($"Calling GetInspection() with {propertyId}");
 			var lInspection = await _asbestosService.GetInspection(propertyId);
-
-            if (lInspection.Any() == false)
-            {
-                _logger.LogError($"No inspections returned for {propertyId}");
-                throw new MissingInspectionException();
-            }
 			return lInspection;
 		}
 
@@ -86,11 +80,6 @@ namespace LBHAsbestosAPI.Actions
         {
             _logger.LogInformation($"Calling GetPhotoDocuments() with {propertyId}");
             var lDocument = await _asbestosService.GetPhotoDocuments(propertyId);
-            if (lDocument.Any() == false)
-            {
-                _logger.LogError($"No Documents returned for {propertyId}");
-                throw new MissingDocumentException();
-            }
             return lDocument;
         }
 
@@ -110,11 +99,6 @@ namespace LBHAsbestosAPI.Actions
         {
             _logger.LogInformation($"Calling GetMainPhotoDocuments() with {propertyId}");
             var lDocument = await _asbestosService.GetMainPhotoDocuments(propertyId);
-            if (lDocument.Any() == false)
-            {
-                _logger.LogError($"No documents returned for {propertyId}");
-                throw new MissingDocumentException();
-            }
             return lDocument;
         }
 
@@ -135,11 +119,6 @@ namespace LBHAsbestosAPI.Actions
         {
             _logger.LogInformation($"Calling GetReportDocuments() with {propertyId}");
             var lDocument = await _asbestosService.GetReportDocuments(propertyId);
-            if (lDocument.Any() == false)
-            {
-                _logger.LogError($"No Documents returned for {propertyId}");
-                throw new MissingDocumentException();
-            }
             return lDocument;
         }
 
@@ -159,11 +138,6 @@ namespace LBHAsbestosAPI.Actions
         {
             _logger.LogInformation($"Calling GetDrawingDocuments() with {propertyId}");
             var lDocument = await _asbestosService.GetDrawingDocuments(propertyId);
-            if (lDocument.Any() == false)
-            {
-                _logger.LogError($"No Documents returned for {propertyId}");
-                throw new MissingDocumentException();
-            }
             return lDocument;
         }
 
@@ -171,12 +145,6 @@ namespace LBHAsbestosAPI.Actions
         {
             _logger.LogInformation($"Calling GetTodosByPropertyId() with {propertyId}");
             var lTodo = await _asbestosService.GetTodosByPropertyId(propertyId);
-
-            if (lTodo.Any() == false)
-            {
-                _logger.LogError($"No todos returned for {propertyId}");
-                throw new MissingTodoException();
-            }
             return lTodo;
         }
 
@@ -197,22 +165,14 @@ namespace LBHAsbestosAPI.Actions
         {
             _logger.LogInformation($"Calling GetSamples() with {inspectionId}");
             var samples = await _asbestosService.GetSamples(inspectionId);
-
-            if (samples == null)
-            {
-                _logger.LogError($"No samples returned for {inspectionId}");
-                throw new MissingSampleException();
-            }
             return samples;
         }
 	}
 
-    public class MissingInspectionException : Exception { }
     public class MissingRoomException : Exception { }
     public class MissingFloorException : Exception { }
     public class MissingElementException : Exception { }
     public class MissingDocumentException : Exception { }
     public class MissingFileException : Exception { }
     public class MissingTodoException : Exception { }
-    public class MissingSampleException : Exception { }
 }

@@ -1,36 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using LBHAsbestosAPI.Models;
-using LBHAsbestosAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LBHAsbestosAPI.Builders
 {
     public static class ResponseBuilder
     {
-        public static JsonResult BuildSuccessResponse<T>(T response)
+        public static JsonResult Ok(object response)
         {
-            var successfulResult = new Dictionary<string, T>()
+            var successfulResult = new Dictionary<string, object>()
             {
                 { "results", response }
             };
 
             return new JsonResult(successfulResult)
             {
-                StatusCode = 200
+                StatusCode = 200,
+                ContentType = "application/json"
             };
         }
 
-        public static JsonResult BuildErrorResponse(string user, string developer, int errorCode)
+        public static JsonResult Error(int errorCode, string userMessage, string developerMessage)
         {
             var errorResult = new Dictionary<string, IEnumerable<ApiErrorMessage>>()
             {
-                { "errors", new List<ApiErrorMessage>()
+                { "errors", new List<ApiErrorMessage>
                     {
-                        { new ApiErrorMessage()
+                        { new ApiErrorMessage
                             {
-                                developerMessage = developer,
-                                userMessage = user
+                                DeveloperMessage = developerMessage,
+                                UserMessage = userMessage
                             }
                         }
                     }
@@ -42,21 +42,20 @@ namespace LBHAsbestosAPI.Builders
                 StatusCode = errorCode
             };
         }
+        //public static JsonResult BuildErrorResponseFromException(Exception ex, string userMessage)
+        //{
+        //    string developerMessage;
 
-        public static JsonResult BuildErrorResponseFromException(Exception ex, string userMessage)
-        {
-            string developerMessage;
+        //    if (ex is Psi2000ApiException)
+        //    {
+        //        developerMessage = ex.Message;
+        //    }
+        //    else
+        //    {
+        //        developerMessage = ex.StackTrace;
+        //    }
 
-            if (ex is Psi2000ApiException)
-            {
-                developerMessage = ex.Message;
-            }
-            else
-            {
-                developerMessage = ex.StackTrace;
-            }
-
-            return BuildErrorResponse(userMessage, developerMessage, 500);
-        }
+        //    return Error(userMessage, developerMessage, 500);
+        //}
     }
 }

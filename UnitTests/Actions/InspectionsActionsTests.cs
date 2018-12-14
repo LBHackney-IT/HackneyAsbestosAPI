@@ -39,18 +39,5 @@ using Xunit;namespace UnitTests.Actions
 
             Assert.True(response is List<Inspection>);
         }
-
-        [Fact]
-        public async Task get_inspection_throws_expected_custom_exeption()
-        {
-            var fakeEmptyResponse = new List<Inspection>();
-            fakeAsbestosService
-                .Setup(m => m.GetInspection(It.IsAny<string>()))
-                .Returns(Task.FromResult<IEnumerable<Inspection>>(fakeEmptyResponse));
-            var asbestosAction = new AsbestosActions(fakeAsbestosService.Object, fakeLogger.Object);
-
-            await Assert.ThrowsAsync<MissingInspectionException>(
-                async () => await asbestosAction.GetInspection(fakeId));
-        }
     }
 }
