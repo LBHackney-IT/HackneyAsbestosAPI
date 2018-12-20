@@ -98,7 +98,7 @@ namespace LBHAsbestosAPI.Repositories
         {
             await EnsureSuccessLogin();
 
-            var baseAddress = new Uri(sampleUri + $"?filter=(inspectionid={ inspectionId })");
+            var baseAddress = new Uri(sampleUri + $"?filter=(inspectionid=\"{ inspectionId }\")");
             var responseData = GetResponseMessage(baseAddress);
 
             return JsonConvert.DeserializeObject<Response<IEnumerable<Sample>>>(responseData);
@@ -108,7 +108,7 @@ namespace LBHAsbestosAPI.Repositories
         {
             await EnsureSuccessLogin();
 
-            var baseAddress = new Uri(documentUri + fileType + $"?filter=(UPRN={ inspectionId })");
+            var baseAddress = new Uri(documentUri + fileType + $"?filter=(UPRN=\"{ inspectionId }\")");
             var responseData = GetResponseMessage(baseAddress);
 
             return JsonConvert.DeserializeObject<Response<IEnumerable<Document>>>(responseData);
