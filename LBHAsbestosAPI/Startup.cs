@@ -91,7 +91,7 @@ namespace LBHAsbestosAPI
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint(swaggerEndpoint, "Hackney Repairs API");
+                c.SwaggerEndpoint(swaggerEndpoint, "LBH Abestos API v1");
                 c.RoutePrefix = routePrefix;
             });
            
