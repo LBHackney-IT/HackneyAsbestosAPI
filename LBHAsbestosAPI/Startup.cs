@@ -88,13 +88,24 @@ namespace LBHAsbestosAPI
 
             string routePrefix = Environment.GetEnvironmentVariable("SWAGGER_ROUTE_PREFIX");
             string swaggerEndpoint = Environment.GetEnvironmentVariable("SWAGGER_ENDPOINT");
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            if (routePrefix != null && swaggerEndpoint != null)
             {
-                c.SwaggerEndpoint(swaggerEndpoint, "LBH Abestos API v1");
-                c.RoutePrefix = routePrefix;
-            });
-           
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint(swaggerEndpoint, "LBH Abestos API v1");
+                    c.RoutePrefix = routePrefix;
+                });
+            }
+            else
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "LBH Abestos API v1");
+                });
+            }
+
             app.UseDeveloperExceptionPage();
         }
     }
