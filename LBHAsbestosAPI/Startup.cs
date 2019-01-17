@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace LBHAsbestosAPI
 {
@@ -28,8 +30,21 @@ namespace LBHAsbestosAPI
             services.AddMvc();
             services.AddSwaggerGen(c =>
             {
-                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                c.AddSecurityDefinition("Token",
+                  new ApiKeyScheme
+                  {
+                      In = "header",
+                      Description = "Your Hackney API Key",
+                      Name = "X-Api-Key",
+                      Type = "apiKey"
+                  });
 
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Token", Enumerable.Empty<string>() }
+                });
+
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
                 c.SwaggerDoc("v1", new Info
                 {
                     Version = "v1",
@@ -70,14 +85,17 @@ namespace LBHAsbestosAPI
             loggerFactory.AddNLog();
 
             app.UseMvc();
+
+            string routePrefix = Environment.GetEnvironmentVariable("SWAGGER_ROUTE_PREFIX");
+            string swaggerEndpoint = Environment.GetEnvironmentVariable("SWAGGER_ENDPOINT");
             app.UseSwagger();
-            app.UseSwaggerUI( cw =>
+            app.UseSwaggerUI(c =>
             {
-                cw.SwaggerEndpoint("/swagger/v1/swagger.json", "LBH Abestos API v1");
+                c.SwaggerEndpoint(swaggerEndpoint, "Hackney Repairs API");
+                c.RoutePrefix = routePrefix;
             });
-
+           
             app.UseDeveloperExceptionPage();
-
         }
     }
 }
