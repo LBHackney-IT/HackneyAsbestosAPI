@@ -28,7 +28,7 @@ namespace LBHAsbestosAPI.Tests.Integration
             _server = new TestServer(new WebHostBuilder()
                                      .UseStartup<TestStartup>());
             _client = _server.CreateClient();
-            _baseUri = "api/v1/elements/";
+            _baseUri = "v1/elements/";
         }
 
         [Fact]
