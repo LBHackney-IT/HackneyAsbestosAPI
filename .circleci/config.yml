@@ -91,9 +91,9 @@ workflows:
       - staging_release:
           requires:
             - check
-#          filters:
-#            branches:
-#              only: central
+          filters:
+            branches:
+              only: fake-master-test
       - permit_production_release:
           type: approval
           requires:
