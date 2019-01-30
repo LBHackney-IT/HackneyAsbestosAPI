@@ -19,7 +19,7 @@ namespace LBHAsbestosAPI.Tests.Integration
     {
         readonly TestServer server;
         readonly HttpClient client;
-        static string baseUri = "api/v1/samples?inspectionid=";
+        static string baseUri = "v1/samples?inspectionid=";
         static string triggerExceptionId = "999999";
         static string triggerNoResultsId = "888888";
 

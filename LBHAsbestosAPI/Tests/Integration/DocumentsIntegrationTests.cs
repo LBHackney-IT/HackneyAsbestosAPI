@@ -28,7 +28,7 @@ namespace LBHAsbestosAPI.Tests.Integration
             server = new TestServer(new WebHostBuilder()
                                      .UseStartup<TestStartup>());
             client = server.CreateClient();
-            baseUri = "api/v1/documents/";
+            baseUri = "v1/documents/";
         }
          
         #region photo by propertyId endpoint
