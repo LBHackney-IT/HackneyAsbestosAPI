@@ -6,7 +6,6 @@ FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
 COPY LBHAsbestosAPI.sln ./
 COPY LBHAsbestosAPI/LBHAsbestosAPI.csproj LBHAsbestosAPI/
-COPY UnitTests/UnitTests.csproj  UnitTests/
 RUN dotnet restore -nowarn:msb3202,nu1503
 COPY . .
 WORKDIR /src/LBHAsbestosAPI
