@@ -94,11 +94,10 @@ workflows:
           filters:
             branches:
               only: fake-master-test
-#      - permit_production_release:
-#          type: approval
-#          requires:
-#            - staging_release
+      - permit_production_release:
+          type: approval
+          requires:
+            - staging_release
       - production_release:
           requires:
-#            - permit_production_release
-            - staging_release
+            - permit_production_release
