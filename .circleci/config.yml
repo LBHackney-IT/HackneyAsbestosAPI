@@ -6,7 +6,7 @@ jobs:
       - checkout
       - run:
           name: Build project for tests
-          command: docker build --build-arg VERSION_SUFFIX=$CIRCLE_BUILD_NUM --file ./LBHAsbestosAPI/Tests/Dockerfile-test -t asbestos-api-test .
+          command: docker build --build-arg VERSION_SUFFIX=$CIRCLE_BUILD_NUM --file ./LBHAsbestosAPI/Tests/Dockerfile-tests -t asbestos-api-test .
       - run:
           name: Run tests
           command: docker run -it --rm asbestos-api-test dotnet test
